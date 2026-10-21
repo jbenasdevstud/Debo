@@ -1,0 +1,245 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Debo – Privacy Policy</title>
+<style>
+  :root { --bg:#fff; --fg:#111; --muted:#666; --line:#e2e2e2; --chip:#f2f2f2; }
+  @media (prefers-color-scheme: dark) { :root { --bg:#111; --fg:#eee; --muted:#9a9a9a; --line:#2c2c2c; --chip:#1f1f1f; } }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.65 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  main { max-width:720px; margin:0 auto; padding:24px 16px 64px; }
+  nav { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+  nav button { border:1px solid var(--line); background:var(--chip); color:var(--fg); border-radius:999px; padding:6px 14px; font:inherit; font-size:14px; cursor:pointer; }
+  nav button[aria-pressed="true"] { background:var(--fg); color:var(--bg); border-color:var(--fg); }
+  h1 { font-size:28px; line-height:1.25; margin:0 0 6px; }
+  h2 { font-size:18px; margin:32px 0 8px; padding-top:20px; border-top:1px solid var(--line); }
+  .updated { color:var(--muted); font-size:14px; margin:0; }
+  ul { padding-left:22px; }
+  li { margin:4px 0; }
+  a { color:inherit; }
+  code { background:var(--chip); padding:1px 5px; border-radius:4px; font-size:14px; }
+</style>
+</head>
+<body>
+<main>
+  <nav id="langs"></nav>
+  <h1 id="title"></h1>
+  <p class="updated" id="updated"></p>
+  <div id="content"></div>
+</main>
+<script>
+const CONTROLLER = 'Benas Jurkėnas';
+const CONTACT = 'jbenas.devstud@gmail.com';
+const UPDATED = '2026-10-14';
+
+const TEXT = {
+  lt: {
+    name: 'Lietuvių', title: 'Privatumo politika', updated: 'Įsigalioja nuo',
+    sections: [
+      ['Bendrosios nuostatos', `<p>Ši privatumo politika paaiškina, kaip mobiliojoje programėlėje „Debo“ (Android, paketas <code>com.debo.app</code>, toliau – Programėlė) tvarkoma informacija. Programėlę kuria ir platina {controller} (toliau – Kūrėjas).</p>
+        <p>Naudodamiesi Programėle, patvirtinate, kad susipažinote su šia politika.</p>`],
+      ['Pagrindiniai principai', `<ul>
+        <li>Visa informacija, kurią įvedate į Programėlę, saugoma <strong>tik jūsų įrenginyje</strong>.</li>
+        <li>Kūrėjas šios informacijos negauna, neperduoda ir nesaugo jokiuose serveriuose.</li>
+        <li>Programėlėje nėra paskyrų, reklamos, analitikos ar naudotojų sekimo priemonių.</li>
+        <li>Kūrėjas neparduoda ir niekam neperduoda jokių duomenų.</li>
+      </ul>`],
+      ['Įrenginyje saugoma informacija', `<p>Programėlė jūsų įrenginyje saugo tik tą informaciją, kurią įvedate patys arba leidžiate nuskaityti:</p>
+        <ul>
+          <li>gliukozės rodmenys ir, jei įvedate, ketonų rodmenys;</li>
+          <li>insulino dozės, maisto ir fizinio aktyvumo įrašai, pastabos, mėgstami valgiai;</li>
+          <li>sensoriaus, švirkštiklio ar infuzijos rinkinio keitimo datos, atsargų kiekiai ir galiojimo datos;</li>
+          <li>profilio nustatymai (vardas, amžius, gydymo būdas, insulino pavadinimai, matavimo vienetai);</li>
+          <li>priminimų ir kiti Programėlės nustatymai.</li>
+        </ul>
+        <p>Ši informacija laikoma Programėlės vidinėje saugykloje ir kitoms programėlėms neprieinama.</p>`],
+      ['Health Connect', `<p>Jeigu įjungiate CGM sinchronizavimą, Programėlė, gavusi jūsų leidimą <code>READ_BLOOD_GLUCOSE</code>, <strong>tik skaito</strong> kraujo gliukozės rodmenis, kuriuos į „Health Connect“ įrašo jūsų CGM ar gliukomačio programėlė. Rodmenys naudojami tik įrenginyje: grafikui, statistikai ir ataskaitai sudaryti. Jie niekur neperduodami.</p>
+        <p>Jeigu įjungiate funkciją „Veikti fone“, Programėlė, gavusi leidimą <code>READ_HEALTH_DATA_IN_BACKGROUND</code>, maždaug kas 15 minučių nuskaito naujausią rodmenį pagrindinio ekrano valdikliui atnaujinti. Programėlė į „Health Connect“ nieko neįrašo. Leidimus galite bet kada atšaukti „Health Connect“ nustatymuose.</p>
+        <p>„Debo“ naudoja ir perduoda iš „Health Connect“ gautą informaciją laikydamasi „Health Connect“ leidimų politikos, įskaitant riboto naudojimo (angl. <em>Limited Use</em>) reikalavimus.</p>`],
+      ['Apple Health (iPhone)', `<p>iPhone versijoje Programėlė, gavusi jūsų leidimą, <strong>tik skaito</strong> kraujo gliukozės rodmenis iš „Apple Health“ (HealthKit), kuriuos ten įrašo jūsų CGM ar gliukomačio programėlė. Rodmenys naudojami tik įrenginyje: grafikui, statistikai ir ataskaitai sudaryti. Jie niekur neperduodami, nenaudojami reklamai ir neparduodami.</p>
+        <p>Programėlė į „Apple Health“ nieko neįrašo ir nesaugo iš „Apple Health“ gautų duomenų „iCloud“. Leidimą galite bet kada atšaukti programėlėje „Sveikata“ (Šaltiniai → Debo) arba iPhone nustatymuose.</p>`],
+      ['Priminimai, ataskaitos ir atsarginės kopijos', `<p>Priminimus planuoja jūsų įrenginio operacinė sistema, be jokio ryšio su išoriniais serveriais. Ataskaitų ir atsarginių kopijų failai kuriami tik jūsų veiksmu. Jūs pats sprendžiate, kur juos išsaugoti ir ar kam nors juos perduoti, pavyzdžiui, gydytojui.</p>`],
+      ['Trečiosios šalys', `<p>Kūrėjas jūsų informacijos trečiosioms šalims neperduoda. Programėlė platinama per „Google Play“. Diegimo ir naudojimosi „Google Play“ metu „Google“ gali tvarkyti tam tikrus duomenis (pavyzdžiui, apie įrenginį ir diegimą) pagal savo privatumo politiką: <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.</p>`],
+      ['Teisinis pagrindas', `<p>Kadangi Kūrėjas jūsų asmens duomenų negauna, jų netvarko. Jūsų įrenginyje saugoma informacija lieka jūsų kontrolėje. Jeigu susisiekiate su Kūrėju el. paštu, jūsų el. pašto adresas ir laiško turinys naudojami tik atsakymui pateikti (BDAR 6 straipsnio 1 dalies f punktas – teisėtas interesas atsakyti į užklausą).</p>`],
+      ['Saugojimas ir ištrynimas', `<p>Informacija įrenginyje saugoma tol, kol ją ištrinate. Atskirus įrašus galite ištrinti Programėlėje. Visą informaciją ištrinsite pašalinę Programėlę arba išvalę jos duomenis įrenginio nustatymuose. Kadangi Kūrėjas jūsų duomenų neturi, papildomo prašymo pateikti nereikia.</p>`],
+      ['Saugumas', `<p>Informaciją saugo „Android“ operacinės sistemos programėlių izoliacija. Rekomenduojame naudoti įrenginio ekrano užraktą ir reguliariai kurti atsargines kopijas, nes praradus įrenginį Kūrėjas negali atkurti jūsų duomenų.</p>`],
+      ['Vaikai', `<p>Programėlė skirta 16 metų ir vyresniems asmenims. Jaunesni asmenys ja gali naudotis tik su tėvų ar globėjų sutikimu ir jiems prižiūrint.</p>`],
+      ['Medicininis įspėjimas', `<p>„Debo“ yra įrašų (dienoraščio) ir bendrosios informacijos programėlė, o ne medicinos priemonė. Ji neskaičiuoja insulino dozių, neinterpretuoja rodmenų ir neteikia individualių gydymo rekomendacijų. Sprendimus dėl gydymo priimkite kartu su savo gydytoju.</p>`],
+      ['Jūsų teisės', `<p>Pagal Bendrąjį duomenų apsaugos reglamentą (BDAR) turite teisę susipažinti su savo duomenimis, juos ištaisyti, ištrinti, apriboti jų tvarkymą ir nesutikti su tvarkymu. Įrenginyje saugomą informaciją galite peržiūrėti, keisti, eksportuoti ir ištrinti patys. Taip pat turite teisę pateikti skundą Valstybinei duomenų apsaugos inspekcijai (<a href="https://vdai.lrv.lt">vdai.lrv.lt</a>) arba savo šalies priežiūros institucijai.</p>`],
+      ['Politikos pakeitimai', `<p>Kūrėjas gali atnaujinti šią politiką. Jeigu Programėlė pradėtų tvarkyti daugiau duomenų (pavyzdžiui, atsirastų paskyros), politika bus atnaujinta prieš tokį pakeitimą, o apie esminius pakeitimus bus pranešta Programėlėje. Galiojanti redakcija visada skelbiama šiame puslapyje.</p>`],
+      ['Kontaktai', `<p>Duomenų valdytojas: {controller}<br>El. paštas: {contact}</p>`]
+    ]
+  },
+  en: {
+    name: 'English', title: 'Privacy Policy', updated: 'Effective date',
+    sections: [
+      ['Introduction', `<p>This Privacy Policy explains how information is handled in the Debo mobile application (Android, package <code>com.debo.app</code>, the "App"). The App is developed and published by {controller} (the "Developer").</p>
+        <p>By using the App, you acknowledge that you have read this Privacy Policy.</p>`],
+      ['Key principles', `<ul>
+        <li>All information you enter in the App is stored <strong>only on your device</strong>.</li>
+        <li>The Developer does not receive, transmit or store this information on any server.</li>
+        <li>The App has no user accounts, advertising, analytics or tracking.</li>
+        <li>The Developer does not sell or share any data.</li>
+      </ul>`],
+      ['Information stored on your device', `<p>The App stores on your device only the information you enter or allow it to read:</p>
+        <ul>
+          <li>glucose readings and, if entered, ketone readings;</li>
+          <li>insulin doses, food and exercise entries, notes and favourite meals;</li>
+          <li>sensor, pen and infusion set change dates, supply counts and expiry dates;</li>
+          <li>profile settings (name, age, therapy type, insulin names, units of measurement);</li>
+          <li>reminder and other App settings.</li>
+        </ul>
+        <p>This information is kept in the App's private storage and is not accessible to other apps.</p>`],
+      ['Health Connect', `<p>If you enable CGM sync and grant the <code>READ_BLOOD_GLUCOSE</code> permission, the App <strong>only reads</strong> blood glucose readings written to Health Connect by your CGM or meter app. The readings are used solely on your device to display charts, statistics and reports, and are never transmitted.</p>
+        <p>If you enable "Run in background" and grant the <code>READ_HEALTH_DATA_IN_BACKGROUND</code> permission, the App reads the latest reading approximately every 15 minutes to update the home-screen widget. The App does not write any data to Health Connect. You can revoke these permissions at any time in Health Connect settings.</p>
+        <p>Debo's use and transfer of information received from Health Connect adheres to the Health Connect Permissions Policy, including the Limited Use requirements.</p>`],
+      ['Apple Health (iPhone)', `<p>On iPhone, with your permission, the App <strong>only reads</strong> blood glucose readings from Apple Health (HealthKit) that your CGM or meter app has written there. The readings are used solely on your device to display charts, statistics and reports; they are never transmitted, used for advertising or sold.</p>
+        <p>The App does not write any data to Apple Health and does not store data obtained from Apple Health in iCloud. You can revoke access at any time in the Health app (Sources → Debo) or in your iPhone settings.</p>`],
+      ['Reminders, reports and backups', `<p>Reminders are scheduled by your device's operating system without any connection to external servers. Report and backup files are created only when you request them. You decide where to save them and whether to share them with anyone, for example your doctor.</p>`],
+      ['Third parties', `<p>The Developer does not share your information with third parties. The App is distributed through Google Play. When you install and use Google Play, Google may process certain data (for example, device and installation information) in accordance with its own privacy policy: <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.</p>`],
+      ['Legal basis', `<p>The Developer does not receive and therefore does not process your personal data. Information stored on your device remains under your control. If you contact the Developer by email, your email address and message are used only to respond to your enquiry (Article 6(1)(f) GDPR – legitimate interest in responding to requests).</p>`],
+      ['Retention and deletion', `<p>Information is kept on your device until you delete it. You can delete individual entries in the App. Uninstalling the App or clearing its data in your device settings permanently removes all information. Because the Developer holds no data about you, no separate deletion request is required.</p>`],
+      ['Security', `<p>Your information is protected by the Android operating system's app sandboxing. We recommend using a screen lock and creating regular backups, as the Developer cannot restore your data if your device is lost.</p>`],
+      ['Children', `<p>The App is intended for users aged 16 and over. Younger users may use it only with the consent and under the supervision of a parent or legal guardian.</p>`],
+      ['Medical disclaimer', `<p>Debo is a logbook and general information app, not a medical device. It does not calculate insulin doses, interpret readings or provide personal treatment advice. Always make treatment decisions together with your doctor.</p>`],
+      ['Your rights', `<p>Under the General Data Protection Regulation (GDPR), you have the right to access, rectify and erase your data, to restrict or object to its processing, and to data portability. You can view, edit, export and delete the information stored on your device yourself. You also have the right to lodge a complaint with a data protection supervisory authority, such as the State Data Protection Inspectorate of Lithuania (<a href="https://vdai.lrv.lt">vdai.lrv.lt</a>) or the authority in your country.</p>`],
+      ['Changes to this policy', `<p>The Developer may update this Privacy Policy. If the App begins to process additional data (for example, if user accounts are introduced), this policy will be updated before such a change, and you will be notified of material changes in the App. The current version is always published on this page.</p>`],
+      ['Contact', `<p>Data controller: {controller}<br>Email: {contact}</p>`]
+    ]
+  },
+  lv: {
+    name: 'Latviešu', title: 'Privātuma politika', updated: 'Spēkā no',
+    sections: [
+      ['Vispārīgie noteikumi', `<p>Šī privātuma politika skaidro, kā tiek apstrādāta informācija mobilajā lietotnē Debo (Android, pakotne <code>com.debo.app</code>, turpmāk – Lietotne). Lietotni izstrādā un izplata {controller} (turpmāk – Izstrādātājs).</p>
+        <p>Lietojot Lietotni, jūs apliecināt, ka esat iepazinies ar šo politiku.</p>`],
+      ['Galvenie principi', `<ul>
+        <li>Visa informācija, ko ievadāt Lietotnē, tiek glabāta <strong>tikai jūsu ierīcē</strong>.</li>
+        <li>Izstrādātājs šo informāciju nesaņem, nenodod un neglabā nevienā serverī.</li>
+        <li>Lietotnē nav lietotāju kontu, reklāmu, analītikas vai izsekošanas.</li>
+        <li>Izstrādātājs nepārdod un nenodod nekādus datus.</li>
+      </ul>`],
+      ['Ierīcē glabātā informācija', `<p>Lietotne jūsu ierīcē glabā tikai to informāciju, ko ievadāt paši vai atļaujat nolasīt:</p>
+        <ul>
+          <li>glikozes rādījumus un, ja tos ievadāt, ketonu rādījumus;</li>
+          <li>insulīna devas, ēdienu un fizisko aktivitāšu ierakstus, piezīmes un iecienītās maltītes;</li>
+          <li>sensora, pildspalvas un infūzijas komplekta maiņas datumus, krājumu daudzumus un derīguma termiņus;</li>
+          <li>profila iestatījumus (vārdu, vecumu, terapijas veidu, insulīnu nosaukumus, mērvienības);</li>
+          <li>atgādinājumu un citus Lietotnes iestatījumus.</li>
+        </ul>
+        <p>Šī informācija tiek glabāta Lietotnes privātajā krātuvē un nav pieejama citām lietotnēm.</p>`],
+      ['Health Connect', `<p>Ja ieslēdzat CGM sinhronizāciju un piešķirat atļauju <code>READ_BLOOD_GLUCOSE</code>, Lietotne <strong>tikai nolasa</strong> asins glikozes rādījumus, ko Health Connect ieraksta jūsu CGM vai glikometra lietotne. Rādījumi tiek izmantoti tikai jūsu ierīcē – grafikiem, statistikai un atskaitēm – un netiek nekur nosūtīti.</p>
+        <p>Ja ieslēdzat funkciju “Darboties fonā” un piešķirat atļauju <code>READ_HEALTH_DATA_IN_BACKGROUND</code>, Lietotne aptuveni ik pēc 15 minūtēm nolasa jaunāko rādījumu, lai atjauninātu sākuma ekrāna logrīku. Lietotne neko neieraksta Health Connect. Atļaujas varat jebkurā laikā atsaukt Health Connect iestatījumos.</p>
+        <p>Debo no Health Connect saņemtās informācijas izmantošana un nodošana atbilst Health Connect atļauju politikai, tostarp ierobežotas izmantošanas (<em>Limited Use</em>) prasībām.</p>`],
+      ['Apple Health (iPhone)', `<p>iPhone versijā Lietotne ar jūsu atļauju <strong>tikai nolasa</strong> asins glikozes rādījumus no Apple Health (HealthKit), ko tur ieraksta jūsu CGM vai glikometra lietotne. Rādījumi tiek izmantoti tikai jūsu ierīcē – grafikiem, statistikai un atskaitēm – un netiek nekur nosūtīti, izmantoti reklāmai vai pārdoti.</p>
+        <p>Lietotne neko neieraksta Apple Health un neglabā no Apple Health iegūtos datus iCloud. Piekļuvi varat jebkurā laikā atsaukt lietotnē Veselība (Avoti → Debo) vai iPhone iestatījumos.</p>`],
+      ['Atgādinājumi, atskaites un rezerves kopijas', `<p>Atgādinājumus plāno jūsu ierīces operētājsistēma bez savienojuma ar ārējiem serveriem. Atskaišu un rezerves kopiju faili tiek izveidoti tikai pēc jūsu pieprasījuma. Jūs paši izlemjat, kur tos saglabāt un vai tos kādam nodot, piemēram, savam ārstam.</p>`],
+      ['Trešās personas', `<p>Izstrādātājs jūsu informāciju trešajām personām nenodod. Lietotne tiek izplatīta, izmantojot Google Play. Instalējot un lietojot Google Play, Google var apstrādāt noteiktus datus (piemēram, informāciju par ierīci un instalēšanu) saskaņā ar savu privātuma politiku: <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.</p>`],
+      ['Juridiskais pamats', `<p>Izstrādātājs jūsu personas datus nesaņem un tāpēc tos neapstrādā. Jūsu ierīcē glabātā informācija paliek jūsu kontrolē. Ja sazināties ar Izstrādātāju pa e-pastu, jūsu e-pasta adrese un ziņojums tiek izmantoti tikai atbildes sniegšanai (VDAR 6. panta 1. punkta f) apakšpunkts – leģitīmās intereses atbildēt uz pieprasījumu).</p>`],
+      ['Glabāšana un dzēšana', `<p>Informācija tiek glabāta jūsu ierīcē, līdz to izdzēšat. Atsevišķus ierakstus varat dzēst Lietotnē. Atinstalējot Lietotni vai notīrot tās datus ierīces iestatījumos, visa informācija tiek neatgriezeniski dzēsta. Tā kā Izstrādātāja rīcībā nav jūsu datu, atsevišķs dzēšanas pieprasījums nav nepieciešams.</p>`],
+      ['Drošība', `<p>Jūsu informāciju aizsargā Android operētājsistēmas lietotņu izolācija. Iesakām izmantot ekrāna bloķēšanu un regulāri veidot rezerves kopijas, jo ierīces nozaudēšanas gadījumā Izstrādātājs nevar atjaunot jūsu datus.</p>`],
+      ['Bērni', `<p>Lietotne paredzēta lietotājiem no 16 gadu vecuma. Jaunāki lietotāji to drīkst lietot tikai ar vecāku vai likumīgo aizbildņu piekrišanu un viņu uzraudzībā.</p>`],
+      ['Medicīniska atruna', `<p>Debo ir ierakstu (dienasgrāmatas) un vispārīgas informācijas lietotne, nevis medicīniska ierīce. Tā neaprēķina insulīna devas, neinterpretē rādījumus un nesniedz individuālus ārstēšanas ieteikumus. Lēmumus par ārstēšanu vienmēr pieņemiet kopā ar savu ārstu.</p>`],
+      ['Jūsu tiesības', `<p>Saskaņā ar Vispārīgo datu aizsardzības regulu (VDAR) jums ir tiesības piekļūt saviem datiem, labot un dzēst tos, ierobežot to apstrādi vai iebilst pret to, kā arī tiesības uz datu pārnesamību. Ierīcē glabāto informāciju varat paši apskatīt, labot, eksportēt un dzēst. Jums ir arī tiesības iesniegt sūdzību uzraudzības iestādē, piemēram, Datu valsts inspekcijā (<a href="https://www.dvi.gov.lv">dvi.gov.lv</a>).</p>`],
+      ['Politikas izmaiņas', `<p>Izstrādātājs var atjaunināt šo politiku. Ja Lietotne sāks apstrādāt papildu datus (piemēram, tiks ieviesti lietotāju konti), politika tiks atjaunināta pirms šādām izmaiņām, un par būtiskām izmaiņām jūs tiksiet informēts Lietotnē. Spēkā esošā redakcija vienmēr tiek publicēta šajā lapā.</p>`],
+      ['Kontaktinformācija', `<p>Pārzinis: {controller}<br>E-pasts: {contact}</p>`]
+    ]
+  },
+  pl: {
+    name: 'Polski', title: 'Polityka prywatności', updated: 'Obowiązuje od',
+    sections: [
+      ['Postanowienia ogólne', `<p>Niniejsza Polityka prywatności określa zasady postępowania z informacjami w aplikacji mobilnej Debo (Android, pakiet <code>com.debo.app</code>, dalej: „Aplikacja”). Twórcą i wydawcą Aplikacji jest {controller} (dalej: „Twórca”).</p>
+        <p>Korzystając z Aplikacji, Użytkownik potwierdza, że zapoznał się z niniejszą Polityką.</p>`],
+      ['Najważniejsze zasady', `<ul>
+        <li>Wszystkie informacje wprowadzane do Aplikacji są przechowywane <strong>wyłącznie na urządzeniu Użytkownika</strong>.</li>
+        <li>Twórca nie otrzymuje tych informacji, nie przekazuje ich ani nie przechowuje na żadnym serwerze.</li>
+        <li>Aplikacja nie posiada kont użytkowników, reklam, narzędzi analitycznych ani mechanizmów śledzenia.</li>
+        <li>Twórca nie sprzedaje ani nie udostępnia żadnych danych.</li>
+      </ul>`],
+      ['Informacje przechowywane na urządzeniu', `<p>Aplikacja przechowuje na urządzeniu wyłącznie informacje wprowadzone przez Użytkownika lub te, do których odczytu Użytkownik udzielił zgody:</p>
+        <ul>
+          <li>pomiary glukozy oraz – jeśli zostaną wprowadzone – pomiary ketonów;</li>
+          <li>dawki insuliny, wpisy dotyczące posiłków i aktywności fizycznej, notatki i ulubione posiłki;</li>
+          <li>daty wymiany sensora, pena lub zestawu infuzyjnego, stany zapasów i daty ważności;</li>
+          <li>ustawienia profilu (imię, wiek, rodzaj terapii, nazwy insulin, jednostki miary);</li>
+          <li>ustawienia przypomnień i inne ustawienia Aplikacji.</li>
+        </ul>
+        <p>Informacje te są przechowywane w prywatnej pamięci Aplikacji i nie są dostępne dla innych aplikacji.</p>`],
+      ['Health Connect', `<p>Jeżeli Użytkownik włączy synchronizację CGM i udzieli uprawnienia <code>READ_BLOOD_GLUCOSE</code>, Aplikacja <strong>wyłącznie odczytuje</strong> pomiary glukozy we krwi zapisywane w Health Connect przez aplikację CGM lub glukometru. Pomiary są wykorzystywane wyłącznie na urządzeniu – do wyświetlania wykresów, statystyk i raportów – i nigdzie nie są przesyłane.</p>
+        <p>Jeżeli Użytkownik włączy funkcję „Działanie w tle” i udzieli uprawnienia <code>READ_HEALTH_DATA_IN_BACKGROUND</code>, Aplikacja mniej więcej co 15 minut odczytuje najnowszy pomiar w celu aktualizacji widżetu na ekranie głównym. Aplikacja nie zapisuje żadnych danych w Health Connect. Uprawnienia można w każdej chwili cofnąć w ustawieniach Health Connect.</p>
+        <p>Wykorzystywanie i przekazywanie przez Debo informacji otrzymanych z Health Connect jest zgodne z Zasadami dotyczącymi uprawnień Health Connect, w tym z wymogami ograniczonego użycia (<em>Limited Use</em>).</p>`],
+      ['Apple Health (iPhone)', `<p>W wersji na iPhone Aplikacja, za zgodą Użytkownika, <strong>wyłącznie odczytuje</strong> pomiary glukozy we krwi z Apple Health (HealthKit), zapisane tam przez aplikację CGM lub glukometru. Pomiary są wykorzystywane wyłącznie na urządzeniu – do wyświetlania wykresów, statystyk i raportów – i nigdy nie są przesyłane, wykorzystywane do reklam ani sprzedawane.</p>
+        <p>Aplikacja nie zapisuje żadnych danych w Apple Health i nie przechowuje danych uzyskanych z Apple Health w iCloud. Dostęp można w każdej chwili cofnąć w aplikacji Zdrowie (Źródła → Debo) lub w ustawieniach iPhone'a.</p>`],
+      ['Przypomnienia, raporty i kopie zapasowe', `<p>Przypomnienia są planowane przez system operacyjny urządzenia, bez połączenia z zewnętrznymi serwerami. Pliki raportów i kopii zapasowych są tworzone wyłącznie na żądanie Użytkownika. Użytkownik sam decyduje, gdzie je zapisać i czy komukolwiek je przekazać, na przykład lekarzowi.</p>`],
+      ['Podmioty trzecie', `<p>Twórca nie przekazuje informacji Użytkownika podmiotom trzecim. Aplikacja jest dystrybuowana za pośrednictwem Google Play. Podczas instalacji i korzystania z Google Play firma Google może przetwarzać określone dane (np. informacje o urządzeniu i instalacji) zgodnie z własną polityką prywatności: <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.</p>`],
+      ['Podstawa prawna', `<p>Twórca nie otrzymuje danych osobowych Użytkownika, a zatem ich nie przetwarza. Informacje przechowywane na urządzeniu pozostają pod kontrolą Użytkownika. W przypadku kontaktu z Twórcą drogą e-mailową adres e-mail i treść wiadomości są wykorzystywane wyłącznie w celu udzielenia odpowiedzi (art. 6 ust. 1 lit. f RODO – prawnie uzasadniony interes polegający na udzieleniu odpowiedzi na zapytanie).</p>`],
+      ['Przechowywanie i usuwanie danych', `<p>Informacje są przechowywane na urządzeniu do czasu ich usunięcia przez Użytkownika. Pojedyncze wpisy można usunąć w Aplikacji. Odinstalowanie Aplikacji lub wyczyszczenie jej danych w ustawieniach urządzenia trwale usuwa wszystkie informacje. Ponieważ Twórca nie posiada żadnych danych Użytkownika, odrębny wniosek o usunięcie danych nie jest wymagany.</p>`],
+      ['Bezpieczeństwo', `<p>Informacje są chronione przez mechanizm izolacji aplikacji systemu Android. Zaleca się korzystanie z blokady ekranu i regularne tworzenie kopii zapasowych, ponieważ w razie utraty urządzenia Twórca nie ma możliwości odtworzenia danych.</p>`],
+      ['Dzieci', `<p>Aplikacja jest przeznaczona dla osób w wieku od 16 lat. Osoby młodsze mogą z niej korzystać wyłącznie za zgodą i pod nadzorem rodzica lub opiekuna prawnego.</p>`],
+      ['Zastrzeżenie medyczne', `<p>Debo jest dziennikiem i aplikacją informacyjną, a nie wyrobem medycznym. Nie oblicza dawek insuliny, nie interpretuje pomiarów i nie udziela indywidualnych zaleceń terapeutycznych. Decyzje dotyczące leczenia należy zawsze podejmować wspólnie z lekarzem.</p>`],
+      ['Prawa Użytkownika', `<p>Zgodnie z ogólnym rozporządzeniem o ochronie danych (RODO) Użytkownikowi przysługuje prawo dostępu do danych, ich sprostowania i usunięcia, ograniczenia przetwarzania, wniesienia sprzeciwu oraz przenoszenia danych. Informacje przechowywane na urządzeniu Użytkownik może samodzielnie przeglądać, edytować, eksportować i usuwać. Użytkownikowi przysługuje również prawo wniesienia skargi do organu nadzorczego, np. Prezesa Urzędu Ochrony Danych Osobowych (<a href="https://uodo.gov.pl">uodo.gov.pl</a>).</p>`],
+      ['Zmiany Polityki', `<p>Twórca może aktualizować niniejszą Politykę. Jeżeli Aplikacja zacznie przetwarzać dodatkowe dane (np. zostaną wprowadzone konta użytkowników), Polityka zostanie zaktualizowana przed taką zmianą, a o istotnych zmianach Użytkownik zostanie poinformowany w Aplikacji. Aktualna wersja jest zawsze publikowana na tej stronie.</p>`],
+      ['Kontakt', `<p>Administrator: {controller}<br>E-mail: {contact}</p>`]
+    ]
+  },
+  de: {
+    name: 'Deutsch', title: 'Datenschutzerklärung', updated: 'Gültig ab',
+    sections: [
+      ['Allgemeines', `<p>Diese Datenschutzerklärung erläutert, wie Informationen in der mobilen Anwendung Debo (Android, Paket <code>com.debo.app</code>, nachfolgend „App“) behandelt werden. Die App wird von {controller} (nachfolgend „Entwickler“) entwickelt und veröffentlicht.</p>
+        <p>Mit der Nutzung der App bestätigen Sie, diese Datenschutzerklärung zur Kenntnis genommen zu haben.</p>`],
+      ['Grundsätze', `<ul>
+        <li>Alle Informationen, die Sie in die App eingeben, werden <strong>ausschließlich auf Ihrem Gerät</strong> gespeichert.</li>
+        <li>Der Entwickler erhält diese Informationen nicht, übermittelt sie nicht und speichert sie auf keinem Server.</li>
+        <li>Die App verfügt über keine Benutzerkonten, keine Werbung, keine Analysewerkzeuge und kein Tracking.</li>
+        <li>Der Entwickler verkauft keine Daten und gibt keine Daten weiter.</li>
+      </ul>`],
+      ['Auf Ihrem Gerät gespeicherte Informationen', `<p>Die App speichert auf Ihrem Gerät ausschließlich Informationen, die Sie selbst eingeben oder deren Abruf Sie erlauben:</p>
+        <ul>
+          <li>Glukosewerte und – sofern eingegeben – Ketonwerte;</li>
+          <li>Insulindosen, Mahlzeiten- und Bewegungseinträge, Notizen und Lieblingsmahlzeiten;</li>
+          <li>Wechseldaten von Sensor, Pen oder Infusionsset, Vorratsmengen und Ablaufdaten;</li>
+          <li>Profileinstellungen (Name, Alter, Therapieform, Insulinbezeichnungen, Maßeinheiten);</li>
+          <li>Erinnerungs- und sonstige App-Einstellungen.</li>
+        </ul>
+        <p>Diese Informationen werden im privaten Speicher der App abgelegt und sind für andere Apps nicht zugänglich.</p>`],
+      ['Health Connect', `<p>Wenn Sie die CGM-Synchronisierung aktivieren und die Berechtigung <code>READ_BLOOD_GLUCOSE</code> erteilen, <strong>liest</strong> die App ausschließlich Blutzuckerwerte, die Ihre CGM- oder Messgeräte-App in Health Connect speichert. Die Werte werden nur auf Ihrem Gerät zur Darstellung von Diagrammen, Statistiken und Berichten verwendet und nicht übermittelt.</p>
+        <p>Wenn Sie „Im Hintergrund ausführen“ aktivieren und die Berechtigung <code>READ_HEALTH_DATA_IN_BACKGROUND</code> erteilen, liest die App etwa alle 15 Minuten den aktuellen Wert, um das Startbildschirm-Widget zu aktualisieren. Die App schreibt keine Daten in Health Connect. Sie können die Berechtigungen jederzeit in den Health-Connect-Einstellungen widerrufen.</p>
+        <p>Die Nutzung und Weitergabe von Informationen, die Debo von Health Connect erhält, erfolgt gemäß der Health-Connect-Berechtigungsrichtlinie, einschließlich der Anforderungen zur eingeschränkten Nutzung (<em>Limited Use</em>).</p>`],
+      ['Apple Health (iPhone)', `<p>Auf dem iPhone <strong>liest</strong> die App mit Ihrer Erlaubnis ausschließlich Blutzuckerwerte aus Apple Health (HealthKit), die Ihre CGM- oder Messgeräte-App dort gespeichert hat. Die Werte werden nur auf Ihrem Gerät zur Darstellung von Diagrammen, Statistiken und Berichten verwendet und weder übermittelt noch für Werbung genutzt oder verkauft.</p>
+        <p>Die App schreibt keine Daten in Apple Health und speichert aus Apple Health erhaltene Daten nicht in iCloud. Sie können den Zugriff jederzeit in der App Health (Quellen → Debo) oder in den iPhone-Einstellungen widerrufen.</p>`],
+      ['Erinnerungen, Berichte und Sicherungen', `<p>Erinnerungen werden vom Betriebssystem Ihres Geräts geplant, ohne Verbindung zu externen Servern. Berichts- und Sicherungsdateien werden ausschließlich auf Ihre Veranlassung erstellt. Sie entscheiden selbst, wo Sie diese speichern und ob Sie sie weitergeben, beispielsweise an Ihre Ärztin oder Ihren Arzt.</p>`],
+      ['Dritte', `<p>Der Entwickler gibt Ihre Informationen nicht an Dritte weiter. Die App wird über Google Play vertrieben. Bei der Installation und Nutzung von Google Play kann Google bestimmte Daten (z. B. Geräte- und Installationsinformationen) gemäß seiner eigenen Datenschutzerklärung verarbeiten: <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.</p>`],
+      ['Rechtsgrundlage', `<p>Der Entwickler erhält keine personenbezogenen Daten von Ihnen und verarbeitet diese daher nicht. Die auf Ihrem Gerät gespeicherten Informationen verbleiben unter Ihrer Kontrolle. Wenn Sie den Entwickler per E-Mail kontaktieren, werden Ihre E-Mail-Adresse und Ihre Nachricht ausschließlich zur Beantwortung Ihrer Anfrage verwendet (Art. 6 Abs. 1 lit. f DSGVO – berechtigtes Interesse an der Beantwortung von Anfragen).</p>`],
+      ['Speicherdauer und Löschung', `<p>Die Informationen bleiben auf Ihrem Gerät gespeichert, bis Sie sie löschen. Einzelne Einträge können Sie in der App löschen. Durch die Deinstallation der App oder das Löschen ihrer Daten in den Geräteeinstellungen werden alle Informationen dauerhaft entfernt. Da der Entwickler keine Daten über Sie besitzt, ist kein gesonderter Löschantrag erforderlich.</p>`],
+      ['Sicherheit', `<p>Ihre Informationen werden durch die App-Isolation des Android-Betriebssystems geschützt. Wir empfehlen, eine Bildschirmsperre zu verwenden und regelmäßig Sicherungen zu erstellen, da der Entwickler Ihre Daten bei Verlust des Geräts nicht wiederherstellen kann.</p>`],
+      ['Kinder', `<p>Die App richtet sich an Personen ab 16 Jahren. Jüngere Personen dürfen sie nur mit Zustimmung und unter Aufsicht eines Elternteils oder Erziehungsberechtigten nutzen.</p>`],
+      ['Medizinischer Hinweis', `<p>Debo ist eine Tagebuch- und Informations-App und kein Medizinprodukt. Sie berechnet keine Insulindosen, interpretiert keine Werte und gibt keine individuellen Behandlungsempfehlungen. Treffen Sie Behandlungsentscheidungen stets gemeinsam mit Ihrer Ärztin oder Ihrem Arzt.</p>`],
+      ['Ihre Rechte', `<p>Nach der Datenschutz-Grundverordnung (DSGVO) haben Sie das Recht auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Widerspruch sowie Datenübertragbarkeit. Die auf Ihrem Gerät gespeicherten Informationen können Sie selbst einsehen, bearbeiten, exportieren und löschen. Zudem haben Sie das Recht, sich bei einer Datenschutz-Aufsichtsbehörde zu beschweren, beispielsweise bei der zuständigen Behörde Ihres Bundeslandes.</p>`],
+      ['Änderungen dieser Erklärung', `<p>Der Entwickler kann diese Datenschutzerklärung aktualisieren. Sollte die App künftig weitere Daten verarbeiten (z. B. durch die Einführung von Benutzerkonten), wird diese Erklärung vor einer solchen Änderung angepasst, und über wesentliche Änderungen werden Sie in der App informiert. Die jeweils aktuelle Fassung ist stets auf dieser Seite veröffentlicht.</p>`],
+      ['Kontakt', `<p>Verantwortlicher: {controller}<br>E-Mail: {contact}</p>`]
+    ]
+  }
+};
+
+const mail = `<a href="mailto:${CONTACT}">${CONTACT}</a>`;
+function show(lang) {
+  const text = TEXT[lang] || TEXT.en;
+  document.documentElement.lang = lang;
+  document.title = `Debo – ${text.title}`;
+  document.getElementById('title').textContent = `Debo – ${text.title}`;
+  document.getElementById('updated').textContent = `${text.updated}: ${UPDATED}`;
+  document.getElementById('content').innerHTML = text.sections
+    .map(([heading, body], i) => `<h2>${i + 1}. ${heading}</h2>${body.replaceAll('{controller}', CONTROLLER).replaceAll('{contact}', mail)}`)
+    .join('');
+  document.querySelectorAll('#langs button').forEach(b => b.setAttribute('aria-pressed', b.dataset.lang === lang));
+  history.replaceState(null, '', `?lang=${lang}`);
+}
+document.getElementById('langs').innerHTML = Object.entries(TEXT)
+  .map(([code, text]) => `<button type="button" data-lang="${code}">${text.name}</button>`).join('');
+document.getElementById('langs').addEventListener('click', e => e.target.dataset.lang && show(e.target.dataset.lang));
+const asked = new URLSearchParams(location.search).get('lang') || (navigator.language || 'en').slice(0, 2);
+show(TEXT[asked] ? asked : 'en');
+</script>
+</body>
+</html>

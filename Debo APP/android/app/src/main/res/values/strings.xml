@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Debo</string>
+    <string name="widget_description">Latest glucose reading and trend</string>
+    <string name="widget_empty">No reading yet</string>
+    <string name="widget_add">Add glucose</string>
+    <string name="shortcut_glucose">Log glucose</string>
+    <string name="shortcut_food">Add food</string>
+    <string name="shortcut_insulin">Log insulin</string>
+    <string name="reminder_channel_description">Reminders you set in Debo</string>
+</resources>

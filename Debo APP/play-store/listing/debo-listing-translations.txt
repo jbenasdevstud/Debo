@@ -1,0 +1,207 @@
+Debo – Google Play store listing translations. Each language has: App name, Short description, Full description. Use the text exactly as written.
+
+==================== LANGUAGE: English (en-US) ====================
+## App name (max 30)
+Debo – Diabetes companion
+
+## Short description (max 80)
+Log glucose, food and insulin. Charts, reports and reminders in one calm place.
+
+## Full description (max 4000)
+Debo is a calm, simple diary for people living with diabetes. Log your glucose, food and insulin in seconds and see your day at a glance.
+
+QUICK DAILY LOGGING
+• Glucose readings with time, optional ketones and a short note
+• Insulin doses for pens or pumps, with your own rapid-acting and basal insulin
+• Meals by breakfast, lunch, dinner and snacks, with carbohydrates, protein and fat
+• Favourite meals you can log again with one tap
+• Undo for anything you delete by mistake
+
+CGM VIA HEALTH CONNECT
+Readings from your CGM or meter app can be imported automatically through Health Connect. Debo only reads glucose – it never writes to Health Connect.
+
+FOOD CATALOGUE
+Nearly 200 everyday foods with carbohydrates per 100 g and common portions, plus a glycemic index where one is published. Add your own foods in seconds.
+
+CHARTS AND REPORTS
+• Daily glucose chart with your insulin doses
+• Averages, time in range and a daily profile over weeks and months
+• A PDF report for your doctor, created on your phone
+• Searchable history by day, food name or note
+
+REMINDERS
+Glucose checks, a check 2 hours after meals, long-acting insulin, a weekly summary and your own daily reminders.
+
+DEVICES AND SUPPLIES
+Track when you last changed your sensor, pen or infusion set and get a reminder when your chosen interval ends. Count your sensors, test strips and needles, and get a reminder before you run out or something expires.
+
+GENERAL GUIDES
+Always-available step-by-step general information for low and high glucose, a 15-minute timer you start yourself, and an exercise guide with typical glucose responses for 40 activities.
+
+ALSO INCLUDED
+• mmol/L ↔ mg/dL converter
+• Home screen widget with your latest reading
+• Backup and restore to move to a new phone
+• Light and dark mode
+• Lithuanian, English, Latvian, Polish and German
+
+YOUR DATA STAYS ON YOUR PHONE
+Your health entries are stored only on your phone. No ads, no data selling, no tracking. You can use Debo as a guest without an account.
+
+IMPORTANT
+Debo is a logbook and general information app. It is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. It does not calculate insulin doses, interpret your readings or give treatment recommendations. Always make treatment decisions together with your doctor or diabetes care team.
+
+==================== LANGUAGE: Latvian (lv) ====================
+## Lietotnes nosaukums (līdz 30)
+Debo – diabēta palīgs
+
+## Īsais apraksts (līdz 80)
+Glikoze, ēdiens un insulīns vienuviet. Grafiki, atskaites un atgādinājumi.
+
+## Pilnais apraksts (līdz 4000)
+Debo ir mierīga un vienkārša dienasgrāmata cilvēkiem ar diabētu. Dažās sekundēs reģistrējiet glikozi, ēdienu un insulīnu un pārskatiet visu dienu vienā skatienā.
+
+ĀTRI IKDIENAS IERAKSTI
+• Glikozes rādījumi ar laiku, ketoniem (pēc izvēles) un īsu piezīmi
+• Insulīna devas pildspalvai vai sūknim ar jūsu ātrās un bazālās darbības insulīnu
+• Maltītes pa brokastīm, pusdienām, vakariņām un uzkodām – ogļhidrāti, olbaltumvielas, tauki
+• Iecienītās maltītes, ko atkārtoti reģistrēsiet ar vienu pieskārienu
+• Nejauši dzēstu ierakstu var atsaukt
+
+CGM CAUR HEALTH CONNECT
+Rādījumus no jūsu CGM vai glikometra lietotnes var importēt automātiski caur Health Connect. Debo tikai nolasa glikozi un neko neieraksta Health Connect.
+
+ĒDIENU KATALOGS
+Gandrīz 200 ikdienas produktu ar ogļhidrātiem uz 100 g un ierastām porcijām, kā arī glikēmiskais indekss, ja tas ir publicēts. Savu produktu pievienosiet dažās sekundēs.
+
+GRAFIKI UN ATSKAITES
+• Dienas glikozes grafiks ar insulīna devām
+• Vidējās vērtības, laiks mērķa diapazonā un dienas profils nedēļām un mēnešiem
+• PDF atskaite ārstam, kas tiek izveidota jūsu tālrunī
+• Vēstures meklēšana pēc dienas, ēdiena nosaukuma vai piezīmes
+
+ATGĀDINĀJUMI
+Glikozes mērīšana, pārbaude 2 stundas pēc ēšanas, ilgas darbības insulīns, nedēļas kopsavilkums un jūsu pašu ikdienas atgādinājumi.
+
+IERĪCES UN KRĀJUMI
+Atzīmējiet, kad mainījāt sensoru, pildspalvu vai infūzijas komplektu, un saņemiet atgādinājumu, kad beidzas jūsu izvēlētais intervāls. Skaitiet sensorus, testa strēmeles un adatas un saņemiet atgādinājumu, pirms tās beidzas vai beidzas to derīgums.
+
+VISPĀRĪGI NORĀDĪJUMI
+Vienmēr pieejama vispārīga informācija par zemu un augstu glikozi, 15 minūšu taimeris, ko palaižat paši, un sporta ceļvedis ar tipisko glikozes reakciju 40 aktivitātēm.
+
+TURKLĀT
+• mmol/L ↔ mg/dL konvertētājs
+• Sākuma ekrāna logrīks ar pēdējo rādījumu
+• Rezerves kopija un pārnešana uz jaunu tālruni
+• Gaišais un tumšais režīms
+• Lietuviešu, angļu, latviešu, poļu un vācu valoda
+
+JŪSU DATI PALIEK TĀLRUNĪ
+Veselības ieraksti tiek glabāti tikai jūsu tālrunī. Bez reklāmām, datu pārdošanas un izsekošanas. Debo varat lietot arī kā viesis, bez konta.
+
+SVARĪGI
+Debo ir dienasgrāmatas un vispārīgas informācijas lietotne. Tā nav medicīniska ierīce un nediagnosticē, neārstē, neizārstē un nenovērš nevienu slimību vai veselības stāvokli. Tā neaprēķina insulīna devas, neinterpretē jūsu rādījumus un nesniedz ārstēšanas ieteikumus. Ārstēšanas lēmumus vienmēr pieņemiet kopā ar savu ārstu vai diabēta aprūpes komandu.
+
+
+==================== LANGUAGE: Polish (pl-PL) ====================
+## Nazwa aplikacji (do 30)
+Debo – asystent cukrzycy
+
+## Krótki opis (do 80)
+Glukoza, jedzenie i insulina w jednym miejscu. Wykresy, raporty, przypomnienia.
+
+## Pełny opis (do 4000)
+Debo to spokojny i prosty dzienniczek dla osób z cukrzycą. W kilka sekund zapiszesz glukozę, jedzenie i insulinę, a cały dzień zobaczysz na jednym ekranie.
+
+SZYBKIE CODZIENNE WPISY
+• Pomiary glukozy z godziną, opcjonalnymi ketonami i krótką notatką
+• Dawki insuliny dla pena lub pompy, z Twoją insuliną szybkodziałającą i bazową
+• Posiłki według śniadania, obiadu, kolacji i przekąsek – węglowodany, białko, tłuszcz
+• Ulubione posiłki, które zapiszesz ponownie jednym dotknięciem
+• Przypadkowo usunięty wpis można przywrócić
+
+CGM PRZEZ HEALTH CONNECT
+Pomiary z aplikacji CGM lub glukometru mogą być importowane automatycznie przez Health Connect. Debo tylko odczytuje glukozę i niczego nie zapisuje w Health Connect.
+
+KATALOG PRODUKTÓW
+Prawie 200 codziennych produktów z węglowodanami na 100 g i typowymi porcjami oraz indeksem glikemicznym, jeśli został opublikowany. Własny produkt dodasz w kilka sekund.
+
+WYKRESY I RAPORTY
+• Dzienny wykres glukozy z dawkami insuliny
+• Średnie, czas w zakresie i profil dobowy z tygodni i miesięcy
+• Raport PDF dla lekarza tworzony na Twoim telefonie
+• Wyszukiwanie w historii według dnia, nazwy produktu lub notatki
+
+PRZYPOMNIENIA
+Pomiar glukozy, kontrola 2 godziny po posiłku, insulina długodziałająca, tygodniowe podsumowanie i Twoje własne codzienne przypomnienia.
+
+SPRZĘT I ZAPASY
+Zapisuj, kiedy wymieniasz sensor, pen lub zestaw infuzyjny, i otrzymuj przypomnienie po upływie wybranego interwału. Licz sensory, paski testowe i igły – przypomnimy, zanim się skończą lub stracą ważność.
+
+OGÓLNE WSKAZÓWKI
+Zawsze dostępne ogólne informacje o niskiej i wysokiej glukozie, 15-minutowy minutnik uruchamiany przez Ciebie oraz przewodnik sportowy z typową reakcją glukozy dla 40 aktywności.
+
+PONADTO
+• Przelicznik mmol/L ↔ mg/dL
+• Widżet na ekranie głównym z ostatnim pomiarem
+• Kopia zapasowa i przeniesienie na nowy telefon
+• Jasny i ciemny motyw
+• Języki: litewski, angielski, łotewski, polski i niemiecki
+
+TWOJE DANE ZOSTAJĄ NA TELEFONIE
+Wpisy zdrowotne są przechowywane wyłącznie na Twoim telefonie. Bez reklam, sprzedaży danych i śledzenia. Z Debo możesz korzystać jako gość, bez konta.
+
+WAŻNE
+Debo to dzienniczek i aplikacja z ogólnymi informacjami. Nie jest wyrobem medycznym i nie diagnozuje, nie leczy, nie wyleczy ani nie zapobiega żadnej chorobie ani stanowi zdrowia. Nie oblicza dawek insuliny, nie interpretuje Twoich pomiarów i nie udziela zaleceń terapeutycznych. Decyzje o leczeniu zawsze podejmuj wspólnie z lekarzem lub zespołem diabetologicznym.
+
+==================== LANGUAGE: German (de-DE) ====================
+## App-Name (max. 30)
+Debo – Diabetes-Begleiter
+
+## Kurzbeschreibung (max. 80)
+Glukose, Essen und Insulin an einem Ort. Verlauf, Berichte und Erinnerungen.
+
+## Vollständige Beschreibung (max. 4000)
+Debo ist ein ruhiges, einfaches Tagebuch für Menschen mit Diabetes. Tragen Sie Glukose, Essen und Insulin in Sekunden ein und behalten Sie Ihren Tag auf einen Blick im Überblick.
+
+SCHNELL EINGETRAGEN
+• Glukosewerte mit Uhrzeit, optionalen Ketonen und kurzer Notiz
+• Insulindosen für Pen oder Pumpe, mit Ihrem kurzwirksamen Insulin und Basalinsulin
+• Mahlzeiten nach Frühstück, Mittagessen, Abendessen und Snacks – Kohlenhydrate, Eiweiß, Fett
+• Lieblingsmahlzeiten, die Sie mit einem Tipp erneut eintragen
+• Versehentlich gelöschte Einträge lassen sich rückgängig machen
+
+CGM ÜBER HEALTH CONNECT
+Werte aus Ihrer CGM- oder Messgerät-App können automatisch über Health Connect übernommen werden. Debo liest nur Glukosewerte und schreibt nichts in Health Connect.
+
+LEBENSMITTELKATALOG
+Fast 200 alltägliche Lebensmittel mit Kohlenhydraten pro 100 g und üblichen Portionen sowie dem glykämischen Index, sofern veröffentlicht. Eigene Lebensmittel fügen Sie in Sekunden hinzu.
+
+VERLAUF UND BERICHTE
+• Tagesverlauf der Glukose mit Ihren Insulindosen
+• Durchschnittswerte, Zeit im Zielbereich und Tagesprofil über Wochen und Monate
+• PDF-Bericht für Ihre Arztpraxis, direkt auf Ihrem Telefon erstellt
+• Suche im Verlauf nach Tag, Lebensmittel oder Notiz
+
+ERINNERUNGEN
+Glukosemessung, Kontrolle 2 Stunden nach dem Essen, langwirksames Insulin, Wochenübersicht und Ihre eigenen täglichen Erinnerungen.
+
+ZUBEHÖR UND VORRÄTE
+Notieren Sie, wann Sie Sensor, Pen oder Infusionsset gewechselt haben, und erhalten Sie eine Erinnerung, wenn Ihr gewähltes Intervall endet. Zählen Sie Sensoren, Teststreifen und Nadeln – wir erinnern Sie, bevor sie ausgehen oder ablaufen.
+
+ALLGEMEINE HINWEISE
+Jederzeit verfügbare allgemeine Informationen zu niedriger und hoher Glukose, ein 15-Minuten-Timer, den Sie selbst starten, und ein Sport-Ratgeber mit typischen Glukosereaktionen für 40 Aktivitäten.
+
+AUSSERDEM
+• Umrechner mmol/L ↔ mg/dL
+• Widget für den Startbildschirm mit Ihrem letzten Wert
+• Datensicherung und Umzug auf ein neues Telefon
+• Heller und dunkler Modus
+• Litauisch, Englisch, Lettisch, Polnisch und Deutsch
+
+IHRE DATEN BLEIBEN AUF IHREM TELEFON
+Ihre Gesundheitseinträge werden nur auf Ihrem Telefon gespeichert. Keine Werbung, kein Datenverkauf, kein Tracking. Sie können Debo auch als Gast ohne Konto nutzen.
+
+WICHTIG
+Debo ist eine Tagebuch- und Informations-App. Sie ist kein Medizinprodukt und dient nicht der Diagnose, Behandlung, Heilung oder Vorbeugung von Krankheiten oder Gesundheitszuständen. Sie berechnet keine Insulindosen, interpretiert Ihre Werte nicht und gibt keine Therapieempfehlungen. Treffen Sie Therapieentscheidungen immer gemeinsam mit Ihrer Ärztin, Ihrem Arzt oder Ihrem Diabetesteam.
+

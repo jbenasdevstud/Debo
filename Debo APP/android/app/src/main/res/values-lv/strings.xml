@@ -1,0 +1,9 @@
+<resources>
+    <string name="widget_description">Pēdējais glikozes rādījums un tendence</string>
+    <string name="widget_empty">Rādījumu vēl nav</string>
+    <string name="widget_add">Ievadīt glikozi</string>
+    <string name="shortcut_glucose">Ievadīt glikozi</string>
+    <string name="shortcut_food">Pievienot ēdienu</string>
+    <string name="shortcut_insulin">Ievadīt insulīnu</string>
+    <string name="reminder_channel_description">Debo iestatītie atgādinājumi</string>
+</resources>

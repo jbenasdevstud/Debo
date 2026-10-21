@@ -1,0 +1,468 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		DEB00000000000000000B001 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A001 /* AppDelegate.swift */; };
+		DEB00000000000000000B002 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A002 /* SceneDelegate.swift */; };
+		DEB00000000000000000B003 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A003 /* WebViewController.swift */; };
+		DEB00000000000000000B004 /* AppSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A004 /* AppSchemeHandler.swift */; };
+		DEB00000000000000000B005 /* BridgeScripts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A005 /* BridgeScripts.swift */; };
+		DEB00000000000000000B006 /* RemindersBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A006 /* RemindersBridge.swift */; };
+		DEB00000000000000000B007 /* HealthBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A007 /* HealthBridge.swift */; };
+		DEB00000000000000000B008 /* PrintBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A008 /* PrintBridge.swift */; };
+		DEB00000000000000000B009 /* FilesBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A009 /* FilesBridge.swift */; };
+		DEB00000000000000000B00A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A00A /* Assets.xcassets */; };
+		DEB00000000000000000B00B /* www in Resources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A00B /* www */; };
+		DEB00000000000000000B00C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A00C /* PrivacyInfo.xcprivacy */; };
+		DEB00000000000000000B010 /* WidgetBridge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A010 /* WidgetBridge.swift */; };
+		DEB00000000000000000B011 /* DeboWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A011 /* DeboWidget.swift */; };
+		DEB00000000000000000B012 /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A014 /* PrivacyInfo.xcprivacy */; };
+		DEB00000000000000000B013 /* DeboWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = DEB00000000000000000A015 /* DeboWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		DEB00000000000000000E005 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DEB00000000000000000E002 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DEB00000000000000000E003;
+			remoteInfo = DeboWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DEB00000000000000000D007 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				DEB00000000000000000B013 /* DeboWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		DEB00000000000000000A001 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A002 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A003 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A004 /* AppSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSchemeHandler.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A005 /* BridgeScripts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BridgeScripts.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A006 /* RemindersBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersBridge.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A007 /* HealthBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HealthBridge.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A008 /* PrintBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintBridge.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A009 /* FilesBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesBridge.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A00A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DEB00000000000000000A00B /* www */ = {isa = PBXFileReference; lastKnownFileType = folder; path = www; sourceTree = "<group>"; };
+		DEB00000000000000000A00C /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		DEB00000000000000000A00D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEB00000000000000000A00E /* Debo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Debo.entitlements; sourceTree = "<group>"; };
+		DEB00000000000000000A00F /* Debo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Debo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DEB00000000000000000A010 /* WidgetBridge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBridge.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A011 /* DeboWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeboWidget.swift; sourceTree = "<group>"; };
+		DEB00000000000000000A012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DEB00000000000000000A013 /* DeboWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeboWidget.entitlements; sourceTree = "<group>"; };
+		DEB00000000000000000A014 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		DEB00000000000000000A015 /* DeboWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeboWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		DEB00000000000000000D003 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEB00000000000000000D005 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		DEB00000000000000000C001 = {
+			isa = PBXGroup;
+			children = (
+				DEB00000000000000000C002 /* Debo */,
+				DEB00000000000000000C004 /* DeboWidget */,
+				DEB00000000000000000C003 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		DEB00000000000000000C002 /* Debo */ = {
+			isa = PBXGroup;
+			children = (
+				DEB00000000000000000A001 /* AppDelegate.swift */,
+				DEB00000000000000000A002 /* SceneDelegate.swift */,
+				DEB00000000000000000A003 /* WebViewController.swift */,
+				DEB00000000000000000A004 /* AppSchemeHandler.swift */,
+				DEB00000000000000000A005 /* BridgeScripts.swift */,
+				DEB00000000000000000A006 /* RemindersBridge.swift */,
+				DEB00000000000000000A007 /* HealthBridge.swift */,
+				DEB00000000000000000A008 /* PrintBridge.swift */,
+				DEB00000000000000000A009 /* FilesBridge.swift */,
+				DEB00000000000000000A010 /* WidgetBridge.swift */,
+				DEB00000000000000000A00A /* Assets.xcassets */,
+				DEB00000000000000000A00B /* www */,
+				DEB00000000000000000A00C /* PrivacyInfo.xcprivacy */,
+				DEB00000000000000000A00D /* Info.plist */,
+				DEB00000000000000000A00E /* Debo.entitlements */,
+			);
+			path = Debo;
+			sourceTree = "<group>";
+		};
+		DEB00000000000000000C003 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DEB00000000000000000A00F /* Debo.app */,
+				DEB00000000000000000A015 /* DeboWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DEB00000000000000000C004 /* DeboWidget */ = {
+			isa = PBXGroup;
+			children = (
+				DEB00000000000000000A011 /* DeboWidget.swift */,
+				DEB00000000000000000A014 /* PrivacyInfo.xcprivacy */,
+				DEB00000000000000000A012 /* Info.plist */,
+				DEB00000000000000000A013 /* DeboWidget.entitlements */,
+			);
+			path = DeboWidget;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		DEB00000000000000000E001 /* Debo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DEB00000000000000000F002 /* Build configuration list for PBXNativeTarget "Debo" */;
+			buildPhases = (
+				DEB00000000000000000D001 /* Sources */,
+				DEB00000000000000000D003 /* Frameworks */,
+				DEB00000000000000000D002 /* Resources */,
+				DEB00000000000000000D007 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DEB00000000000000000E004 /* PBXTargetDependency */,
+			);
+			name = Debo;
+			productName = Debo;
+			productReference = DEB00000000000000000A00F /* Debo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DEB00000000000000000E003 /* DeboWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DEB00000000000000000F003 /* Build configuration list for PBXNativeTarget "DeboWidgetExtension" */;
+			buildPhases = (
+				DEB00000000000000000D004 /* Sources */,
+				DEB00000000000000000D005 /* Frameworks */,
+				DEB00000000000000000D006 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DeboWidgetExtension;
+			productName = DeboWidgetExtension;
+			productReference = DEB00000000000000000A015 /* DeboWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		DEB00000000000000000E002 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					DEB00000000000000000E001 = {
+						CreatedOnToolsVersion = 15.0;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+							com.apple.HealthKit = {
+								enabled = 1;
+							};
+						};
+					};
+					DEB00000000000000000E003 = {
+						CreatedOnToolsVersion = 15.0;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
+					};
+				};
+			};
+			buildConfigurationList = DEB00000000000000000F001 /* Build configuration list for PBXProject "Debo" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				lt,
+				lv,
+				pl,
+				de,
+			);
+			mainGroup = DEB00000000000000000C001;
+			productRefGroup = DEB00000000000000000C003 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DEB00000000000000000E001 /* Debo */,
+				DEB00000000000000000E003 /* DeboWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		DEB00000000000000000D002 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEB00000000000000000B00A /* Assets.xcassets in Resources */,
+				DEB00000000000000000B00B /* www in Resources */,
+				DEB00000000000000000B00C /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEB00000000000000000D006 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEB00000000000000000B012 /* PrivacyInfo.xcprivacy in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		DEB00000000000000000D001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEB00000000000000000B001 /* AppDelegate.swift in Sources */,
+				DEB00000000000000000B002 /* SceneDelegate.swift in Sources */,
+				DEB00000000000000000B003 /* WebViewController.swift in Sources */,
+				DEB00000000000000000B004 /* AppSchemeHandler.swift in Sources */,
+				DEB00000000000000000B005 /* BridgeScripts.swift in Sources */,
+				DEB00000000000000000B006 /* RemindersBridge.swift in Sources */,
+				DEB00000000000000000B007 /* HealthBridge.swift in Sources */,
+				DEB00000000000000000B008 /* PrintBridge.swift in Sources */,
+				DEB00000000000000000B009 /* FilesBridge.swift in Sources */,
+				DEB00000000000000000B010 /* WidgetBridge.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DEB00000000000000000D004 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DEB00000000000000000B011 /* DeboWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		DEB00000000000000000E004 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DEB00000000000000000E003 /* DeboWidgetExtension */;
+			targetProxy = DEB00000000000000000E005 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		DEB00000000000000000F011 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.1.1;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		DEB00000000000000000F012 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.1.1;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		DEB00000000000000000F021 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Debo/Debo.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Debo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.debo.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		DEB00000000000000000F022 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Debo/Debo.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_PREVIEWS = NO;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Debo/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.debo.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		DEB00000000000000000F031 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = DeboWidget/DeboWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = DeboWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.debo.app.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		DEB00000000000000000F032 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				APPLICATION_EXTENSION_API_ONLY = YES;
+				CODE_SIGN_ENTITLEMENTS = DeboWidget/DeboWidget.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = DeboWidget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.debo.app.widget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		DEB00000000000000000F001 /* Build configuration list for PBXProject "Debo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEB00000000000000000F011 /* Debug */,
+				DEB00000000000000000F012 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DEB00000000000000000F002 /* Build configuration list for PBXNativeTarget "Debo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEB00000000000000000F021 /* Debug */,
+				DEB00000000000000000F022 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		DEB00000000000000000F003 /* Build configuration list for PBXNativeTarget "DeboWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DEB00000000000000000F031 /* Debug */,
+				DEB00000000000000000F032 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = DEB00000000000000000E002 /* Project object */;
+}

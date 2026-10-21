@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="940" viewBox="0 0 1440 940" role="img" aria-labelledby="preview-title preview-desc">
+<title id="preview-title">Debo logotipo eskizas</title>
+<desc id="preview-desc">Pagrindinis žalias Debo logotipas šiltame baltame fone, programėlės ikona, vienspalvė versija ir trijų spalvų paletė.</desc>
+<defs>
+<g id="d-mark"><path d="M30 22H60C86 22 104 40 104 64.5C104 89 86 107 60 107H30Z" fill="none" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M104 68H88C81 68 79 62 73 62C66 62 65 75 58 75H49" fill="none" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></g>
+</defs>
+<rect width="1440" height="940" fill="#FFFEFA"/>
+<g font-family="Segoe UI, Arial, sans-serif" fill="#11483C">
+<text x="88" y="75" font-size="19" font-weight="600" letter-spacing="2.4">DEBO / KRYPTIS 01</text>
+<text x="1352" y="75" font-size="18" text-anchor="end" fill="#6D827A">Logotipo eskizas</text>
+<path d="M88 108H1352" stroke="#D7E3DC"/>
+<g transform="translate(356 184) scale(1.55)"><g transform="scale(1.35)"><use href="#d-mark" stroke="#11483C"/><circle cx="49" cy="75" r="6.5" fill="#69D8AE"/></g><text x="180" y="132" font-family="Arial, sans-serif" font-size="86" font-weight="700" letter-spacing="-2" fill="#11483C">DEBO</text><circle cx="444" cy="130" r="8.3" fill="#69D8AE"/></g>
+<text x="720" y="478" font-size="21" text-anchor="middle" fill="#6D827A">D raidė · gliukozės kreivė · matavimo taškas</text>
+<path d="M88 548H1352" stroke="#D7E3DC"/>
+<text x="104" y="599" font-size="16" font-weight="600" letter-spacing="1.6">PROGRAMĖLĖS IKONA</text>
+<rect x="104" y="635" width="200" height="200" rx="46" fill="#11483C"/>
+<g transform="translate(121.58 651.02) scale(1.289)"><use href="#d-mark" stroke="#FFFEFA"/><circle cx="49" cy="75" r="6.5" fill="#69D8AE"/></g>
+<text x="432" y="599" font-size="16" font-weight="600" letter-spacing="1.6">VIENSPALVĖ VERSIJA</text>
+<g transform="translate(414 686) scale(.81)"><g transform="scale(1.35)"><use href="#d-mark" stroke="#11483C"/><circle cx="49" cy="75" r="6.5" fill="#11483C"/></g><text x="180" y="132" font-family="Arial, sans-serif" font-size="86" font-weight="700" letter-spacing="-2" fill="#11483C">DEBO</text><circle cx="444" cy="130" r="8.3" fill="#11483C"/></g>
+<text x="1038" y="599" font-size="16" font-weight="600" letter-spacing="1.6">SPALVŲ PALETĖ</text>
+<circle cx="1057" cy="661" r="18" fill="#11483C"/>
+<text x="1093" y="668" font-size="22">#11483C</text>
+<circle cx="1057" cy="731" r="18" fill="#69D8AE"/>
+<text x="1093" y="738" font-size="22">#69D8AE</text>
+<circle cx="1057" cy="801" r="18" fill="#FFFEFA" stroke="#D7E3DC" stroke-width="1.5"/>
+<text x="1093" y="808" font-size="22">#FFFEFA</text>
+</g>
+</svg>

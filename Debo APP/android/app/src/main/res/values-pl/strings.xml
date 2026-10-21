@@ -1,0 +1,9 @@
+<resources>
+    <string name="widget_description">Ostatni pomiar glukozy i trend</string>
+    <string name="widget_empty">Brak pomiarów</string>
+    <string name="widget_add">Wpisz glukozę</string>
+    <string name="shortcut_glucose">Wpisz glukozę</string>
+    <string name="shortcut_food">Dodaj jedzenie</string>
+    <string name="shortcut_insulin">Wpisz insulinę</string>
+    <string name="reminder_channel_description">Przypomnienia ustawione w Debo</string>
+</resources>

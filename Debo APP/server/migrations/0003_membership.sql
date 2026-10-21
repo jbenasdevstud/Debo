@@ -1,0 +1,2 @@
+ALTER TABLE users ADD COLUMN membership_until INTEGER NOT NULL DEFAULT 0;
+ALTER TABLE users ADD COLUMN membership_product TEXT NOT NULL DEFAULT '';

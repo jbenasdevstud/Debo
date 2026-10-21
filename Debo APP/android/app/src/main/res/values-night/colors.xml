@@ -1,0 +1,10 @@
+<resources>
+    <color name="widget_bg">#1C1C1E</color>
+    <color name="widget_ink">#FFFFFF</color>
+    <color name="widget_muted">#98989F</color>
+    <color name="widget_accent">#30D158</color>
+    <color name="widget_button_bg">#16301F</color>
+    <color name="widget_low">#F07A82</color>
+    <color name="widget_target">#5FD39A</color>
+    <color name="widget_high">#F2C25C</color>
+</resources>

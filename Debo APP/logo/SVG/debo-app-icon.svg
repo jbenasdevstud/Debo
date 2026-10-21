@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="icon-title">
+<title id="icon-title">Debo programėlės ikona</title>
+<rect width="512" height="512" rx="116" fill="#11483C"/>
+<g transform="translate(45 41) scale(3.3)"><path d="M30 22H60C86 22 104 40 104 64.5C104 89 86 107 60 107H30Z" fill="none" stroke="#FFFEFA" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><path d="M104 68H88C81 68 79 62 73 62C66 62 65 75 58 75H49" fill="none" stroke="#FFFEFA" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="49" cy="75" r="6.5" fill="#69D8AE"/></g>
+</svg>

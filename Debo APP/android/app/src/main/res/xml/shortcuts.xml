@@ -1,0 +1,17 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut android:shortcutId="glucose" android:enabled="true" android:icon="@drawable/ic_shortcut_glucose" android:shortcutShortLabel="@string/shortcut_glucose">
+        <intent android:action="com.debo.app.ACTION_ENTRY" android:targetPackage="com.debo.app" android:targetClass="com.debo.app.MainActivity">
+            <extra android:name="entry" android:value="glucose" />
+        </intent>
+    </shortcut>
+    <shortcut android:shortcutId="food" android:enabled="true" android:icon="@drawable/ic_shortcut_food" android:shortcutShortLabel="@string/shortcut_food">
+        <intent android:action="com.debo.app.ACTION_ENTRY" android:targetPackage="com.debo.app" android:targetClass="com.debo.app.MainActivity">
+            <extra android:name="entry" android:value="food" />
+        </intent>
+    </shortcut>
+    <shortcut android:shortcutId="insulin" android:enabled="true" android:icon="@drawable/ic_shortcut_insulin" android:shortcutShortLabel="@string/shortcut_insulin">
+        <intent android:action="com.debo.app.ACTION_ENTRY" android:targetPackage="com.debo.app" android:targetClass="com.debo.app.MainActivity">
+            <extra android:name="entry" android:value="insulin" />
+        </intent>
+    </shortcut>
+</shortcuts>

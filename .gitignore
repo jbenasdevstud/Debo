@@ -1,0 +1,39 @@
+# Signing keys and passwords: never commit
+debo-keys/
+*.jks
+*.keystore
+keystore.properties
+local.properties
+.env
+
+# Release builds
+*.aab
+*.apk
+**/app/release/
+
+# Personal notes and documents in the top folder
+/*.md
+!/README.md
+/*.pdf
+
+# Build output and IDE files
+**/build/
+.gradle/
+.kotlin/
+.idea/
+*.iml
+captures/
+.externalNativeBuild/
+.cxx/
+node_modules/
+.wrangler/
+
+# Xcode
+xcuserdata/
+DerivedData/
+*.xcuserstate
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini

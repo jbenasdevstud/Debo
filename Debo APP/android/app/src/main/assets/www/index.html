@@ -1,0 +1,943 @@
+<!doctype html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#F5F7F4">
+<title>Debo</title>
+
+<link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+<section class="auth-screen" id="auth-screen" aria-labelledby="auth-title">
+  <div class="auth-card">
+    <div class="auth-language" data-i18n-aria="chooseLanguage" aria-label="Language">
+      <button class="active" type="button" data-auth-language="lt" aria-label="Lietuvių"></button>
+      <button type="button" data-auth-language="en" aria-label="English"></button>
+      <button type="button" data-auth-language="lv" aria-label="Latviešu"></button>
+      <button type="button" data-auth-language="pl" aria-label="Polski"></button>
+      <button type="button" data-auth-language="de" aria-label="Deutsch"></button>
+    </div>
+    <div class="auth-brand"><span class="auth-mark">D</span><span>DEBO</span></div>
+    <div id="auth-choice" class="auth-choice">
+      <h1 id="auth-title" data-i18n="authTitle">Kasdienis diabeto palydovas</h1>
+      <p class="auth-lead" data-i18n="authLead">Greitai registruokite rodmenis, maistą ir insuliną vienoje ramioje erdvėje.</p>
+
+      <button class="primary" id="auth-open-login" type="button" data-i18n="signIn">Prisijungti</button>
+      <button class="secondary" id="auth-open-signup" type="button" data-i18n="createAccount">Kurti paskyrą</button>
+
+      <div class="auth-divider"><span data-i18n="or">arba</span></div>
+      <div class="social-grid">
+        <button class="social-button" type="button" data-auth-provider="Google" aria-label="Google">
+          <svg class="social-logo" viewBox="0 0 18 18" aria-hidden="true"><path fill="#4285F4" d="M17.6 9.2c0-.6-.1-1.2-.2-1.7H9v3.2h4.8a4.1 4.1 0 0 1-1.8 2.7v2.2h2.9c1.7-1.6 2.7-3.8 2.7-6.4z"/><path fill="#34A853" d="M9 18c2.4 0 4.5-.8 6-2.2l-2.9-2.2c-.8.5-1.8.9-3.1.9-2.3 0-4.3-1.6-5-3.7H1v2.3A9 9 0 0 0 9 18z"/><path fill="#FBBC05" d="M4 10.8a5.4 5.4 0 0 1 0-3.5V5H1a9 9 0 0 0 0 8.1l3-2.3z"/><path fill="#EA4335" d="M9 3.6c1.3 0 2.5.5 3.5 1.4L15 2.4A8.5 8.5 0 0 0 1 5l3 2.3c.7-2.1 2.7-3.7 5-3.7z"/></svg>
+          <span>Google</span>
+        </button>
+      </div>
+      <button class="guest-button" id="continue-guest" type="button" data-i18n="continueGuest">Tęsti kaip svečiui</button>
+      <p class="auth-note" data-i18n="authMvpNote">El. paštas ir slaptažodžio maiša saugomi paskyrų serveryje. Sveikatos įrašai lieka šiame telefone, o analizės kreditai siejami su paskyra.</p>
+    </div>
+
+    <div id="auth-form" class="auth-form hidden">
+      <div class="auth-form-head">
+        <button class="auth-back" id="auth-back" type="button" data-i18n-aria="back" aria-label="Grįžti">‹</button>
+        <h2 class="auth-form-title" id="auth-form-title">Prisijungti</h2>
+      </div>
+      <p class="auth-form-lead" id="auth-form-lead"></p>
+      <div class="auth-alert hidden" id="auth-alert" role="alert"></div>
+      <label class="auth-field" id="auth-name-field"><span data-i18n="name">Vardas</span><input id="auth-name" autocomplete="given-name" autocapitalize="words" enterkeyhint="next" maxlength="80"><small class="field-error" data-error-for="auth-name"></small></label>
+      <label class="auth-field" id="auth-email-field"><span data-i18n="email">El. paštas</span><input id="auth-email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" enterkeyhint="next" maxlength="254"><small class="field-error" data-error-for="auth-email"></small></label>
+      <label class="auth-field" id="auth-password-field"><span data-i18n="password">Slaptažodis</span><span class="password-wrap"><input id="auth-password" type="password" autocomplete="current-password" minlength="8" maxlength="128" enterkeyhint="go"><button class="password-toggle" type="button" data-toggle-password="auth-password" data-i18n-aria="showPassword" aria-label="Rodyti slaptažodį"><svg class="ui-icon eye-open" viewBox="0 0 24 24" aria-hidden="true"><path class="duo" d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/></svg><svg class="ui-icon eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17.7 17.7 0 0 1-3.2 4.1M6.6 6.6C3.9 8.3 2 12 2 12s3.6 7 10 7a9.9 9.9 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></span><small class="field-error" data-error-for="auth-password"></small></label>
+      <button class="text-link auth-forgot hidden" id="auth-forgot" type="button" data-i18n="forgotPassword">Pamiršote slaptažodį?</button>
+      <div class="password-strength hidden" id="password-strength" aria-live="polite"><span class="password-strength-bar"><i></i></span><small id="password-strength-label"></small></div>
+      <label class="auth-field" id="auth-password-repeat-field"><span data-i18n="repeatPassword">Pakartokite slaptažodį</span><span class="password-wrap"><input id="auth-password-repeat" type="password" autocomplete="new-password" minlength="8" maxlength="128" enterkeyhint="go"><button class="password-toggle" type="button" data-toggle-password="auth-password-repeat" data-i18n-aria="showPassword" aria-label="Rodyti slaptažodį"><svg class="ui-icon eye-open" viewBox="0 0 24 24" aria-hidden="true"><path class="duo" d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/></svg><svg class="ui-icon eye-closed" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3l18 18M10.6 5.1A10.6 10.6 0 0 1 12 5c6.4 0 10 7 10 7a17.7 17.7 0 0 1-3.2 4.1M6.6 6.6C3.9 8.3 2 12 2 12s3.6 7 10 7a9.9 9.9 0 0 0 5.4-1.6M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg></button></span><small class="field-error" data-error-for="auth-password-repeat"></small></label>
+      <button class="primary auth-submit" id="auth-submit" type="button" data-i18n="signIn">Prisijungti</button>
+      <p class="auth-switch" id="auth-switch"><span id="auth-switch-text"></span> <button class="text-link" id="auth-switch-button" type="button"></button></p>
+      <p class="auth-guest-note hidden" id="auth-guest-note" data-i18n="guestStorageNote">Svečio duomenys liks tik šiame įrenginyje.</p>
+      <p class="auth-legal"><span data-i18n="authLegal">Tęsdami patvirtinate, kad susipažinote su</span> <a data-privacy-link href="#" data-i18n="privacyPolicyLower">privatumo politika</a></p>
+    </div>
+  </div>
+</section>
+
+<div class="app-shell">
+
+<main class="view active" id="view-home">
+
+<header class="topbar home-head">
+  <button class="home-avatar" id="header-profile" type="button" data-i18n-aria="yourProfile" aria-label="Jūsų profilis">B</button>
+  <div class="home-greet"><small id="today-label">—</small><strong id="home-user-name">Debo</strong></div>
+  <div class="home-head-actions">
+    <button class="flag-button" id="language-toggle" type="button" data-i18n-aria="switchLanguage" aria-label="Pakeisti kalbą"><span class="flag-icon" id="language-flag" aria-hidden="true"></span></button>
+  </div>
+</header>
+
+<section class="hero-card" id="glucose-card" data-state="none" role="button" tabindex="0" data-i18n-aria="glucoseChartTitle" aria-label="Gliukozės grafikas">
+  <div class="hero-copy">
+    <p class="hero-label"><button class="hero-calendar hero-add" id="quick-glucose-add" type="button" data-i18n-aria="openQuickGlucose" aria-label="Įvesti gliukozę"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button><button class="hero-calendar" id="calendar-open" type="button" data-i18n-aria="weekCalendar" aria-label="Kalendorius"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4.5" width="18" height="16.5" rx="3"/><path d="M8 2.5v4M16 2.5v4M3 10h18"/></svg></button><span class="hero-chip" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="duo" d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></span><span data-i18n="bloodGlucose">Gliukozė</span></p>
+    <h2 class="hero-title" data-i18n="heroTitle">Paskutinis rodmuo</h2>
+    <div class="trend"><span class="trend-arrow hidden" id="trend-arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg><svg class="trend-arrow-second" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span><span id="trend-label">—</span></div>
+    <p class="home-reading-kicker"><span data-i18n="lastReadingAt">Matuota</span> <strong id="glucose-reading-time">—</strong></p>
+    <p class="updated"><button class="glucose-updated-action" id="glucose-updated" type="button" disabled>—</button></p>
+  </div>
+
+  <div class="hero-gauge">
+    <svg class="gauge-svg" viewBox="0 0 220 220" aria-hidden="true">
+      <circle class="gauge-track" cx="110" cy="110" r="92" transform="rotate(135 110 110)" stroke-dasharray="433.54 578.05"/>
+      <circle class="gauge-zone gauge-low" cx="110" cy="110" r="92" transform="rotate(135 110 110)" stroke-dasharray="42.09 578.05" stroke-dashoffset="0"/>
+      <circle class="gauge-zone gauge-target" cx="110" cy="110" r="92" transform="rotate(135 110 110)" stroke-dasharray="192.96 578.05" stroke-dashoffset="-46.59"/>
+      <circle class="gauge-zone gauge-high" cx="110" cy="110" r="92" transform="rotate(135 110 110)" stroke-dasharray="190.99 578.05" stroke-dashoffset="-242.55"/>
+      <g class="gauge-scale" id="gauge-scale"></g>    </svg>
+    <span class="gauge-needle" aria-hidden="true"><i></i></span>
+    <div class="hero-reading">
+      <strong id="glucose-value"></strong>
+      <span class="glucose-empty-text" id="glucose-empty-text"></span>
+      <span class="glucose-unit" id="glucose-unit-label">mmol/L</span>
+    </div>
+  </div>
+
+  <button class="hero-timer" id="hero-timer" type="button" hidden><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2M10 2h4"/></svg><span data-i18n="timerTitle">Laikmatis</span><b id="hero-timer-clock">15:00</b></button>
+  <div class="hero-guides">
+    <button class="hero-guide hero-guide-low" type="button" data-guide="hypo"><i aria-hidden="true"></i><span data-i18n="hypoglycemia">Hipoglikemija</span><b aria-hidden="true">›</b></button>
+    <button class="hero-guide hero-guide-high" type="button" data-guide="hyper"><i aria-hidden="true"></i><span data-i18n="hyperglycemia">Hiperglikemija</span><b aria-hidden="true">›</b></button>
+  </div>
+  <div class="glucose-range" id="glucose-range" data-state="none" role="img" data-i18n-aria="glucose" aria-label="Gliukozė">
+    <div class="glucose-range-track" aria-hidden="true"></div><span class="glucose-range-marker" id="glucose-range-marker" aria-hidden="true"></span>
+    <div class="glucose-range-labels"><span id="glucose-range-min">3.0</span><span id="glucose-range-low">3.9</span><span id="glucose-range-high">10.0</span><span id="glucose-range-max">14.0</span></div>
+  </div>
+</section>
+
+<dialog id="hypo-timer-modal" aria-labelledby="hypo-timer-title">
+  <div class="modal-card timer-card">
+    <button class="close" id="close-hypo-timer" type="button" data-i18n-aria="close" aria-label="Uždaryti">×</button>
+    <h2 id="hypo-timer-title" data-i18n="timerTitle">Laikmatis</h2>
+    <p class="timer-lead" data-i18n="timerLead">Po 15 min pasitikrinkite gliukozę.</p>
+    <div class="timer-ring">
+      <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="timer-track" cx="60" cy="60" r="52"/><circle class="timer-progress" id="timer-progress" cx="60" cy="60" r="52"/></svg>
+      <div class="timer-readout" role="timer" aria-live="off"><strong id="timer-clock">15:00</strong><small id="timer-state">—</small></div>
+    </div>
+    <div class="timer-actions">
+      <button class="secondary" id="timer-restart" type="button" data-i18n="timerRestart">Iš naujo</button>
+      <button class="primary" id="timer-check" type="button" data-i18n="timerCheck">Įvesti rodmenį</button>
+    </div>
+    <button class="timer-stop" id="timer-stop" type="button" data-i18n="timerStop">Sustabdyti laikmatį</button>
+    <p class="guide-disclaimer" data-i18n="timerDisclaimer">Bendro pobūdžio priemonė, ne gydymo planas.</p>
+  </div>
+</dialog>
+
+<dialog id="calendar-modal" aria-labelledby="calendar-title">
+  <div class="modal-card calendar-card">
+    <button class="close" id="close-calendar" type="button" data-i18n-aria="close" aria-label="Uždaryti">×</button>
+    <h2 id="calendar-title" data-i18n="weekCalendar">Kalendorius</h2>
+    <div class="cal-head">
+      <button class="cal-arrow" id="cal-prev" type="button" data-i18n-aria="prevMonth" aria-label="Ankstesnis mėnuo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+      <strong id="cal-month">—</strong>
+      <button class="cal-arrow" id="cal-next" type="button" data-i18n-aria="nextMonth" aria-label="Kitas mėnuo"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+    </div>
+    <div class="cal-weekdays" id="cal-weekdays" aria-hidden="true"></div>
+    <div class="cal-grid" id="cal-grid"></div>
+  </div>
+</dialog>
+
+<dialog id="glucose-chart-modal" aria-labelledby="glucose-chart-title">
+  <div class="chart-modal-card">
+    <button class="close" id="close-glucose-chart" type="button" data-i18n-aria="close" aria-label="Uždaryti">×</button>
+    <header class="chart-modal-heading">
+      <p class="eyebrow" data-i18n="glucoseChartKicker">DIENOS APŽVALGA</p>
+      <h2 id="glucose-chart-title" data-i18n="glucoseChartTitle">Gliukozės grafikas</h2>
+      <p data-i18n="glucoseChartIntro">Gliukozės rodmenys ir insulino įvykiai šiandien</p>
+    </header>
+    <div class="chart-modal-toolbar">
+      <div class="chart-range-switch" role="group" data-i18n-aria="chartRangeAria" aria-label="Grafiko mastelis">
+        <button type="button" data-chart-hours="3">3 <span data-i18n="hoursShort">val.</span></button>
+        <button type="button" data-chart-hours="6">6 <span data-i18n="hoursShort">val.</span></button>
+        <button class="active" type="button" data-chart-hours="24">24 <span data-i18n="hoursShort">val.</span></button>
+      </div>
+    </div>
+    <section class="chart-modal-plot" data-i18n-aria="glucoseChartIntro" aria-label="Gliukozės ir insulino grafikas">
+      <div class="timeline-chart-shell">
+        <div class="timeline-y-axis"><span class="y14" id="axis-14">14</span><span class="y10" id="axis-10">10</span><span class="y39" id="axis-39">3.9</span></div>
+        <div class="chart-scroll" id="chart-scroll"><div class="chart-canvas" id="chart-canvas">
+          <svg id="timeline-svg" viewBox="0 0 1000 104" preserveAspectRatio="none">
+            <defs><linearGradient id="fill" x1="0" y1="0" x2="0" y2="1"><stop id="chart-fill-start" offset="0%" stop-color="#72CFAF" stop-opacity=".12"/><stop id="chart-fill-end" offset="100%" stop-color="#72CFAF" stop-opacity="0"/></linearGradient><linearGradient id="zone-line" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="104"><stop class="zone-stop-high" offset="0"/><stop class="zone-stop-target" offset="0"/><stop class="zone-stop-target" offset="1"/><stop class="zone-stop-low" offset="1"/></linearGradient></defs>
+            <rect id="chart-target-zone" class="chart-target-zone"></rect><g id="chart-horizontal-grid"></g><path id="chart-area" fill="url(#fill)"></path><path id="chart-line" class="chart-line" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path><g id="glucose-points"></g><g id="insulin-markers"></g><g id="exercise-bands"></g><g id="time-labels-svg"></g>
+          </svg>
+        </div></div>
+      </div>
+      <div class="chart-footer"><span id="chart-timezone">—</span></div>
+    </section>
+    <div class="chart-modal-legend" data-i18n-aria="chartLegendAria" aria-label="Grafiko žymos">
+      <span><i class="legend-glucose"></i><span data-i18n="chartLegendGlucose">Gliukozė</span></span>
+      <span><i class="legend-rapid"></i><span data-i18n="chartLegendRapid">Greitas insulinas</span></span>
+      <span><i class="legend-long"></i><span data-i18n="chartLegendLong">Ilgas insulinas</span></span>
+      <span><i class="legend-exercise"></i><span data-i18n="chartLegendExercise">Sportas</span></span>
+    </div>
+    <section class="chart-modal-events">
+      <div class="visible-events-head"><strong data-i18n="chartDayEvents">ŠIOS DIENOS ĮVYKIAI</strong><small id="visible-events-time">—</small></div>
+      <div class="visible-event-list" id="visible-event-list"></div>
+    </section>
+  </div>
+</dialog>
+
+<section class="home-tiles">
+  <button class="home-tile" id="add-food" type="button">
+    <span class="tile-head"><strong data-i18n="food">Maistas</strong><span class="tile-icon food" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="duo" d="M19 14V2c-2.2 1.4-3.5 4.2-3.5 8v2.5c0 .8.7 1.5 1.5 1.5z" stroke="none"/><path d="M4.5 2v6a3 3 0 0 0 6 0V2M7.5 2v6M7.5 11v11M19 22V2c-2.2 1.4-3.5 4.2-3.5 8v2.5c0 .8.7 1.5 1.5 1.5H19"/></svg></span></span>
+    <span class="tile-value"><b id="tile-food">0</b><small data-i18n="tileCarbs">g angl.</small></span>
+  </button>
+  <button class="home-tile" id="add-insulin" type="button">
+    <span class="tile-head"><strong data-i18n="insulin">Insulinas</strong><span class="tile-icon insulin" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="duo" d="M19 9 8.7 19.3c-.9.9-2.5.9-3.4 0l-.6-.6c-.9-.9-.9-2.5 0-3.4L15 5z" stroke="none"/><path d="m18 2 4 4M17 7l3-3M19 9 8.7 19.3c-.9.9-2.5.9-3.4 0l-.6-.6c-.9-.9-.9-2.5 0-3.4L15 5M9 11l4 4M5 19l-3 3M14 4l6 6"/></svg></span></span>
+    <span class="tile-value"><b id="tile-insulin">0</b><small data-i18n="tileUnits">vnt.</small></span>
+  </button>
+  <button class="home-tile" id="add-glucose" type="button">
+    <span class="tile-head"><strong data-i18n="glucose">Gliukozė</strong><span class="tile-icon glucose" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="duo" d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></svg></span></span>
+    <span class="tile-value"><b id="tile-glucose">0</b><small data-i18n="tileReadings">rodm.</small></span>
+  </button>
+</section>
+
+<section class="meal-list" id="meal-list"></section>
+
+<section class="active-insulin">
+  <div class="section-heading"><p class="eyebrow" data-i18n="insulinActivity">INSULINO ŽURNALAS</p></div>
+
+  <div class="insulin-panel">
+    <div class="insulin-top">
+      <span class="insulin-pen-icon">
+        <svg viewBox="0 0 24 24"><path class="duo" d="M19 9 8.7 19.3c-.9.9-2.5.9-3.4 0l-.6-.6c-.9-.9-.9-2.5 0-3.4L15 5z" stroke="none"/><path d="m18 2 4 4M17 7l3-3M19 9 8.7 19.3c-.9.9-2.5.9-3.4 0l-.6-.6c-.9-.9-.9-2.5 0-3.4L15 5M9 11l4 4M5 19l-3 3M14 4l6 6"/></svg>
+      </span>
+
+      <div class="active-dose-title">
+        <strong id="active-dose-main">Šiandien insulino įrašų nėra</strong>
+        <small id="active-dose-sub">—</small>
+      </div>
+    </div>
+
+    <div class="no-active-dose" id="no-active-dose" data-i18n="noActiveDoseDescription">Šiandien įvestos dozės bus rodomos čia.</div>
+
+    <div class="multi-activity hidden" id="multi-activity">
+      <div class="active-dose-list" id="active-dose-list"></div>
+      <button class="show-more-doses hidden" id="toggle-active-doses" type="button">Žr. daugiau</button>
+    </div>
+
+    <p class="reminder-status" id="reminder-status"></p>
+  </div>
+</section>
+
+<section class="care">
+  <div class="section-heading"><p class="eyebrow" data-i18n="careTitle">Priemonės ir atsargos</p></div>
+  <div class="care-list" id="care-list"></div>
+</section>
+
+<p class="disclaimer" data-i18n="mainDisclaimer">Debo yra įrašų ir bendros informacijos programėlė, o ne medicinos priemonė. Gydymo sprendimus derinkite su savo gydytoju.</p>
+</main>
+
+<section class="view" id="view-sport">
+  <div class="page-header">
+    <button class="back-button" data-go-home type="button" data-i18n-aria="back" aria-label="Grįžti">‹</button>
+    <div class="page-title-wrap">
+      <p class="page-kicker" data-i18n="sportCaps">JUDĖJIMAS IR GLIUKOZĖ</p>
+      <h1 class="page-title" data-i18n="sportTitle">Sporto gidas</h1>
+    </div>
+  </div>
+
+  <button class="secondary full-button exercise-log-button" type="button" data-log-exercise><svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg><span data-i18n="exerciseTitle">Įrašyti treniruotę</span></button>
+
+  <section class="sport-picker" aria-labelledby="sport-picker-title">
+    <h2 id="sport-picker-title" data-i18n="sportPickTitle">Kokią treniruotę planuojate?</h2>
+    <label class="sport-search">
+      <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle class="duo" cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="sport-search" type="search" autocomplete="off" enterkeyhint="search" data-i18n-placeholder="sportSearch" placeholder="Ieškoti sporto" data-i18n-aria="sportSearch" aria-label="Ieškoti sporto">
+    </label>
+    <div class="sport-chips" id="sport-chips"></div>
+    <p class="sport-chips-empty" id="sport-chips-empty" data-i18n="sportNoMatch" hidden>Nerasta</p>
+  </section>
+
+  <div class="sport-direction-legend" data-i18n-aria="sportLegendAria" aria-label="Gliukozės krypties legenda">
+    <span class="sport-direction-chip down"><b>↓</b><span data-i18n="sportLegendDown">dažniau mažėja</span></span>
+    <span class="sport-direction-chip mixed"><b>↘/↔</b><span data-i18n="sportLegendVariable">mišri reakcija</span></span>
+    <span class="sport-direction-chip up"><b>↑</b><span data-i18n="sportLegendUp">gali kilti</span></span>
+  </div>
+
+  <div class="sport-type-list" data-i18n-aria="sportTypesAria" aria-label="Sporto tipai ir dažna gliukozės kryptis">
+    <button class="sport-type-row" data-sport-guide="aerobic" type="button">
+      <span class="sport-type-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="duo" d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></svg></span>
+      <span class="sport-type-main"><strong data-i18n="sportAerobicTitle">Aerobinė</strong><small data-i18n="sportAerobicText">Tolygus vidutinio intensyvumo krūvis.</small><span class="sport-examples" data-i18n="sportAerobicExamples">Ėjimas · bėgimas · žygiai · dviratis · irklavimas · plaukimas</span></span>
+      <span class="sport-direction down" data-i18n-aria="sportLegendDown" aria-label="dažniau mažėja">↓</span>
+    </button>
+
+    <button class="sport-type-row" data-sport-guide="anaerobic" type="button">
+      <span class="sport-type-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="duo" x="5" y="6" width="3" height="12" rx="1.5"/><rect class="duo" x="16" y="6" width="3" height="12" rx="1.5"/><path d="M3 9.5v5M21 9.5v5M8 12h8"/></svg></span>
+      <span class="sport-type-main"><strong data-i18n="sportAnaerobicTitle">Jėgos / anaerobinė</strong><small data-i18n="sportAnaerobicText">Trumpas, labai intensyvus krūvis.</small><span class="sport-examples" data-i18n="sportAnaerobicExamples">Svoriai · sunkioji atletika · sprintai · šuoliai · trumpi įkalnės sprintai</span></span>
+      <span class="sport-direction up" data-i18n-aria="sportLegendUp" aria-label="gali kilti">↑</span>
+    </button>
+
+    <button class="sport-type-row" data-sport-guide="mixed" type="button">
+      <span class="sport-type-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg></span>
+      <span class="sport-type-main"><strong data-i18n="sportMixedShortTitle">Mišri / intervalinė</strong><small data-i18n="sportMixedShortText">Aerobinė veikla su intensyviais epizodais.</small><span class="sport-examples" data-i18n="sportMixedExamples">Futbolas · krepšinis · tenisas · ledo ritulys · kovos menai · HIIT</span></span>
+      <span class="sport-direction mixed" data-i18n-aria="sportLegendVariable" aria-label="dažniau mažėja arba išlieka panaši">↘/↔</span>
+    </button>
+
+    <button class="sport-type-row" data-sport-guide="light" type="button">
+      <span class="sport-type-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="duo" d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10z"/><path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/></svg></span>
+      <span class="sport-type-main"><strong data-i18n="sportLightTitle">Lengva / lankstumo</strong><small data-i18n="sportLightText">Mažesnis intensyvumas, pokytis dažnai lėtesnis.</small><span class="sport-examples" data-i18n="sportLightExamples">Tempimas · joga · pilatesas · taiči · lengvas pasivaikščiojimas</span></span>
+      <span class="sport-direction soft" data-i18n-aria="sportLightResponse" aria-label="nedidelis ar lėtesnis pokytis">→</span>
+    </button>
+  </div>
+
+  <p class="sport-page-disclaimer" data-i18n="sportDisclaimer">Tai bendro pobūdžio informacija. Individualius insulino ar angliavandenių pakeitimus derinkite su diabeto priežiūros komanda.</p>
+</section>
+
+<section class="view" id="view-converter">
+  <div class="page-header">
+    <button class="back-button" data-go-home type="button" data-i18n-aria="back" aria-label="Grįžti">‹</button>
+    <div class="page-title-wrap">
+      <p class="page-kicker" data-i18n="converterCaps">KONVERTERIS</p>
+      <h1 class="page-title" data-i18n="converterNav">Konverteris</h1>
+    </div>
+  </div>
+
+  <p class="conv-lead" data-i18n="converterDescription">Įveskite reikšmę bet kuriame laukelyje.</p>
+  <div class="conv">
+    <label class="conv-field"><input id="conv-mmol" inputmode="decimal" autocomplete="off" value="6.0"><span>mmol/L</span></label>
+    <span class="conv-swap" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 4v16M3 16l4 4 4-4M17 20V4M13 8l4-4 4 4"/></svg></span>
+    <label class="conv-field"><input id="conv-mg" inputmode="numeric" autocomplete="off" value="108"><span>mg/dL</span></label>
+  </div>
+  <p class="conv-presets-title" data-i18n="converterPresets">Dažnos reikšmės</p>
+  <div class="conv-presets" id="conv-presets"></div>
+  <p class="conv-note">1 mmol/L ≈ 18 mg/dL</p>
+</section>
+
+<section class="view" id="view-statistics">
+  <div class="page-header">
+    <button class="back-button" data-go-home type="button" data-i18n-aria="back" aria-label="Grįžti">‹</button>
+    <div class="page-title-wrap">
+      <p class="page-kicker" data-i18n="statisticsKicker">GLIUKOZĖS SUVESTINĖ</p>
+      <h1 class="page-title" data-i18n="statistics">Statistika</h1>
+    </div>
+  </div>
+
+  <div id="statistics-summary"></div>
+
+  <button class="tool-card stats-history-link" type="button" data-open-history>
+    <span class="tool-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5M12 7v5l4 2"/></svg></span>
+    <div><strong data-i18n="dayEvents">Dienos istorija</strong><small data-i18n="historyLinkText">Peržiūrėkite ir tvarkykite įvestus duomenis</small></div><b aria-hidden="true">›</b>
+  </button>
+  <button class="tool-card stats-history-link" type="button" data-open-report>
+    <span class="tool-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path class="duo" d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7z"/><path d="M14 2v4a2 2 0 0 0 2 2h4M16 13H8M16 17H8M10 9H8"/></svg></span>
+    <div><strong data-i18n="reportTitle">Ataskaita gydytojui</strong><small data-i18n="reportLinkText">Išsaugokite PDF arba atspausdinkite vizitui</small></div><b aria-hidden="true">›</b>
+  </button>
+  <button class="tool-card stats-history-link" type="button" data-open-backup>
+    <span class="tool-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path class="duo" d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/><path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7M7 3v4a1 1 0 0 0 1 1h7"/></svg></span>
+    <div><strong data-i18n="backupTitle">Atsarginė kopija</strong><small data-i18n="backupLinkText">Išsaugokite duomenis arba perkelkite į kitą telefoną</small></div><b aria-hidden="true">›</b>
+  </button>
+</section>
+
+<section class="view" id="view-food">
+  <div id="food-browser"></div>
+</section>
+</div>
+
+<nav class="bottom-nav" id="bottom-nav">
+  <button class="selected" data-view-nav="home" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path class="duo" d="M3 10a2 2 0 0 1 .71-1.53l7-6a2 2 0 0 1 2.58 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span data-i18n="home">Pradžia</span></button>
+  <button data-view-nav="food" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="duo" d="M19 14V2c-2.2 1.4-3.5 4.2-3.5 8v2.5c0 .8.7 1.5 1.5 1.5z" stroke="none"/><path d="M4.5 2v6a3 3 0 0 0 6 0V2M7.5 2v6M7.5 11v11M19 22V2c-2.2 1.4-3.5 4.2-3.5 8v2.5c0 .8.7 1.5 1.5 1.5H19"/></svg><span data-i18n="food">Maistas</span></button>
+  <button data-view-nav="statistics" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="duo" x="6.5" y="13" width="3" height="5" rx="1" stroke="none"/><rect class="duo" x="11.5" y="4" width="3" height="14" rx="1" stroke="none"/><rect class="duo" x="16.5" y="8" width="3" height="10" rx="1" stroke="none"/><path d="M3 3v16a2 2 0 0 0 2 2h16M18 17V9M13 17V5M8 17v-3"/></svg><span data-i18n="statistics">Statistika</span></button>
+  <button data-view-nav="sport" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect class="duo" x="5" y="6" width="3" height="12" rx="1.5"/><rect class="duo" x="16" y="6" width="3" height="12" rx="1.5"/><path d="M3 9.5v5M21 9.5v5M8 12h8"/></svg><span data-i18n="sportNav">Sportas</span></button>
+  <button data-view-nav="converter" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 3 4 7l4 4M4 7h16M16 21l4-4-4-4M20 17H4"/></svg><span data-i18n="converterNav">Konverteris</span></button>
+</nav>
+
+<dialog id="entry-modal">
+<form method="dialog" class="modal-card">
+  <button class="close" value="cancel" formnovalidate data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" id="modal-kicker"></p>
+  <h2 id="modal-title"></h2>
+  <p id="modal-description"></p>
+
+  <label id="amount-label">
+    <span id="amount-label-text"></span>
+    <input id="entry-amount" inputmode="decimal">
+  </label>
+
+  <label id="glucose-time-label" class="hidden">
+    <span data-i18n="glucoseEntryTime">Gliukozės matavimo laikas</span>
+    <input id="glucose-entry-time" type="time">
+  </label>
+
+  <label id="ketone-label" class="hidden">
+    <span data-i18n="ketonesLabel">Ketonai (mmol/L), nebūtina</span>
+    <input id="ketone-amount" inputmode="decimal" placeholder="0.4">
+  </label>
+
+  <label id="type-label" class="hidden">
+    <span data-i18n="insulinType">Insulino tipas</span>
+    <select id="insulin-type"><option value="rapid"></option><option value="long"></option></select>
+    <small id="pump-insulin-note" class="setup-note hidden"></small>
+  </label>
+
+  <label id="insulin-time-label" class="hidden">
+    <span data-i18n="injectionTime">Insulino suleidimo laikas</span>
+    <input id="insulin-time" type="time">
+  </label>
+
+  <div id="food-label" class="food-entry hidden">
+    <div class="food-search" id="food-search">
+      <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle class="duo" cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="food-search-input" type="search" autocomplete="off" enterkeyhint="search" data-i18n-placeholder="foodSearchPlaceholder" placeholder="Ieškokite produkto, pvz. obuolys" aria-controls="food-search-results">
+    </div>
+    <div class="food-search-results hidden" id="food-search-results" role="listbox" data-i18n-aria="searchResultsAria" aria-label="Paieškos rezultatai"></div>
+
+    <div class="food-selected hidden" id="food-selected">
+      <span class="food-selected-icon" aria-hidden="true"><svg class="ui-icon" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+      <div><small data-i18n="foodSelected">Pasirinktas produktas</small><strong id="food-selected-name"></strong></div>
+      <button class="text-link" id="food-change" type="button" data-i18n="foodChange">Keisti</button>
+    </div>
+
+    <button class="food-custom-link food-entry-tool" id="food-mode-manual" type="button">
+      <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5v14"/></svg><span data-i18n="customProductLink">Savo produktas — įvesti maistines vertes</span>
+    </button>
+
+    <div class="food-smart">
+      <div class="food-smart-head"><span data-i18n="foodSmartTitle">Greitesni būdai</span><span class="premium-tag" id="food-premium-tag" data-i18n="premiumTag">Premium</span></div>
+      <div class="food-smart-grid">
+        <button class="food-smart-tool food-entry-tool" id="food-mode-voice" type="button">
+          <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path class="duo" d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/></svg><span data-i18n="voiceEntry">Balsu</span>
+          <svg class="lock-icon" viewBox="0 0 24 24" aria-hidden="true"><rect class="duo" x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </button>
+        <button class="food-smart-tool food-entry-tool" id="food-mode-barcode" type="button">
+          <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 7V5a2 2 0 0 1 2-2h2M17 3h2a2 2 0 0 1 2 2v2M21 17v2a2 2 0 0 1-2 2h-2M7 21H5a2 2 0 0 1-2-2v-2M8 7v10M12 7v10M17 7v10"/></svg><span data-i18n="barcodeEntry">Barkodas</span>
+          <svg class="lock-icon" viewBox="0 0 24 24" aria-hidden="true"><rect class="duo" x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </button>
+        <button class="food-smart-tool food-entry-tool" id="open-photo-analysis" type="button">
+          <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><path class="duo" d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></svg><span data-i18n="photoEntry">Nuotrauka</span>
+          <svg class="lock-icon" viewBox="0 0 24 24" aria-hidden="true"><rect class="duo" x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="food-mode-status hidden" id="food-mode-status" aria-live="polite"></div>
+    <div class="barcode-manual-entry hidden" id="barcode-manual-entry">
+      <input id="food-barcode-input" inputmode="numeric" autocomplete="off" placeholder="EAN / GTIN">
+      <button class="secondary" id="lookup-food-barcode" type="button" data-i18n="lookupBarcode">Ieškoti</button>
+      <small class="barcode-attribution" data-i18n="barcodeAttribution">Produktų duomenys iš Open Food Facts.</small>
+    </div>
+
+    <label class="visually-hidden-field"><span data-i18n="product">Produktas</span><select id="food-product" tabindex="-1"></select></label>
+
+    <div id="custom-food-fields" class="hidden food-custom-fields">
+      <label><span data-i18n="productName">Produkto pavadinimas</span><input id="custom-food-name"></label>
+      <div class="food-macro-inputs">
+        <label><span data-i18n="carbs100">Angliavandeniai / 100 g</span><input id="custom-food-carbs" inputmode="decimal"></label>
+        <label><span data-i18n="protein100">Baltymai / 100 g</span><input id="custom-food-protein" inputmode="decimal"></label>
+        <label><span data-i18n="fat100">Riebalai / 100 g</span><input id="custom-food-fat" inputmode="decimal"></label>
+      </div>
+    </div>
+
+    <div class="food-details hidden" id="food-details">
+      <label><span data-i18n="portionSize">Porcijos dydis</span><select id="food-portion"></select></label>
+      <small class="portion-note" id="food-preparation-note"></small>
+
+      <label id="food-grams-label" class="hidden">
+        <span data-i18n="exactAmount">Tikslus kiekis</span>
+        <input id="food-grams" inputmode="decimal">
+      </label>
+
+      <label id="food-time-label">
+        <span data-i18n="mealTime">Valgymo laikas</span>
+        <input id="food-time" type="time">
+      </label>
+
+      <div class="meal-chips-wrap">
+        <span class="meal-chips-label" data-i18n="mealType">Valgio tipas</span>
+        <div class="meal-chips" role="radiogroup">
+          <button type="button" class="meal-chip" data-meal-chip="breakfast" role="radio" data-i18n="mealBreakfast">Pusryčiai</button>
+          <button type="button" class="meal-chip" data-meal-chip="lunch" role="radio" data-i18n="mealLunch">Pietūs</button>
+          <button type="button" class="meal-chip" data-meal-chip="dinner" role="radio" data-i18n="mealDinner">Vakarienė</button>
+          <button type="button" class="meal-chip" data-meal-chip="snack" role="radio" data-i18n="mealSnack">Užkandis</button>
+        </div>
+        <select id="food-meal-type" class="visually-hidden-field" tabindex="-1" aria-hidden="true"><option value="snack" data-i18n="mealSnack">Užkandis</option><option value="breakfast" data-i18n="mealBreakfast">Pusryčiai</option><option value="lunch" data-i18n="mealLunch">Pietūs</option><option value="dinner" data-i18n="mealDinner">Vakarienė</option></select>
+      </div>
+
+      <div class="carb-preview" id="carb-preview" aria-live="polite"></div>
+      <small class="gi-note" data-i18n="giNote">GI yra orientacinis ir gali skirtis pagal produkto rūšį, gamintoją ir paruošimą.</small>
+    </div>
+  </div>
+  <label class="entry-note-label">
+    <span data-i18n="noteLabel">Pastaba (nebūtina)</span>
+    <input id="entry-note" maxlength="140" autocomplete="off" enterkeyhint="done" data-i18n-placeholder="notePlaceholder" placeholder="pvz., gimtadienio tortas">
+  </label>
+  <div class="modal-actions">
+    <button class="secondary" value="cancel" formnovalidate data-i18n="cancel">Atšaukti</button>
+    <button class="primary" id="save-entry" value="default" data-i18n="save">Išsaugoti</button>
+  </div>
+</form>
+</dialog>
+
+<dialog id="photo-analysis-modal">
+<section class="modal-card">
+  <button class="close" id="close-photo-analysis" type="button" data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="photoAnalysis">NUOTRAUKOS ANALIZĖ</p>
+  <h2 data-i18n="photoMealTitle">Maisto nuotrauka</h2>
+  <p data-i18n="photoPrivacy">Nuotrauka bus siunčiama į Debo analizės serverį ir OpenAI analizei. Serveryje jos nesaugome.</p>
+  <div class="photo-source-actions">
+    <button id="take-meal-photo" class="primary" type="button" data-i18n="takePhoto">Nufotografuoti</button>
+    <button id="pick-meal-photo" class="secondary" type="button" data-i18n="pickPhoto">Pasirinkti iš galerijos</button>
+  </div>
+  <input id="meal-camera-input" class="photo-file-input" type="file" accept="image/*" capture="environment">
+  <input id="meal-gallery-input" class="photo-file-input" type="file" accept="image/*">
+  <img id="meal-photo-preview" class="photo-preview hidden" alt="Meal photo preview">
+  <div class="photo-credit-box" id="photo-credit-box">
+    <div class="photo-credit-head">
+      <div><span class="photo-credit-label" data-i18n="photoCredits">Liko nemokamų analizių</span><strong id="photo-credit-balance">—</strong></div>
+      <span class="member-chip hidden" id="photo-member-chip" data-i18n="membershipUnlimited">Neribotos analizės</span>
+    </div>
+    <button class="membership-promo" id="photo-membership-promo" type="button">
+      <span class="membership-promo-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="duo" d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.29l4.27-3.66a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.81a1 1 0 0 1-.96-.73L2.02 6.02a.5.5 0 0 1 .8-.52l4.27 3.66a1 1 0 0 0 1.52-.29z"/><path d="M5 21h14"/></svg></span>
+      <span><strong data-i18n="membership">Narystė</strong><small id="photo-membership-lead"></small></span>
+      <b aria-hidden="true">›</b>
+    </button>
+    <small class="photo-credit-note"></small>
+  </div>
+  <button id="analyze-meal-photo" class="primary" type="button" data-i18n="analyzePhoto">Analizuoti nuotrauką</button>
+  <p id="meal-photo-status" class="photo-result-note" aria-live="polite"></p>
+  <div id="meal-photo-results"></div>
+  <label class="photo-meal-type"><span data-i18n="mealType">Valgio tipas</span><select id="photo-meal-type"><option value="snack" data-i18n="mealSnack">Užkandis</option><option value="breakfast" data-i18n="mealBreakfast">Pusryčiai</option><option value="lunch" data-i18n="mealLunch">Pietūs</option><option value="dinner" data-i18n="mealDinner">Vakarienė</option></select></label>
+  <div class="modal-actions"><button id="save-photo-meal" class="primary hidden" type="button" data-i18n="saveMealEstimate">Patvirtinti ir įrašyti maistą</button></div>
+  <p class="photo-result-note" data-i18n="photoDisclaimer">AI įverčiai gali klysti. Patikrinkite porciją ir maistines vertes. GI iš nuotraukos tiksliai nustatyti negalima. Tai nėra insulino dozavimo rekomendacija.</p>
+</section>
+</dialog>
+
+<dialog id="intro-modal" aria-labelledby="intro-title">
+<section class="modal-card intro-card">
+  <button class="intro-skip" type="button" id="intro-skip" data-i18n="introSkip">Praleisti</button>
+  <div class="intro-slide" id="intro-slide">
+    <div class="intro-art" id="intro-art" aria-hidden="true"></div>
+    <h2 id="intro-title"></h2>
+    <p id="intro-text"></p>
+  </div>
+  <div class="intro-dots" id="intro-dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <button class="primary intro-next" type="button" id="intro-next" data-i18n="introNext">Toliau</button>
+</section>
+</dialog>
+
+<dialog id="history-modal" aria-labelledby="history-modal-title">
+<section class="modal-card history-card">
+  <button class="close" id="close-history" type="button" data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="historyKicker">ĮRAŠAI</p>
+  <h2 id="history-modal-title" data-i18n="dayEvents">Dienos istorija</h2>
+
+
+  <div class="history-date-nav">
+    <button class="date-arrow" id="history-prev" type="button">‹</button>
+
+    <div class="history-date-wrap">
+      <strong id="history-date-label">—</strong>
+      <input id="history-date-input" type="date">
+    </div>
+
+    <button class="date-arrow" id="history-next" type="button">›</button>
+  </div>
+
+  <label class="sport-search history-search">
+    <svg class="ui-icon" viewBox="0 0 24 24" aria-hidden="true"><circle class="duo" cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input id="history-search" type="search" autocomplete="off" enterkeyhint="search" data-i18n-placeholder="historySearch" placeholder="Ieškoti įrašų" data-i18n-aria="historySearch" aria-label="Ieškoti įrašų">
+  </label>
+  <p class="history-range-note history-edit-hint" data-i18n="historyEditHint">Palieskite įrašą, kad jį pakeistumėte.</p>
+  <p class="history-range-note" id="history-range-note" data-i18n="historyRange">Rodomi paskutinių 3 mėnesių maisto, insulino ir gliukozės įrašai.</p>
+  <div class="history-list" id="history-list"></div>
+</section>
+</dialog>
+
+<dialog id="membership-modal" aria-labelledby="membership-title">
+<section class="modal-card">
+  <button class="close" id="close-membership" type="button" data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <div class="membership-hero">
+    <span class="membership-glyph" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="duo" d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.29l4.27-3.66a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.81a1 1 0 0 1-.96-.73L2.02 6.02a.5.5 0 0 1 .8-.52l4.27 3.66a1 1 0 0 0 1.52-.29z"/><path d="M5 21h14"/></svg></span>
+    <p class="eyebrow" data-i18n="membershipKicker">DEBO NARYSTĖ</p>
+    <h2 id="membership-title" data-i18n="membershipTitle">Daugiau laisvės kasdien</h2>
+    <p data-i18n="membershipIntro">Neribota maisto nuotraukų analizė visą narystės laikotarpį.</p>
+  </div>
+
+  <div id="membership-offer">
+    <ul class="membership-perks">
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="membershipPerk1">Neribota maisto nuotraukų analizė</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="membershipPerk2">Angliavandenių, baltymų ir riebalų įverčiai per kelias sekundes</span></li>
+      <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg><span data-i18n="membershipPerk3">Jokio kreditų skaičiavimo ir papildomų pirkimų</span></li>
+    </ul>
+
+    <div class="membership-plans" role="radiogroup" aria-labelledby="membership-title">
+      <button class="membership-plan" type="button" role="radio" aria-checked="true" data-membership-plan="membership_annual">
+        <span class="membership-plan-badge" data-i18n="membershipSave">Sutaupote 17 %</span>
+        <span class="membership-plan-radio" aria-hidden="true"></span>
+        <span class="membership-plan-copy"><strong data-i18n="membershipAnnual">Metinė</strong><small id="membership-annual-hint">Tik 7,50 € per mėnesį</small></span>
+        <span class="membership-plan-price"><strong data-plan-price="membership_annual">89,99 €</strong><small data-i18n="membershipPerYear">/ metus</small></span>
+      </button>
+      <button class="membership-plan" type="button" role="radio" aria-checked="false" data-membership-plan="membership_monthly">
+        <span class="membership-plan-radio" aria-hidden="true"></span>
+        <span class="membership-plan-copy"><strong data-i18n="membershipMonthly">Mėnesinė</strong><small data-i18n="membershipMonthlyHint">Atsiskaitoma kas mėnesį</small></span>
+        <span class="membership-plan-price"><strong data-plan-price="membership_monthly">8,99 €</strong><small data-i18n="membershipPerMonth">/ mėn.</small></span>
+      </button>
+    </div>
+
+    <p class="membership-signin hidden" id="membership-signin" data-i18n="membershipSignIn">Narystei reikalinga paskyra, kad pirkimas būtų saugiai susietas su jumis.</p>
+    <button class="primary membership-cta" id="membership-cta" type="button">Tęsti</button>
+    <p class="membership-status" id="membership-status" aria-live="polite"></p>
+    <div class="membership-links"><button class="text-link" id="membership-restore" type="button" data-i18n="membershipRestore">Atkurti pirkimus</button></div>
+    <p class="membership-legal" data-i18n="membershipLegal">Prenumerata atnaujinama automatiškai, kol jos neatšauksite „Google Play“ nustatymuose.</p>
+  </div>
+
+  <div class="membership-active hidden" id="membership-active">
+    <div class="membership-active-card">
+      <span class="membership-active-badge" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></span>
+      <div><strong data-i18n="membershipActive">Aktyvi narystė</strong><small id="membership-active-plan"></small><small id="membership-active-until"></small></div>
+    </div>
+    <p data-i18n="membershipActiveLead">Jums prieinama neribota maisto nuotraukų analizė.</p>
+    <button class="secondary full-button" id="membership-manage" type="button" data-i18n="membershipManage">Tvarkyti „Google Play“</button>
+  </div>
+</section>
+</dialog>
+
+<dialog id="catalog-meal-modal">
+  <form method="dialog" class="modal-card">
+    <button class="close" value="cancel" data-i18n-aria="close" aria-label="Uždaryti">×</button>
+    <p class="eyebrow" data-i18n="food">Maistas</p>
+    <h2 id="catalog-meal-title"></h2>
+    <label class="catalog-portion-label"><span data-i18n="portionSize">Porcijos dydis</span><select id="catalog-portion-select"></select></label>
+    <label id="catalog-portion-exact-wrap" class="hidden"><span id="catalog-portion-exact-label">Tikslus kiekis (g)</span><input id="catalog-portion-exact" inputmode="decimal" autocomplete="off"></label>
+    <small id="catalog-portion-note" class="portion-note"></small>
+    <div class="catalog-portion-preview" id="catalog-portion-preview" aria-live="polite"></div>
+    <label class="catalog-time-label"><span data-i18n="mealTime">Valgymo laikas</span><input id="catalog-time" type="time"></label>
+    <p data-i18n="chooseMealType">Pasirinkite, kuriam valgiui priskirti</p>
+    <div class="quick-add-grid catalog-meal-options">
+      <button class="quick-add-option" data-catalog-meal="breakfast" type="button" onclick="return selectCatalogMeal('breakfast')" data-i18n="mealBreakfast">Pusryčiai</button>
+      <button class="quick-add-option" data-catalog-meal="lunch" type="button" onclick="return selectCatalogMeal('lunch')" data-i18n="mealLunch">Pietūs</button>
+      <button class="quick-add-option" data-catalog-meal="dinner" type="button" onclick="return selectCatalogMeal('dinner')" data-i18n="mealDinner">Vakarienė</button>
+      <button class="quick-add-option" data-catalog-meal="snack" type="button" onclick="return selectCatalogMeal('snack')" data-i18n="mealSnack">Užkandis</button>
+    </div>
+  </form>
+</dialog>
+
+<dialog id="exercise-modal" aria-labelledby="exercise-title">
+<section class="modal-card exercise-card">
+  <button class="close" type="button" data-close-dialog data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="exerciseKicker">TRENIRUOTĖ</p>
+  <h2 id="exercise-title" data-i18n="exerciseTitle">Įrašyti treniruotę</h2>
+  <label><span data-i18n="exerciseActivity">Veikla</span><select id="exercise-sport"></select></label>
+  <label><span data-i18n="exerciseDuration">Trukmė, min</span><input id="exercise-minutes" inputmode="numeric" autocomplete="off" value="30"></label>
+  <div class="entry-tags exercise-presets" id="exercise-presets"></div>
+  <div class="entry-tags-wrap">
+    <span class="meal-chips-label" data-i18n="exerciseIntensity">Intensyvumas</span>
+    <div class="entry-tags" id="exercise-intensity" role="radiogroup"></div>
+  </div>
+  <label><span data-i18n="exerciseStart">Pradžia</span><input id="exercise-start" type="time"></label>
+  <label class="entry-note-label">
+    <span data-i18n="noteLabel">Pastaba (nebūtina)</span>
+    <input id="exercise-note" maxlength="140" autocomplete="off" enterkeyhint="done" data-i18n-placeholder="exerciseNotePlaceholder" placeholder="pvz., po darbo, su draugais">
+  </label>
+  <div class="modal-actions">
+    <button class="secondary" type="button" data-close-dialog data-i18n="cancel">Atšaukti</button>
+    <button class="primary" type="button" id="exercise-save" data-i18n="save">Išsaugoti</button>
+  </div>
+</section>
+</dialog>
+
+<dialog id="edit-modal" aria-labelledby="edit-title">
+<section class="modal-card edit-card">
+  <button class="close" type="button" data-close-dialog data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="editKicker">ĮRAŠO REDAGAVIMAS</p>
+  <h2 id="edit-title"></h2>
+  <div id="edit-fields"></div>
+  <label class="entry-note-label">
+    <span data-i18n="noteLabel">Pastaba (nebūtina)</span>
+    <input id="edit-note" maxlength="140" autocomplete="off" enterkeyhint="done" data-i18n-placeholder="notePlaceholder" placeholder="pvz., gimtadienio tortas">
+  </label>
+  <div class="modal-actions">
+    <button class="secondary" type="button" id="edit-delete" data-i18n="delete">Ištrinti</button>
+    <button class="primary" type="button" id="edit-save" data-i18n="save">Išsaugoti</button>
+  </div>
+</section>
+</dialog>
+
+<dialog id="language-modal" aria-labelledby="language-title">
+<section class="modal-card language-card">
+  <button class="close" type="button" data-close-dialog data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <h2 id="language-title" data-i18n="chooseLanguage">Kalba</h2>
+  <div class="language-list" id="language-list"></div>
+</section>
+</dialog>
+
+<dialog id="care-modal" aria-labelledby="care-title">
+<section class="modal-card care-card">
+  <button class="close" type="button" data-close-dialog data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="careKicker">PRIEŽIŪRA</p>
+  <h2 id="care-title">Priemonės ir atsargos</h2>
+  <section class="care-block" id="care-changes">
+    <div class="care-devices" id="care-devices"></div>
+  </section>
+  <section class="care-block" id="care-supplies">
+    <div class="supply-list" id="supply-list"></div>
+    <div class="supply-add" id="supply-add"></div>
+    <p class="care-hint" data-i18n="supplyNote">Kai atsargų lieka mažai, priminama 10:00.</p>
+  </section>
+  <small class="setup-note" data-i18n="careNote">Priminimai veikia Android programėlėje.</small>
+</section>
+</dialog>
+
+<dialog id="profile-modal">
+<form method="dialog" class="modal-card" id="profile-form">
+  <button class="close" value="cancel" data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="profile">PROFILIS</p>
+  <h2 data-i18n="yourProfile">Jūsų profilis</h2>
+
+  <div class="profile-head">
+    <label class="profile-avatar-wrap" for="profile-photo-input">
+      <span class="profile-avatar" id="profile-avatar">B</span>
+      <span class="profile-avatar-edit"><svg viewBox="0 0 24 24" aria-hidden="true"><path class="duo" d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3z"/><circle cx="12" cy="13" r="3"/></svg></span>
+      <input id="profile-photo-input" type="file" accept="image/*">
+    </label>
+    <div class="profile-head-copy"><strong data-i18n="profilePhoto">Profilio nuotrauka</strong><small data-i18n="profilePhotoNote">Palieskite nuotrauką, kad ją pakeistumėte.</small></div>
+  </div>
+
+  <label><span data-i18n="profileNameLabel">Vardas / prisijungimo vardas</span><input id="profile-name" autocomplete="name"></label>
+  <small class="field-note" id="profile-name-note"></small>
+
+  <button class="profile-membership profile-settings-link" id="header-settings" type="button">
+    <span class="profile-membership-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="duo" d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg></span>
+    <span class="profile-membership-copy"><strong data-i18n="settingsLabel">Nustatymai</strong><small data-i18n="settingsLead">Insulinas, vienetai, priminimai</small></span>
+    <b aria-hidden="true">›</b>
+  </button>
+
+  <div class="profile-summary" id="account-summary"></div>
+  <button class="secondary full-button hidden" id="profile-create-account" type="button" data-i18n="createAccount">Kurti paskyrą</button>
+  <button class="profile-membership" id="profile-membership" type="button">
+    <span class="profile-membership-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path class="duo" d="M11.56 3.27a.5.5 0 0 1 .88 0l2.95 5.6a1 1 0 0 0 1.52.29l4.27-3.66a.5.5 0 0 1 .8.52l-2.83 10.25a1 1 0 0 1-.96.73H5.81a1 1 0 0 1-.96-.73L2.02 6.02a.5.5 0 0 1 .8-.52l4.27 3.66a1 1 0 0 0 1.52-.29z"/><path d="M5 21h14"/></svg></span>
+    <span class="profile-membership-copy"><strong id="profile-membership-title">Narystė</strong><small id="profile-membership-lead"></small></span>
+    <b aria-hidden="true">›</b>
+  </button>
+
+  <div class="account-fields hidden" id="profile-account-fields">
+    <label><span data-i18n="email">El. paštas</span><input id="profile-email" type="email" autocomplete="email" readonly></label>
+    <details class="account-password" id="profile-password-details">
+      <summary data-i18n="changePassword">Keisti slaptažodį</summary>
+      <div class="account-password-body">
+        <label><span data-i18n="currentPassword">Dabartinis slaptažodis</span><input id="profile-current-password" type="password" autocomplete="current-password"></label>
+        <label><span data-i18n="newPassword">Naujas slaptažodis</span><input id="profile-new-password" type="password" autocomplete="new-password" minlength="8" maxlength="128"></label>
+        <label><span data-i18n="repeatPassword">Pakartokite slaptažodį</span><input id="profile-new-password-repeat" type="password" autocomplete="new-password" minlength="8" maxlength="128"></label>
+        <small class="field-note" data-i18n="passwordSecurityNote">Slaptažodžio keitimui reikės dabartinio slaptažodžio.</small>
+      </div>
+    </details>
+  </div>
+
+  <button class="danger-button" id="profile-logout" type="button" data-i18n="logout">Atsijungti</button>
+  <button class="text-link profile-delete-account hidden" id="profile-delete-account" type="button" data-i18n="deleteAccount">Ištrinti paskyrą</button>
+  <a class="profile-privacy-link" data-privacy-link href="#" data-i18n="privacyPolicy">Privatumo politika</a>
+
+  <div class="profile-actions">
+    <button class="secondary" value="cancel" data-i18n="cancel">Atšaukti</button>
+    <button class="primary" id="save-profile" type="button" data-i18n="save">Išsaugoti</button>
+  </div>
+</form>
+</dialog>
+
+<dialog id="report-modal" aria-labelledby="report-title">
+<section class="modal-card report-card">
+  <button class="close" type="button" data-close-dialog data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="reportKicker">ATASKAITA</p>
+  <h2 id="report-title" data-i18n="reportTitle">Ataskaita gydytojui</h2>
+  <p data-i18n="reportLead">Apibendrinti gliukozės, insulino ir maisto duomenys vizitui pas gydytoją.</p>
+  <div class="statistics-period-switch report-period" role="group">
+    <button type="button" data-report-days="14" class="active" aria-pressed="true">14 d.</button>
+    <button type="button" data-report-days="30" aria-pressed="false">30 d.</button>
+    <button type="button" data-report-days="90" aria-pressed="false">90 d.</button>
+  </div>
+  <div class="report-preview" id="report-preview"></div>
+  <button class="primary full-button" id="report-print" type="button" data-i18n="reportSave">Išsaugoti PDF / spausdinti</button>
+  <small class="field-note report-privacy" data-i18n="reportPrivacy">Ataskaita sukuriama telefone ir niekur nesiunčiama.</small>
+</section>
+</dialog>
+
+<dialog id="reset-modal" aria-labelledby="reset-title">
+<section class="modal-card reset-card">
+  <button class="close" type="button" data-close-dialog data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="resetKicker">SLAPTAŽODIS</p>
+  <h2 id="reset-title" data-i18n="resetTitle">Slaptažodžio atkūrimas</h2>
+  <p class="auth-alert hidden" id="reset-alert" role="alert"></p>
+  <div class="reset-step" id="reset-step-email">
+    <p data-i18n="resetLead">Įveskite paskyros el. paštą. Atsiųsime 6 skaitmenų kodą slaptažodžiui pakeisti.</p>
+    <label class="auth-field"><span data-i18n="email">El. paštas</span><input id="reset-email" type="email" inputmode="email" autocomplete="email" autocapitalize="none" spellcheck="false" maxlength="254" enterkeyhint="send"><small class="field-error" data-error-for="reset-email"></small></label>
+    <button class="primary full-button" id="reset-send" type="button" data-i18n="resetSend">Siųsti kodą</button>
+  </div>
+  <div class="reset-step hidden" id="reset-step-code">
+    <p id="reset-sent-text"></p>
+    <label class="auth-field"><span data-i18n="resetCode">Kodas iš laiško</span><input class="reset-code-input" id="reset-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]*" enterkeyhint="next"><small class="field-error" data-error-for="reset-code"></small></label>
+    <label class="auth-field"><span data-i18n="newPassword">Naujas slaptažodis</span><input id="reset-password" type="password" autocomplete="new-password" minlength="8" maxlength="128" enterkeyhint="next"><small class="field-error" data-error-for="reset-password"></small></label>
+    <label class="auth-field"><span data-i18n="repeatPassword">Pakartokite slaptažodį</span><input id="reset-password-repeat" type="password" autocomplete="new-password" minlength="8" maxlength="128" enterkeyhint="go"><small class="field-error" data-error-for="reset-password-repeat"></small></label>
+    <button class="primary full-button" id="reset-confirm" type="button" data-i18n="resetConfirm">Pakeisti slaptažodį</button>
+    <div class="reset-links">
+      <button class="text-link" id="reset-resend" type="button" data-i18n="resetResend">Siųsti kodą dar kartą</button>
+      <button class="text-link" id="reset-change-email" type="button" data-i18n="resetChangeEmail">Keisti el. paštą</button>
+    </div>
+    <small class="field-note" data-i18n="resetSpamNote">Laiško nerandate? Patikrinkite šlamšto (Spam) aplanką.</small>
+  </div>
+</section>
+</dialog>
+<dialog id="backup-modal" aria-labelledby="backup-title">
+<section class="modal-card backup-card">
+  <button class="close" type="button" data-close-dialog data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="backupKicker">DUOMENYS</p>
+  <h2 id="backup-title" data-i18n="backupTitle">Atsarginė kopija</h2>
+  <p data-i18n="backupLead">Visi įrašai saugomi tik šiame telefone. Išsaugokite kopiją, kad jų neprarastumėte pakeitę ar atstatę telefoną.</p>
+  <div class="backup-stats" id="backup-stats"></div>
+  <button class="primary full-button" id="backup-export" type="button" data-i18n="backupExport">Išsaugoti kopiją</button>
+  <button class="secondary full-button" id="backup-import" type="button" data-i18n="backupImport">Atkurti iš kopijos</button>
+  <input class="photo-file-input" id="backup-file" type="file" tabindex="-1" aria-hidden="true">
+  <small class="field-note" data-i18n="backupNote">Atkuriant įrašai sujungiami: esami duomenys neištrinami, pasikartojantys neįkeliami.</small>
+</section>
+</dialog>
+
+<dialog id="confirm-delete-account" aria-labelledby="delete-account-title">
+<section class="modal-card">
+  <button class="close" type="button" data-close-dialog data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="profile">PROFILIS</p>
+  <h2 id="delete-account-title" data-i18n="deleteAccountTitle">Ištrinti paskyrą?</h2>
+  <p data-i18n="deleteAccountText">Paskyra, narystės susiejimas ir prisijungimo duomenys bus visam laikui ištrinti iš serverio. Aktyvią prenumeratą atšaukite „Google Play“ nustatymuose.</p>
+  <label class="setting-toggle"><input id="delete-local-data" type="checkbox"><span data-i18n="deleteLocalData">Taip pat ištrinti šiame telefone saugomus gliukozės, insulino ir maisto įrašus</span></label>
+  <p class="auth-alert hidden" id="delete-account-error" role="alert"></p>
+  <div class="modal-actions">
+    <button class="secondary" type="button" data-close-dialog data-i18n="cancel">Atšaukti</button>
+    <button class="primary delete-account-confirm" id="delete-account-confirm" type="button" data-i18n="deleteAccountConfirm">Ištrinti visam laikui</button>
+  </div>
+</section>
+</dialog>
+
+<dialog id="guide-modal">
+<article class="modal-card">
+  <button class="close" id="close-guide" type="button" data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <div id="guide-content"></div>
+  <button class="primary full-button" id="guide-done" type="button" data-i18n="understood">Supratau</button>
+</article>
+</dialog>
+
+<dialog id="setup-modal">
+<form method="dialog" class="modal-card">
+  <button class="close" value="cancel" data-i18n-aria="close" aria-label="Uždaryti">×</button>
+  <p class="eyebrow" data-i18n="settings">NUSTATYMAI</p>
+  <h2 data-i18n="treatmentSettings">Gydymo nustatymai</h2>
+
+  <div id="account-profile-fields">
+    <label><span data-i18n="age">Amžius</span><input id="profile-age" type="number" min="1" max="120" inputmode="numeric"></label>
+  </div>
+
+  <div class="choice-row">
+    <label><input type="radio" name="therapy" value="injections" checked><span data-i18n="penTherapy">Švirkštiklis</span></label>
+    <label><input type="radio" name="therapy" value="pump"><span data-i18n="pumpTherapy">Pompa</span></label>
+  </div>
+
+  <label><span data-i18n="rapidInsulin">Greito veikimo insulinas</span><select id="rapid-select"></select></label>
+  <label id="long-field"><span data-i18n="longInsulin">Bazinis insulinas</span><select id="long-select"></select></label>
+
+  <label>
+    <span data-i18n="glucoseUnit">Gliukozės matavimo vienetai</span>
+    <select id="glucose-unit-select">
+      <option value="mmol">mmol/L</option>
+      <option value="mg">mg/dL</option>
+    </select>
+  </label>
+
+  <label>
+    <span data-i18n="language">Kalba</span>
+    <select id="settings-language"><option value="lt">Lietuvių</option><option value="en">English</option><option value="lv">Latviešu</option><option value="pl">Polski</option><option value="de">Deutsch</option></select>
+  </label>
+
+  <label>
+    <span data-i18n="appearance">Išvaizda</span>
+    <select id="theme-select">
+      <option value="system" data-i18n="themeSystem">Pagal įrenginio sistemą</option>
+      <option value="light" data-i18n="themeLight">Šviesi</option>
+      <option value="dark" data-i18n="themeDark">Tamsi</option>
+    </select>
+  </label>
+
+  <label class="setting-toggle">
+    <input id="glucose-reminder-enabled" type="checkbox">
+    <span data-i18n="glucoseReminder">Priminti įvesti gliukozę kas 2 val.</span>
+  </label>
+
+  <div id="glucose-quiet-wrap" class="hidden">
+    <label class="setting-toggle">
+      <input id="glucose-quiet-enabled" type="checkbox" checked>
+      <span data-i18n="glucoseQuiet">Nepriminti naktį</span>
+    </label>
+    <div class="care-fields glucose-quiet-times" id="glucose-quiet-times">
+      <label><span data-i18n="quietFrom">Nuo</span><input id="glucose-quiet-from" type="time" value="22:00"></label>
+      <label><span data-i18n="quietTo">Iki</span><input id="glucose-quiet-to" type="time" value="07:00"></label>
+    </div>
+  </div>
+
+  <label class="setting-toggle">
+    <input id="post-meal-reminder" type="checkbox">
+    <span data-i18n="postMealReminder">Priminti pasitikrinti gliukozę 2 val. po valgio</span>
+  </label>
+
+  <small class="setup-note" id="notification-note"></small>
+
+  <label class="setting-toggle" id="reminder-field">
+    <input id="reminder-enabled" type="checkbox">
+    <span data-i18n="longReminder">Priminti apie ilgą insuliną</span>
+  </label>
+
+  <label id="reminder-time-wrap">
+    <span data-i18n="reminderTime">Priminimo laikas</span>
+    <input id="reminder-time" type="time" value="22:00">
+  </label>
+
+  <label class="setting-toggle">
+    <input id="weekly-summary" type="checkbox">
+    <span data-i18n="weeklySummary">Savaitės suvestinė sekmadienį</span>
+  </label>
+
+  <section class="custom-reminders">
+    <strong data-i18n="customRemindersTitle">Mano priminimai</strong>
+    <div class="custom-reminder-list" id="custom-reminder-list"></div>
+    <button class="secondary" type="button" id="custom-reminder-add" data-i18n="customReminderAdd">+ Pridėti priminimą</button>
+    <small class="setup-note" data-i18n="customRemindersNote">Kartojama kasdien. Veikia Android programėlėje.</small>
+  </section>
+
+  <section class="cgm-sync" id="cgm-sync">
+    <div class="cgm-sync-head">
+      <div>
+        <strong data-i18n="cgmTitle">CGM per Health Connect</strong>
+        <small id="cgm-status"></small>
+      </div>
+      <span class="cgm-dot" id="cgm-dot"></span>
+    </div>
+    <p class="setup-note" data-i18n="cgmLead">Gliukozės rodmenys iš jūsų CGM ar gliukomačio programėlės (pvz., Libre, Dexcom, Eversense) bus įkeliami automatiškai.</p>
+    <div class="cgm-actions">
+      <button class="primary" type="button" id="cgm-connect" data-i18n="cgmConnect">Prijungti</button>
+      <button class="secondary" type="button" id="cgm-sync-now" data-i18n="cgmSyncNow">Sinchronizuoti dabar</button>
+      <button class="secondary" type="button" id="cgm-disconnect" data-i18n="cgmDisconnect">Išjungti</button>
+    </div>
+    <label class="cgm-background" id="cgm-background-row" hidden>
+      <input id="cgm-background" type="checkbox">
+      <span><strong data-i18n="bgTitle">Veikti fone</strong><small data-i18n="bgText">Pagrindinio ekrano valdiklis atsinaujina net uždarius programėlę.</small></span>
+    </label>
+    <small class="setup-note cgm-background-note" id="cgm-background-note" hidden data-i18n="bgNote">Rodmenys nuskaitomi maždaug kas 15 min., todėl valdiklis gali atsinaujinti su vėlavimu.</small>
+    <button class="cgm-link" type="button" id="cgm-permissions" data-i18n="cgmPermissions">Health Connect leidimai</button>
+  </section>
+
+  <p class="setup-note" id="therapy-note"></p>
+
+  <div class="modal-actions">
+    <button class="secondary" value="cancel" data-i18n="cancel">Atšaukti</button>
+    <button class="primary" id="save-setup" value="default" data-i18n="save">Išsaugoti</button>
+  </div>
+</form>
+</dialog>
+
+<div id="chart-tooltip" class="chart-tooltip hidden"></div>
+<div id="toast" popover="manual" role="status"></div>
+<div class="undo-bar" id="undo-bar" popover="manual" role="status"><span id="undo-text"></span><button type="button" id="undo-button" data-i18n="undo">Atšaukti</button></div>
+
+<script src="api-config.js"></script>
+<script src="lang-lv.js"></script>
+<script src="lang-pl.js"></script>
+<script src="lang-de.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

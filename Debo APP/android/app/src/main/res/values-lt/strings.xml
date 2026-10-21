@@ -1,0 +1,9 @@
+<resources>
+    <string name="widget_description">Paskutinis gliukozės rodmuo ir tendencija</string>
+    <string name="widget_empty">Rodmenų dar nėra</string>
+    <string name="widget_add">Įvesti gliukozę</string>
+    <string name="shortcut_glucose">Įvesti gliukozę</string>
+    <string name="shortcut_food">Pridėti maistą</string>
+    <string name="shortcut_insulin">Įvesti insuliną</string>
+    <string name="reminder_channel_description">Debo nustatyti priminimai</string>
+</resources>

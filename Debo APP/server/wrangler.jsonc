@@ -1,0 +1,26 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "debo-meal-api",
+  "main": "worker.mjs",
+  "compatibility_date": "2026-09-28",
+  "workers_dev": true,
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "debo-meal-credits",
+      "database_id": "REPLACE_WITH_D1_DATABASE_ID",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "vars": {
+    "OPENAI_VISION_MODEL": "gpt-6-luna",
+    "PLAY_PACKAGE_NAME": "com.debo.app",
+    "GOOGLE_WEB_CLIENT_ID": "REPLACE_WITH_GOOGLE_WEB_CLIENT_ID",
+    "CONTACT_EMAIL": "",
+    "EMAIL_FROM": "",
+    "EMAIL_FROM_NAME": "Debo",
+    "DEVELOPER_NAME": "",
+    "RTDN_AUDIENCE": "",
+    "RTDN_SERVICE_ACCOUNT": ""
+  }
+}
