@@ -1,5 +1,7 @@
 # Privacy policy – changes for the iPhone / iPad version
 
+> **Done (2026-11-05):** these changes are applied in all 5 languages in `Debo APP/privacy-site/index.html`. They still need to be deployed to https://debo-privacy.pages.dev (Cloudflare → Workers & Pages → debo-privacy → Create deployment → upload `index.html`, or `npx wrangler pages deploy . --project-name debo-privacy --branch main`).
+
 The current policy (`Debo APP/privacy-site/index.html`, https://debo-privacy.pages.dev) has an **"Apple Health (iPhone)"** section, but the iOS app does **not** use Apple Health. Apple compares the policy with the app, so replace that section and adjust three others. Do the same in lv / pl / de (I can translate when you want).
 
 ## 1. "General provisions" – first sentence
