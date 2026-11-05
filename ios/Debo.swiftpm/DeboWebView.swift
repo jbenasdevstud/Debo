@@ -12,6 +12,7 @@ struct DeboWebView: UIViewRepresentable {
     func makeCoordinator() -> Coordinator { Coordinator() }
 
     func makeUIView(context: Context) -> WKWebView {
+        KeyboardFocus.allowProgrammaticFocus()
         let config = WKWebViewConfiguration()
         config.websiteDataStore = .default() // keeps localStorage (all Debo data) between launches
         config.allowsInlineMediaPlayback = true
@@ -94,12 +95,16 @@ struct DeboWebView: UIViewRepresentable {
             '#cgm-sync, #food-mode-voice, [data-i18n="careNote"], [data-i18n="customRemindersNote"] { display: none !important; }' +
             'html { -webkit-text-size-adjust: 100%; } body { -webkit-tap-highlight-color: transparent; }';
           document.head.appendChild(style);
-          // iOS shows no keyboard for a field that the app focused by itself, and a tap on an already
-          // focused field does not bring it up either. Blur it first so the tap focuses it again.
-          document.addEventListener('touchstart', function (event) {
+          // Fallback if the native focus fix is unavailable: a tap or trackpad click on an already
+          // focused field blurs it first, so the click focuses it again as a real user action.
+          var refocus = function (event) {
             var field = event.target && event.target.closest &&
-              event.target.closest('input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=button]):not([type=submit]), textarea, select, [contenteditable="true"]');
+              event.target.closest('input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=button]):not([type=submit]), textarea, [contenteditable="true"]');
             if (field && field === document.activeElement) field.blur();
+          };
+          document.addEventListener('touchstart', refocus, { capture: true, passive: true });
+          document.addEventListener('pointerdown', function (event) {
+            if (event.pointerType !== 'touch') refocus(event);
           }, { capture: true, passive: true });
         })();
         """
