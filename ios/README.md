@@ -12,12 +12,15 @@
 - Reminders as iOS notifications: glucose checks (with night pause), long-acting insulin, post-meal check, 15-min hypo timer, weekly summary, custom, care and supply reminders. Glucose reminders every 2 h are scheduled about a day ahead and refreshed every time the app is opened (iOS keeps at most 64 pending notifications).
 - PDF report: **Print** opens the iOS print dialog, which can also save it as a PDF.
 - Backup: **Export** opens the share sheet. **Restore** uses the iOS file picker.
-- Barcode scanner for food (camera; on devices with an A12 chip or newer). Manual EAN entry otherwise.
+- Barcode scanner for food (camera; A12 chip or newer) – ready, but hidden while `premiumEnabled` is `false` in `api-config.js`, like on Android.
+- Text, number, date/time fields and selects are edited with native iOS keyboards and pickers (`NativeInput.swift`, `Web/ios-native.js`).
 - Light / dark theme follows the app setting.
 
 Hidden on iOS (Android only): Health Connect/CGM, voice input, the home-screen widget.
 
 ## Publishing to the App Store
+Store texts and form answers: `app-store/` (listing-lt.md, listing-en.md, app-store-connect.md, privacy-policy-ios.md).
+
 1. Join the Apple Developer Program (99 USD per year): https://developer.apple.com/programs/
 2. In Swift Playgrounds: open the app → **App Settings** → sign in with the developer Apple ID and pick your team. Check that the bundle ID `com.debo.app` is free; if not, change it (e.g. `lt.debo.app`).
 3. In App Store Connect (https://appstoreconnect.apple.com) create a new app with the same bundle ID:
