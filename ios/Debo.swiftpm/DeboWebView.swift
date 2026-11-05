@@ -12,7 +12,6 @@ struct DeboWebView: UIViewRepresentable {
     func makeCoordinator() -> Coordinator { Coordinator() }
 
     func makeUIView(context: Context) -> WKWebView {
-        KeyboardFocus.allowProgrammaticFocus()
         let config = WKWebViewConfiguration()
         config.websiteDataStore = .default() // keeps localStorage (all Debo data) between launches
         config.allowsInlineMediaPlayback = true
@@ -25,7 +24,10 @@ struct DeboWebView: UIViewRepresentable {
         controller.addUserScript(WKUserScript(source: Coordinator.bridgeScript(barcode: BarcodeScanner.isAvailable),
                                               injectionTime: .atDocumentStart,
                                               forMainFrameOnly: true))
-        controller.addUserScript(WKUserScript(source: Coordinator.pageScript,
+        // Native keyboard / pickers for web fields, iOS-only page tweaks (Web/ios-native.js)
+        let pageScript = (try? String(contentsOf: indexURL.deletingLastPathComponent().appendingPathComponent("ios-native.js"),
+                                      encoding: .utf8)) ?? ""
+        controller.addUserScript(WKUserScript(source: pageScript,
                                               injectionTime: .atDocumentEnd,
                                               forMainFrameOnly: true))
 
@@ -38,6 +40,7 @@ struct DeboWebView: UIViewRepresentable {
         webView.backgroundColor = UIColor(red: 0xF5 / 255, green: 0xF7 / 255, blue: 0xF4 / 255, alpha: 1)
         webView.scrollView.backgroundColor = webView.backgroundColor
         context.coordinator.webView = webView
+        context.coordinator.nativeInput = NativeInput(webView: webView)
         Reminders.shared.setUp()
 
         webView.loadFileURL(indexURL, allowingReadAccessTo: indexURL.deletingLastPathComponent())
@@ -52,8 +55,9 @@ struct DeboWebView: UIViewRepresentable {
         private var printView: WKWebView?
         private var printTitle = "Debo"
         private var lastThemeDark: Bool?
+        var nativeInput: NativeInput?
 
-        static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode"]
+        static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode", "deboInput"]
 
         static func bridgeScript(barcode: Bool) -> String {
             """
@@ -85,30 +89,6 @@ struct DeboWebView: UIViewRepresentable {
             """
         }
 
-        /// Runs once the page has loaded.
-        static let pageScript = """
-        (function () {
-          document.documentElement.classList.add('ios-app');
-          var style = document.createElement('style');
-          // Android-only parts: Health Connect, voice input (no Web Speech in WKWebView), Android notes
-          style.textContent =
-            '#cgm-sync, #food-mode-voice, [data-i18n="careNote"], [data-i18n="customRemindersNote"] { display: none !important; }' +
-            'html { -webkit-text-size-adjust: 100%; } body { -webkit-tap-highlight-color: transparent; }';
-          document.head.appendChild(style);
-          // Fallback if the native focus fix is unavailable: a tap or trackpad click on an already
-          // focused field blurs it first, so the click focuses it again as a real user action.
-          var refocus = function (event) {
-            var field = event.target && event.target.closest &&
-              event.target.closest('input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=button]):not([type=submit]), textarea, [contenteditable="true"]');
-            if (field && field === document.activeElement) field.blur();
-          };
-          document.addEventListener('touchstart', refocus, { capture: true, passive: true });
-          document.addEventListener('pointerdown', function (event) {
-            if (event.pointerType !== 'touch') refocus(event);
-          }, { capture: true, passive: true });
-        })();
-        """
-
         // MARK: JS -> Swift
 
         func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
@@ -131,6 +111,8 @@ struct DeboWebView: UIViewRepresentable {
                 webView?.scrollView.backgroundColor = color
             case "deboBarcode":
                 scanBarcode()
+            case "deboInput":
+                nativeInput?.handle(body)
             default:
                 break
             }
