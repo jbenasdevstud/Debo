@@ -1,7 +1,8 @@
 // swift-tools-version: 5.9
 
-// Swift Playgrounds app package for Debo (iPad / Mac).
-// The app shows the same web version of Debo that the Android app uses (Web/).
+// Swift Playgrounds app package for Debo (iPhone / iPad).
+// The app shows the same web version of Debo that the Android app uses (Web/),
+// with native iOS reminders, printing, file export and barcode scanning.
 
 import PackageDescription
 import AppleProductTypes
@@ -19,8 +20,8 @@ let package = Package(
             teamIdentifier: "",
             displayVersion: "1.0",
             bundleVersion: "1",
-            appIcon: .placeholder(icon: .heart),
-            accentColor: .presetColor(.teal),
+            appIcon: .asset("AppIcon"),
+            accentColor: .asset("AccentColor"),
             supportedDeviceFamilies: [
                 .pad,
                 .phone
@@ -30,6 +31,9 @@ let package = Package(
                 .landscapeRight,
                 .landscapeLeft,
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+            ],
+            capabilities: [
+                .camera(purposeString: "Debo uses the camera to scan food barcodes.")
             ]
         )
     ],
