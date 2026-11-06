@@ -64,20 +64,40 @@
   function syncScrollLock() {
     var open = !!document.querySelector('dialog[open]');
     if (open) rememberSheet();
+    if (open && unlocking) {
+      unlocking = false;
+      clearTimeout(unlockTimer);
+      tellApp(true);
+      return;
+    }
     if (open && lockedAt === null) {
       lockedAt = window.scrollY;
       root.classList.add('debo-scroll-locked');
       document.body.style.top = -lockedAt + 'px';
       tellApp(true);
-    } else if (!open && lockedAt !== null) {
+    } else if (!open && lockedAt !== null && !unlocking) {
+      // First the app releases its hold on the page, then the page is unlocked and put back at the
+      // same place in one step, so it never shows at the top for a moment
+      unlocking = true;
       tellApp(false);
-      var y = lockedAt;
-      lockedAt = null;
-      root.classList.remove('debo-scroll-locked');
-      document.body.style.top = '';
-      window.scrollTo(0, y);
+      clearTimeout(unlockTimer);
+      unlockTimer = setTimeout(finishUnlock, 400); // in case the app does not answer
     }
   }
+  var unlocking = false, unlockTimer = 0;
+  function finishUnlock() {
+    clearTimeout(unlockTimer);
+    if (!unlocking) return;
+    unlocking = false;
+    if (document.querySelector('dialog[open]')) { tellApp(true); return; } // another window opened meanwhile
+    var y = lockedAt;
+    lockedAt = null;
+    root.classList.remove('debo-scroll-locked');
+    document.body.style.top = '';
+    // Instantly: the page has smooth scrolling, which would slide down from the top
+    window.scrollTo({ top: y, left: 0, behavior: 'instant' });
+  }
+  window.__deboUnpinned = function () { requestAnimationFrame(finishUnlock); };
   // When the keyboard opens or closes, the app shrinks or grows the page together with it.
   // An open window then glides to its new place instead of jumping there (FLIP animation).
   var sheet = { el: null, top: 0 };

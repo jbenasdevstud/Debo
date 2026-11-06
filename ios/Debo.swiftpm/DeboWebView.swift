@@ -135,7 +135,10 @@ struct DeboWebView: UIViewRepresentable {
                     UIImpactFeedbackGenerator(style: .light).impactOccurred()
                 }
             case "deboLock":
-                container?.pinScroll = (body["locked"] as? Bool) == true
+                let locked = (body["locked"] as? Bool) == true
+                container?.pinScroll = locked
+                // Tell the page the hold is released, so it can restore its scroll position
+                if !locked { callJS("window.__deboUnpinned && window.__deboUnpinned()") }
             default:
                 break
             }
