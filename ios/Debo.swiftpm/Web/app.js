@@ -222,6 +222,9 @@ const DOM = {
 // Premium (subscriptions, photo, voice and barcode entry) can be switched off in api-config.js
 const PREMIUM = window.DEBO_CONFIG?.premiumEnabled !== false;
 document.documentElement.classList.toggle('premium-off', !PREMIUM);
+// Barcode scanning can be free while the other quick entry tools stay Premium
+const BARCODE_FREE = window.DEBO_CONFIG?.barcodeEnabled === true;
+document.documentElement.classList.toggle('barcode-free', BARCODE_FREE);
 // Without accounts the app is guest-only: one start button, no sign-in, nothing stored on a server
 const ACCOUNTS = window.DEBO_CONFIG?.accountsEnabled !== false;
 document.documentElement.classList.toggle('accounts-off', !ACCOUNTS);
@@ -1290,11 +1293,90 @@ function showView(name) {
   hideChartTooltip();
   if (name === 'history' || name === 'statistics') renderHistory();
   if (name === 'food') renderExpandedFoodPage();
+  if (name === 'sport') refreshSteps();
   if (name === 'converter') {
     const mmol = parseNumber(DOM.converterMmol.value);
     if (Number.isFinite(mmol) && mmol > 0) DOM.converterMmol.value = decimal(mmol, 1);
     updateConverter();
   }
+}
+
+/* Steps from the phone's motion sensor (iPhone app only, no Apple Health needed). Shown as a count, nothing more. */
+const STEPS_UI = {
+  lt: { title: 'Žingsniai šiandien', enable: 'Rodyti žingsnius', intro: 'Debo gali rodyti žingsnius, kuriuos suskaičiuoja iPhone judesio jutiklis. Duomenys lieka telefone.', denied: 'Debo neturi leidimo. Įjunkite: Nustatymai → Debo → Judesys ir kūno rengyba.', none: 'Šiandien žingsnių dar nėra.', km: 'km', week: 'Per 7 dienas' },
+  en: { title: 'Steps today', enable: 'Show steps', intro: 'Debo can show the steps your iPhone’s motion sensor counts. The data stays on your phone.', denied: 'Debo has no permission. Turn it on in Settings → Debo → Motion & Fitness.', none: 'No steps yet today.', km: 'km', week: 'Last 7 days' },
+  lv: { title: 'Soļi šodien', enable: 'Rādīt soļus', intro: 'Debo var rādīt soļus, ko saskaita iPhone kustību sensors. Dati paliek tālrunī.', denied: 'Debo nav atļaujas. Ieslēdziet: Iestatījumi → Debo → Kustības un fitness.', none: 'Šodien vēl nav soļu.', km: 'km', week: 'Pēdējās 7 dienas' },
+  pl: { title: 'Kroki dzisiaj', enable: 'Pokaż kroki', intro: 'Debo może pokazywać kroki liczone przez czujnik ruchu iPhone’a. Dane zostają w telefonie.', denied: 'Debo nie ma zgody. Włącz ją w Ustawienia → Debo → Ruch i sprawność.', none: 'Dziś jeszcze brak kroków.', km: 'km', week: 'Ostatnie 7 dni' },
+  de: { title: 'Schritte heute', enable: 'Schritte anzeigen', intro: 'Debo kann die Schritte anzeigen, die der Bewegungssensor deines iPhone zählt. Die Daten bleiben auf dem Telefon.', denied: 'Debo hat keine Erlaubnis. Aktiviere sie unter Einstellungen → Debo → Bewegung & Fitness.', none: 'Heute noch keine Schritte.', km: 'km', week: 'Letzte 7 Tage' }
+};
+const stepsUi = key => (STEPS_UI[language] || STEPS_UI.en)[key];
+const STEPS_KEY = 'debo-steps-on';
+
+function stepsEnabled() {
+  try {
+    return localStorage.getItem(STEPS_KEY) === '1';
+  } catch {
+    return false;
+  }
+}
+
+function refreshSteps() {
+  const card = $('#steps-card');
+  if (!card) return;
+  if (!window.DeboSteps?.load) return card.classList.add('hidden');
+  card.classList.remove('hidden');
+  $('#steps-title').textContent = stepsUi('title');
+  $('#steps-enable').textContent = stepsUi('enable');
+  const on = stepsEnabled();
+  $('#steps-enable').classList.toggle('hidden', on);
+  card.classList.toggle('steps-off', !on);
+  if (!on) {
+    $('#steps-today').textContent = '—';
+    $('#steps-distance').textContent = '';
+    $('#steps-week').innerHTML = '';
+    $('#steps-note').textContent = stepsUi('intro');
+    return;
+  }
+  window.DeboSteps.load();
+}
+
+window.onDeboSteps = function (data) {
+  const card = $('#steps-card');
+  if (!card || !data) return;
+  if (data.status === 'unavailable') return card.classList.add('hidden');
+  if (data.status === 'denied') {
+    $('#steps-today').textContent = '—';
+    $('#steps-distance').textContent = '';
+    $('#steps-week').innerHTML = '';
+    $('#steps-note').textContent = stepsUi('denied');
+    return;
+  }
+  const days = Array.isArray(data.days) ? data.days : [];
+  const today = days[0] || { steps: 0, distance: 0 };
+  $('#steps-today').textContent = new Intl.NumberFormat(locale()).format(Math.round(today.steps || 0));
+  $('#steps-distance').textContent = today.distance > 0 ? `${decimal(today.distance / 1000, 1)} ${stepsUi('km')}` : '';
+  const max = Math.max(1, ...days.map(d => d.steps || 0));
+  const weekday = new Intl.DateTimeFormat(locale(), { weekday: 'narrow' });
+  $('#steps-week').innerHTML = days.length > 1
+    ? `<small>${escapeHtml(stepsUi('week'))}</small><div class="steps-bars">${days
+        .slice()
+        .reverse()
+        .map((d, i, all) => `<span class="steps-bar${i === all.length - 1 ? ' today' : ''}" title="${Math.round(d.steps || 0)}"><i style="height:${Math.max(4, Math.round(((d.steps || 0) / max) * 100))}%"></i><b>${escapeHtml(weekday.format(new Date(d.date)))}</b></span>`)
+        .join('')}</div>`
+    : '';
+  $('#steps-note').textContent = today.steps > 0 ? '' : stepsUi('none');
+};
+
+function bindSteps() {
+  $('#steps-enable')?.addEventListener('click', () => {
+    try {
+      localStorage.setItem(STEPS_KEY, '1');
+    } catch {}
+    refreshSteps();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && $('#view-sport')?.classList.contains('active')) refreshSteps();
+  });
 }
 
 function renderHeaderDate() {
@@ -3707,11 +3789,11 @@ function selectedFood() {
 
 // Texts of the food entry layout (amount chips, units, own product)
 const FOOD_UI = {
-  lt: { amount: 'Kiekis', other: 'Kitas kiekis', howMuch: 'Kiek suvalgėte', custom: 'Savo produktas', newProduct: 'Naujas produktas', carbs: 'Angliavandeniai 100 g produkto', protein: 'Baltymai 100 g', fat: 'Riebalai 100 g', optional: 'nebūtina', hint: 'Vertes rasite produkto etiketėje, „100 g“ stulpelyje.', per100: '{n} g angl. / 100 {u}' },
-  en: { amount: 'Amount', other: 'Other amount', howMuch: 'How much you ate', custom: 'Your own product', newProduct: 'New product', carbs: 'Carbohydrates per 100 g', protein: 'Protein per 100 g', fat: 'Fat per 100 g', optional: 'optional', hint: 'Find the values on the label, in the “per 100 g” column.', per100: '{n} g carbs / 100 {u}' },
-  lv: { amount: 'Daudzums', other: 'Cits daudzums', howMuch: 'Cik apēdāt', custom: 'Savs produkts', newProduct: 'Jauns produkts', carbs: 'Ogļhidrāti uz 100 g', protein: 'Olbaltumvielas uz 100 g', fat: 'Tauki uz 100 g', optional: 'pēc izvēles', hint: 'Vērtības atradīsiet etiķetē, ailē “100 g”.', per100: '{n} g ogļh. / 100 {u}' },
-  pl: { amount: 'Ilość', other: 'Inna ilość', howMuch: 'Ile zjedzono', custom: 'Własny produkt', newProduct: 'Nowy produkt', carbs: 'Węglowodany w 100 g', protein: 'Białko w 100 g', fat: 'Tłuszcz w 100 g', optional: 'opcjonalnie', hint: 'Wartości znajdziesz na etykiecie, w kolumnie „100 g”.', per100: '{n} g węgl. / 100 {u}' },
-  de: { amount: 'Menge', other: 'Andere Menge', howMuch: 'Gegessene Menge', custom: 'Eigenes Produkt', newProduct: 'Neues Produkt', carbs: 'Kohlenhydrate pro 100 g', protein: 'Eiweiß pro 100 g', fat: 'Fett pro 100 g', optional: 'optional', hint: 'Die Werte stehen auf dem Etikett in der Spalte „pro 100 g“.', per100: '{n} g KH / 100 {u}' }
+  lt: { scan: 'Nuskenuoti barkodą', amount: 'Kiekis', other: 'Kitas kiekis', howMuch: 'Kiek suvalgėte', custom: 'Savo produktas', newProduct: 'Naujas produktas', carbs: 'Angliavandeniai 100 g produkto', protein: 'Baltymai 100 g', fat: 'Riebalai 100 g', optional: 'nebūtina', hint: 'Vertes rasite produkto etiketėje, „100 g“ stulpelyje.', per100: '{n} g angl. / 100 {u}' },
+  en: { scan: 'Scan barcode', amount: 'Amount', other: 'Other amount', howMuch: 'How much you ate', custom: 'Your own product', newProduct: 'New product', carbs: 'Carbohydrates per 100 g', protein: 'Protein per 100 g', fat: 'Fat per 100 g', optional: 'optional', hint: 'Find the values on the label, in the “per 100 g” column.', per100: '{n} g carbs / 100 {u}' },
+  lv: { scan: 'Skenēt svītrkodu', amount: 'Daudzums', other: 'Cits daudzums', howMuch: 'Cik apēdāt', custom: 'Savs produkts', newProduct: 'Jauns produkts', carbs: 'Ogļhidrāti uz 100 g', protein: 'Olbaltumvielas uz 100 g', fat: 'Tauki uz 100 g', optional: 'pēc izvēles', hint: 'Vērtības atradīsiet etiķetē, ailē “100 g”.', per100: '{n} g ogļh. / 100 {u}' },
+  pl: { scan: 'Zeskanuj kod kreskowy', amount: 'Ilość', other: 'Inna ilość', howMuch: 'Ile zjedzono', custom: 'Własny produkt', newProduct: 'Nowy produkt', carbs: 'Węglowodany w 100 g', protein: 'Białko w 100 g', fat: 'Tłuszcz w 100 g', optional: 'opcjonalnie', hint: 'Wartości znajdziesz na etykiecie, w kolumnie „100 g”.', per100: '{n} g węgl. / 100 {u}' },
+  de: { scan: 'Barcode scannen', amount: 'Menge', other: 'Andere Menge', howMuch: 'Gegessene Menge', custom: 'Eigenes Produkt', newProduct: 'Neues Produkt', carbs: 'Kohlenhydrate pro 100 g', protein: 'Eiweiß pro 100 g', fat: 'Fett pro 100 g', optional: 'optional', hint: 'Die Werte stehen auf dem Etikett in der Spalte „pro 100 g“.', per100: '{n} g KH / 100 {u}' }
 };
 const foodUi = key => (FOOD_UI[language] || FOOD_UI.en)[key];
 
@@ -3877,6 +3959,10 @@ function syncFoodEntryUi() {
   $('#food-mode-manual')?.classList.toggle('hidden', hasSelection);
   $('.food-smart')?.classList.toggle('hidden', hasSelection);
   $('#food-label')?.classList.toggle('food-has-selection', hasSelection);
+  if (BARCODE_FREE && !PREMIUM) {
+    const scanLabel = $('#food-mode-barcode span');
+    if (scanLabel) scanLabel.textContent = foodUi('scan');
+  }
   if (hasSelection) {
     $('#food-search-results')?.classList.add('hidden');
     const name = $('#food-selected-name');
@@ -6100,7 +6186,7 @@ function bindEvents() {
     if (requirePremium()) startVoiceFoodEntry();
   });
   $('#food-mode-barcode').addEventListener('click', () => {
-    if (requirePremium()) startBarcodeFoodEntry();
+    if (BARCODE_FREE || requirePremium()) startBarcodeFoodEntry();
   });
   $('#lookup-food-barcode').addEventListener('click', () => lookupFoodBarcode(DOM.foodBarcodeInput.value));
   DOM.foodBarcodeInput.addEventListener('keydown', event => {
@@ -7962,6 +8048,7 @@ function initializeApp() {
   bindSportPickerEvents();
   bindMembershipEvents();
   bindFoodEntryEvents();
+  bindSteps();
   bindHistoryModal();
   bindReportEvents();
   bindHealthEvents();

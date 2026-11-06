@@ -25,7 +25,7 @@ GREITI KASDIENIAI ĮRAŠAI
 • Netyčia ištrintą įrašą galima atšaukti
 
 MAISTO KATALOGAS
-Beveik 200 kasdienių produktų su angliavandeniais 100 g ir įprastomis porcijomis, glikeminis indeksas, kai jis paskelbtas. Savo produktą pridėsite per kelias sekundes.
+Beveik 200 kasdienių produktų su angliavandeniais 100 g ir įprastomis porcijomis, glikeminis indeksas, kai jis paskelbtas. Savo produktą pridėsite per kelias sekundes arba nuskenuosite jo barkodą ir maistinės vertės įsirašys pačios.
 
 GRAFIKAI IR ATASKAITOS
 • Dienos gliukozės grafikas su insulino dozėmis
@@ -43,6 +43,7 @@ BENDROS GAIRĖS
 Visada pasiekiama bendro pobūdžio informacija apie žemą ir aukštą gliukozę, 15 minučių laikmatis, kurį paleidžiate patys, ir sporto gidas su įprasta gliukozės reakcija 40 veiklų.
 
 TAIP PAT
+• Šiandienos ir 7 dienų žingsniai iš iPhone judesio jutiklio
 • mmol/L ↔ mg/dL konverteris
 • Atsarginė kopija į „Failus“ ir atkūrimas naujame iPhone ar iPad
 • Šviesi ir tamsi išvaizda

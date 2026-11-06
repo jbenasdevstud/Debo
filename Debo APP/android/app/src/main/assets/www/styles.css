@@ -1614,7 +1614,7 @@ svg .duo{fill:currentColor!important;fill-opacity:.22}
 :root[data-theme] .intro-segment button.active{background:var(--surface);box-shadow:0 1px 3px rgba(0,0,0,.12);font-weight:600}
 #intro-art .intro-choice{align-self:stretch;width:auto}
 /* Free launch: Premium entry points are hidden */
-.premium-off :is(.food-smart,#profile-membership,[data-food-photo],#membership-modal,#photo-analysis-modal){display:none!important}
+.premium-off:not(.barcode-free) .food-smart,.premium-off :is(#profile-membership,[data-food-photo],#membership-modal,#photo-analysis-modal){display:none!important}
 
 /* Narrow phones (360px and below) and long words in other languages */
 .hero-guides{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -1758,3 +1758,29 @@ dialog.debo-closing[open]::backdrop{animation:debo-fade-out .2s ease forwards}
 /* Selected product card shows carbs per 100 g under the name */
 .food-selected small{font-size:12.5px}
 :root[data-theme] .food-custom-link.hidden{display:none!important}
+/* ---------- Free barcode scanning: one clear button, the Premium tools stay hidden ---------- */
+.premium-off.barcode-free .food-smart{display:block!important;padding:0;border:0;background:none}
+.premium-off.barcode-free .food-smart.hidden{display:none!important}
+.premium-off.barcode-free .food-smart-head,.premium-off.barcode-free #food-mode-voice,.premium-off.barcode-free #open-photo-analysis,.premium-off.barcode-free .food-smart .lock-icon{display:none!important}
+.premium-off.barcode-free .food-smart-grid{display:block}
+:root[data-theme].premium-off.barcode-free #food-mode-barcode{flex-direction:row!important;gap:10px;width:100%;min-height:52px!important;padding:0 16px!important;border-radius:16px!important;font-size:15px;font-weight:600}
+:root[data-theme].premium-off.barcode-free #food-mode-barcode .ui-icon{width:20px;height:20px}
+/* ---------- Steps card (exercise page) ---------- */
+.steps-card{display:grid;gap:12px;margin:0 0 14px;padding:16px 18px}
+.steps-card.hidden{display:none!important}
+.steps-head{display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:14px}
+.steps-head .tool-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:14px}
+.steps-head .tool-icon svg{width:22px;height:22px}
+.steps-head div{display:grid;gap:1px}
+.steps-head small{color:var(--muted);font-size:13px;font-weight:600}
+.steps-head strong{font-size:28px;line-height:1.1;letter-spacing:-.4px;color:var(--ink)}
+.steps-head span#steps-distance{color:var(--muted);font-size:13px}
+.steps-off .steps-head strong{color:var(--muted)}
+.steps-week small{display:block;margin-bottom:6px;color:var(--muted);font-size:12.5px;font-weight:600}
+.steps-bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;height:84px;align-items:end}
+.steps-bar{display:grid;grid-template-rows:1fr auto;gap:4px;height:100%;text-align:center}
+.steps-bar i{align-self:end;display:block;width:100%;border-radius:8px;background:color-mix(in srgb,var(--green2) 22%,transparent);transition:height .4s cubic-bezier(.22,1,.36,1)}
+.steps-bar.today i{background:var(--green2)}
+.steps-bar b{font-size:11.5px;font-weight:600;color:var(--muted)}
+.steps-note{margin:0;color:var(--muted);font-size:14px;line-height:1.45}
+.steps-note:empty{display:none}

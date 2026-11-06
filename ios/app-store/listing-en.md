@@ -25,7 +25,7 @@ QUICK DAILY LOGGING
 • Undo for anything you delete by mistake
 
 FOOD CATALOGUE
-Nearly 200 everyday foods with carbohydrates per 100 g and common portions, plus a glycemic index where one is published. Add your own foods in seconds.
+Nearly 200 everyday foods with carbohydrates per 100 g and common portions, plus a glycemic index where one is published. Add your own foods in seconds, or scan a product’s barcode to fill in its nutrition values.
 
 CHARTS AND REPORTS
 • Daily glucose chart with your insulin doses
@@ -43,6 +43,7 @@ GENERAL GUIDES
 Always-available step-by-step general information for low and high glucose, a 15-minute timer you start yourself, and an exercise guide with typical glucose responses for 40 activities.
 
 ALSO INCLUDED
+• Today’s steps and the last 7 days from your iPhone’s motion sensor
 • mmol/L ↔ mg/dL converter
 • Backup to Files and restore on a new iPhone or iPad
 • Light and dark mode

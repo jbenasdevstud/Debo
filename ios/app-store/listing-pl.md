@@ -23,7 +23,7 @@ SZYBKIE CODZIENNE WPISY
 • Przypadkowo usunięty wpis można przywrócić
 
 KATALOG PRODUKTÓW
-Prawie 200 codziennych produktów z węglowodanami na 100 g i typowymi porcjami oraz indeksem glikemicznym, jeśli został opublikowany. Własny produkt dodasz w kilka sekund.
+Prawie 200 codziennych produktów z węglowodanami na 100 g i typowymi porcjami oraz indeksem glikemicznym, jeśli został opublikowany. Własny produkt dodasz w kilka sekund albo zeskanujesz jego kod kreskowy, a wartości odżywcze uzupełnią się same.
 
 WYKRESY I RAPORTY
 • Dzienny wykres glukozy z dawkami insuliny
@@ -41,6 +41,7 @@ OGÓLNE WSKAZÓWKI
 Zawsze dostępne ogólne informacje o niskiej i wysokiej glukozie, 15-minutowy minutnik uruchamiany przez Ciebie oraz przewodnik sportowy z typową reakcją glukozy dla 40 aktywności.
 
 PONADTO
+• Dzisiejsze kroki i ostatnie 7 dni z czujnika ruchu iPhone’a
 • Przelicznik mmol/L ↔ mg/dL
 • Kopia zapasowa w aplikacji Pliki i przywracanie na nowym iPhonie lub iPadzie
 • Jasny i ciemny motyw

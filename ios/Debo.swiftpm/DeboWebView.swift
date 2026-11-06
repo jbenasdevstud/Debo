@@ -67,7 +67,7 @@ struct DeboWebView: UIViewRepresentable {
         private var printTitle = "Debo"
         private var lastThemeDark: Bool?
 
-        static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode", "deboLock"]
+        static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode", "deboLock", "deboSteps"]
 
         static func bridgeScript(barcode: Bool) -> String {
             """
@@ -94,6 +94,7 @@ struct DeboWebView: UIViewRepresentable {
                 },
                 cancel: function (id) { post('deboReminder', { action: 'cancel', id: id }); }
               };
+              window.DeboSteps = { load: function () { post('deboSteps', {}); } };
               \(barcode ? "window.NativeFoodTools = { scanBarcode: function () { post('deboBarcode', {}); } };" : "")
             })();
             """
@@ -122,6 +123,10 @@ struct DeboWebView: UIViewRepresentable {
                 container?.backgroundColor = color
             case "deboBarcode":
                 scanBarcode()
+            case "deboSteps":
+                Steps.shared.load { [weak self] json in
+                    self?.callJS("window.onDeboSteps && window.onDeboSteps(\(json))")
+                }
             case "deboLock":
                 container?.pinScroll = (body["locked"] as? Bool) == true
             default:

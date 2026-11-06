@@ -23,7 +23,7 @@ Nothing leaves the device. If you turn on accounts, Premium, analytics or Apple 
 - "Do you or your third-party partners collect data from this app?" → **No, we do not collect data from this app**
 - Result shown on the App Store: **Data Not Collected**
 
-Why: all entries are stored only in the app's storage on the device. Reminders are local notifications. Reports and backups are files the user saves or shares by themselves. Apple counts data as "collected" only when it leaves the device to you or a third party.
+Why: all entries are stored only in the app's storage on the device. A scanned barcode number is sent to Open Food Facts only to look up that product, with no identifier or entry attached; step counts stay on the device. Reminders are local notifications. Reports and backups are files the user saves or shares by themselves. Apple counts data as "collected" only when it leaves the device to you or a third party.
 
 ## Export compliance (asked for TestFlight and each build)
 - "Does your app use encryption?" → **Yes**, only standard (HTTPS) → choose **"None of the algorithms mentioned above"** (exempt)
@@ -41,7 +41,7 @@ Why: all entries are stored only in the app's storage on the device. Reminders a
 >
 > Debo does not calculate insulin doses, interpret readings or give treatment recommendations. The low/high glucose and exercise sections contain general information only, with a reminder to follow the user's own doctor's advice.
 >
-> Notifications are used only for reminders the user turns on (glucose checks, long-acting insulin, sensor change, supplies, weekly summary). The camera permission is declared for a food barcode scanner that is not enabled in this version.
+> Notifications are used only for reminders the user turns on (glucose checks, long-acting insulin, sensor change, supplies, weekly summary). The camera is used only to scan food barcodes (Food → Scan barcode); only the barcode number is sent to Open Food Facts to look up the product. Motion & Fitness is used only to show the user's step count on the Exercise page after they tap "Show steps"; it stays on the device.
 >
 > The app is built with Swift and WKWebView; native iOS features used: local notifications, printing (UIPrintInteractionController), share sheet for backups, file picker for restore.
 

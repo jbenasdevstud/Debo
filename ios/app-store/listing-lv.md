@@ -23,7 +23,7 @@ Debo ir mierīga un vienkārša dienasgrāmata cilvēkiem ar diabētu. Dažās s
 • Nejauši dzēstu ierakstu var atsaukt
 
 ĒDIENU KATALOGS
-Gandrīz 200 ikdienas produktu ar ogļhidrātiem uz 100 g un ierastām porcijām, kā arī glikēmiskais indekss, ja tas ir publicēts. Savu produktu pievienosiet dažās sekundēs.
+Gandrīz 200 ikdienas produktu ar ogļhidrātiem uz 100 g un ierastām porcijām, kā arī glikēmiskais indekss, ja tas ir publicēts. Savu produktu pievienosiet dažās sekundēs vai noskenēsiet tā svītrkodu, un uzturvērtība tiks aizpildīta automātiski.
 
 GRAFIKI UN ATSKAITES
 • Dienas glikozes grafiks ar insulīna devām
@@ -41,6 +41,7 @@ VISPĀRĪGI NORĀDĪJUMI
 Vienmēr pieejama vispārīga informācija par zemu un augstu glikozi, 15 minūšu taimeris, ko palaižat paši, un sporta ceļvedis ar tipisko glikozes reakciju 40 aktivitātēm.
 
 TURKLĀT
+• Šodienas un 7 dienu soļi no iPhone kustību sensora
 • mmol/L ↔ mg/dL konvertētājs
 • Rezerves kopija lietotnē Faili un atjaunošana jaunā iPhone vai iPad
 • Gaišais un tumšais režīms
