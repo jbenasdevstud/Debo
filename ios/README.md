@@ -13,7 +13,7 @@
 - PDF report: **Print** opens the iOS print dialog, which can also save it as a PDF.
 - Backup: **Export** opens the share sheet. **Restore** uses the iOS file picker.
 - Barcode scanner for food (camera; A12 chip or newer) – ready, but hidden while `premiumEnabled` is `false` in `api-config.js`, like on Android.
-- Text, number, date/time fields and selects are edited with native iOS keyboards and pickers (`NativeInput.swift`, `Web/ios-native.js`).
+- Text fields, drop-down lists and time pickers use the normal iOS keyboard and pickers. `Web/ios-native.js` adds small iOS fixes: no focus rings on touch, the page stays still behind an open window, no zoom on focus. (In Swift Playgrounds' App Preview the keyboard may not appear – test with TestFlight.)
 - Light / dark theme follows the app setting.
 
 Hidden on iOS (Android only): Health Connect/CGM, voice input, the home-screen widget.

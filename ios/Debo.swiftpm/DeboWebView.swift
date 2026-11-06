@@ -24,7 +24,7 @@ struct DeboWebView: UIViewRepresentable {
         controller.addUserScript(WKUserScript(source: Coordinator.bridgeScript(barcode: BarcodeScanner.isAvailable),
                                               injectionTime: .atDocumentStart,
                                               forMainFrameOnly: true))
-        // Native keyboard / pickers for web fields, iOS-only page tweaks (Web/ios-native.js)
+        // iOS-only page tweaks (Web/ios-native.js)
         let pageScript = (try? String(contentsOf: indexURL.deletingLastPathComponent().appendingPathComponent("ios-native.js"),
                                       encoding: .utf8)) ?? ""
         controller.addUserScript(WKUserScript(source: pageScript,
@@ -43,7 +43,6 @@ struct DeboWebView: UIViewRepresentable {
         webView.scrollView.alwaysBounceVertical = false
         webView.scrollView.alwaysBounceHorizontal = false
         context.coordinator.webView = webView
-        context.coordinator.nativeInput = NativeInput(webView: webView)
         Reminders.shared.setUp()
 
         webView.loadFileURL(indexURL, allowingReadAccessTo: indexURL.deletingLastPathComponent())
@@ -58,9 +57,8 @@ struct DeboWebView: UIViewRepresentable {
         private var printView: WKWebView?
         private var printTitle = "Debo"
         private var lastThemeDark: Bool?
-        var nativeInput: NativeInput?
 
-        static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode", "deboInput"]
+        static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode"]
 
         static func bridgeScript(barcode: Bool) -> String {
             """
@@ -114,8 +112,6 @@ struct DeboWebView: UIViewRepresentable {
                 webView?.scrollView.backgroundColor = color
             case "deboBarcode":
                 scanBarcode()
-            case "deboInput":
-                nativeInput?.handle(body)
             default:
                 break
             }
