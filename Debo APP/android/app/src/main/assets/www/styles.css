@@ -382,12 +382,12 @@ dialog{max-width:390px;padding:0;border:0;border-radius:22px;background:transpar
 .chart-modal-toolbar{display:flex;justify-content:flex-end;margin:8px 0 6px}
 .chart-modal-toolbar .chart-range-switch button{min-width:45px}
 .chart-modal-plot{--chart-accent:var(--green2);padding:6px 7px 4px}
-.chart-modal-plot .timeline-chart-shell,.chart-modal-plot .chart-scroll,.chart-modal-plot .chart-canvas,.chart-modal-plot #timeline-svg{height:104px}
-.chart-modal-plot .timeline-y-axis{height:104px;color:var(--muted)}
+.chart-modal-plot .timeline-chart-shell,.chart-modal-plot .chart-scroll,.chart-modal-plot .chart-canvas,.chart-modal-plot #timeline-svg{height:230px}
+.chart-modal-plot .timeline-y-axis{height:230px;color:var(--muted)}
 .chart-modal-plot .timeline-y-axis .y14{top:8%}
 .chart-modal-plot .timeline-y-axis .y10{top:36%}
 .chart-modal-plot .timeline-y-axis .y39{top:80%}
-.chart-modal-plot .chart-time-text{font-size:7px;fill:var(--muted)}
+.chart-modal-plot .chart-time-text{font-size:var(--chart-text,7px);fill:var(--muted)}
 .chart-modal-plot .chart-horizontal-line{stroke:color-mix(in srgb,var(--muted) 15%,transparent)}
 .chart-modal-plot .chart-footer{min-height:15px;margin-top:1px;color:var(--muted);font-size:11.5px}
 .chart-modal-legend{display:flex;flex-wrap:wrap;gap:7px 12px;margin:8px 3px 0;color:var(--muted);font-size:11.5px}
@@ -411,7 +411,7 @@ dialog{max-width:390px;padding:0;border:0;border-radius:22px;background:transpar
   .chart-modal-heading h2{font-size:20px}
   .chart-modal-toolbar{margin:7px 0 5px}
   .chart-modal-plot{padding:4px 4px 3px}
-  .chart-modal-plot .timeline-chart-shell,.chart-modal-plot .chart-scroll,.chart-modal-plot .chart-canvas,.chart-modal-plot #timeline-svg,.chart-modal-plot .timeline-y-axis{height:88px}
+  .chart-modal-plot .timeline-chart-shell,.chart-modal-plot .chart-scroll,.chart-modal-plot .chart-canvas,.chart-modal-plot #timeline-svg,.chart-modal-plot .timeline-y-axis{height:200px}
   .chart-modal-plot .timeline-y-axis{width:25px;flex-basis:25px}
   .chart-modal-legend{gap:6px 9px;margin-top:7px;font-size:11px}
   .chart-modal-legend span{gap:4px}

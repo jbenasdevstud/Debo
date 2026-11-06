@@ -15,8 +15,17 @@
   style.textContent =
     '#cgm-sync, #food-mode-voice, [data-i18n="careNote"], [data-i18n="customRemindersNote"] { display: none !important; }' +
     'html { -webkit-text-size-adjust: 100%; } body { -webkit-tap-highlight-color: transparent; }' +
-    '.debo-native-editing { color: transparent !important; -webkit-text-fill-color: transparent !important; caret-color: transparent !important; }';
+    '.debo-native-editing { color: transparent !important; -webkit-text-fill-color: transparent !important; caret-color: transparent !important; }' +
+    // Focus rings are for keyboard users; iOS also shows them after a window closes on a touch screen
+    'html.debo-touch :focus-visible:not(input):not(textarea):not(select) { outline: none !important; }';
   document.head.appendChild(style);
+
+  var root = document.documentElement;
+  root.classList.add('debo-touch');
+  document.addEventListener('pointerdown', function () { root.classList.add('debo-touch'); }, true);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Tab' || e.key.indexOf('Arrow') === 0) root.classList.remove('debo-touch');
+  }, true);
 
   var TEXT_TYPES = ['text', 'search', 'email', 'password', 'tel', 'url', 'number', ''];
   var PICKER_TYPES = ['time', 'date', 'datetime-local', 'month'];
@@ -45,10 +54,34 @@
   var token = 0;
   var lastRect = '';
   var tracker = 0;
+  var suppressFocus = false;
 
   function rectOf(el) {
     var r = el.getBoundingClientRect();
     return { x: r.left, y: r.top, w: r.width, h: r.height };
+  }
+
+  // The page sometimes rebuilds a field while it is being edited (food catalogue search):
+  // carry on with the new copy instead of closing the keyboard
+  function live() {
+    if (!current) return null;
+    if (current.el.isConnected) return current.el;
+    var fresh = current.el.id ? document.getElementById(current.el.id) : null;
+    if (!fresh || kind(fresh) !== current.kind) return null;
+    current.el = fresh;
+    if (current.kind === 'text') {
+      fresh.classList.add('debo-native-editing');
+      if (fresh.hasAttribute('placeholder')) {
+        current.placeholder = fresh.getAttribute('placeholder');
+        fresh.removeAttribute('placeholder');
+      }
+    }
+    if (document.activeElement !== fresh) {
+      suppressFocus = true;
+      fresh.focus({ preventScroll: true });
+      suppressFocus = false;
+    }
+    return fresh;
   }
 
   function visible(el) {
@@ -58,7 +91,7 @@
   }
 
   function open(el) {
-    if (current && current.el === el) {
+    if (current && (current.el === el || live() === el)) {
       post({ action: 'show', token: current.token });
       return;
     }
@@ -108,12 +141,13 @@
 
   function track() {
     if (!current) return clearInterval(tracker);
-    if (!visible(current.el)) {
+    var el = live();
+    if (!el || !visible(el)) {
       post({ action: 'close', token: current.token });
       finish(false);
       return;
     }
-    var rect = rectOf(current.el);
+    var rect = rectOf(el);
     var key = JSON.stringify(rect);
     if (key !== lastRect) {
       lastRect = key;
@@ -131,6 +165,13 @@
     current = null;
     clearInterval(tracker);
     c.el.classList.remove('debo-native-editing');
+    if (c.el.id) {
+      var copy = document.getElementById(c.el.id);
+      if (copy && copy !== c.el) {
+        copy.classList.remove('debo-native-editing');
+        if (c.placeholder !== null && c.placeholder !== undefined && !copy.hasAttribute('placeholder')) copy.setAttribute('placeholder', c.placeholder);
+      }
+    }
     if (c.placeholder !== null && c.placeholder !== undefined) c.el.setAttribute('placeholder', c.placeholder);
     if (blur && document.activeElement === c.el) c.el.blur();
   }
@@ -145,7 +186,8 @@
   window.__deboInput = {
     input: function (t, value) {
       if (!current || current.token !== t) return;
-      var el = current.el;
+      var el = live();
+      if (!el) return;
       if (el.type === 'number') value = String(value).replace(',', '.');
       setValue(el, value);
       fire(el, 'input');
@@ -153,7 +195,7 @@
     },
     select: function (t, index) {
       if (!current || current.token !== t) return;
-      var el = current.el;
+      var el = live() || current.el;
       if (el.selectedIndex !== index) {
         el.selectedIndex = index;
         fire(el, 'input');
@@ -163,7 +205,7 @@
     },
     enter: function (t) {
       if (!current || current.token !== t) return;
-      var el = current.el;
+      var el = live() || current.el;
       var opts = { key: 'Enter', code: 'Enter', keyCode: 13, which: 13, bubbles: true, cancelable: true };
       var down = new KeyboardEvent('keydown', opts);
       var allowed = el.dispatchEvent(down);
@@ -184,7 +226,7 @@
     },
     end: function (t) {
       if (!current || current.token !== t) return;
-      var el = current.el;
+      var el = live() || current.el;
       if (current.kind === 'text') fire(el, 'change');
       finish(true);
     }
@@ -223,6 +265,7 @@
 
   // Focus set by the page itself (first field of a form, validation errors) or by a <label>
   document.addEventListener('focusin', function (e) {
+    if (suppressFocus) return;
     var field = kind(e.target) ? e.target : null;
     if (field) open(field);
   }, true);

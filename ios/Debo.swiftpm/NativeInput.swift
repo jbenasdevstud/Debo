@@ -3,7 +3,7 @@ import WebKit
 
 /// Native iOS text field / picker placed over the web field being edited (see Web/ios-native.js).
 @MainActor
-final class NativeInput: NSObject, UITextFieldDelegate {
+final class NativeInput: NSObject, UITextFieldDelegate, UIAdaptivePresentationControllerDelegate {
     private weak var webView: WKWebView?
     private let field = PaddedTextField()
     private var token = 0
@@ -12,6 +12,8 @@ final class NativeInput: NSObject, UITextFieldDelegate {
     private var maxLength = 0
     private var datePicker: UIDatePicker?
     private var closingFromPage = false
+    private weak var pickerSheet: UIViewController?
+    private var pickerOriginal = ""
 
     init(webView: WKWebView) {
         self.webView = webView
@@ -33,11 +35,14 @@ final class NativeInput: NSObject, UITextFieldDelegate {
         case "open":
             open(body, token: messageToken)
         case "show":
-            if messageToken == token, !field.isFirstResponder, kind != "select" { field.becomeFirstResponder() }
+            if messageToken == token, kind == "text", !field.isFirstResponder { field.becomeFirstResponder() }
         case "move":
             if messageToken == token, let rect = body["rect"] as? [String: Any] { place(rect) }
         case "close":
-            if messageToken == token { close(notifyPage: false) }
+            if messageToken == token {
+                if let sheet = pickerSheet { pickerSheet = nil; sheet.dismiss(animated: true) }
+                close(notifyPage: false)
+            }
         default:
             break
         }
@@ -45,6 +50,10 @@ final class NativeInput: NSObject, UITextFieldDelegate {
 
     private func open(_ info: [String: Any], token newToken: Int) {
         if field.isFirstResponder { close(notifyPage: true) }
+        if let sheet = pickerSheet {
+            pickerSheet = nil
+            sheet.dismiss(animated: false)
+        }
         token = newToken
         kind = info["kind"] as? String ?? "text"
         type = info["type"] as? String ?? "text"
@@ -56,16 +65,15 @@ final class NativeInput: NSObject, UITextFieldDelegate {
             showOptions(info, rect: rect)
             return
         }
+        if kind == "picker" {
+            showDatePicker(info, value: value, rect: rect)
+            return
+        }
 
         configureKeyboard(info)
         field.text = value
         field.placeholder = kind == "text" ? (info["placeholder"] as? String) : nil
-        if kind == "picker" {
-            // The web field keeps showing its own value; the native field only carries the picker
-            field.textColor = .clear
-            field.tintColor = .clear
-            field.inputView = makePicker(value: value, info: info)
-        } else {
+        do {
             field.inputView = nil
             datePicker = nil
             field.tintColor = nil
@@ -95,7 +103,7 @@ final class NativeInput: NSObject, UITextFieldDelegate {
     }
 
     private var needsDoneBar: Bool {
-        kind == "picker" || [.numberPad, .decimalPad, .phonePad].contains(field.keyboardType)
+        [.numberPad, .decimalPad, .phonePad].contains(field.keyboardType)
     }
 
     private var zoom: CGFloat { webView?.scrollView.zoomScale ?? 1 }
@@ -165,6 +173,65 @@ final class NativeInput: NSObject, UITextFieldDelegate {
         picker.addTarget(self, action: #selector(pickerChanged), for: .valueChanged)
         datePicker = picker
         return picker
+    }
+
+    /// Time / date fields: a wheel picker in a sheet (popover on iPad) with Cancel and Done
+    private func showDatePicker(_ info: [String: Any], value: String, rect: [String: Any]) {
+        guard let webView, var top = webView.window?.rootViewController else { return }
+        while let next = top.presentedViewController { top = next }
+        pickerOriginal = value
+        let picker = makePicker(value: value, info: info) as! UIDatePicker
+        let content = UIViewController()
+        content.view.backgroundColor = .systemBackground
+        picker.translatesAutoresizingMaskIntoConstraints = false
+        content.view.addSubview(picker)
+        NSLayoutConstraint.activate([
+            picker.centerXAnchor.constraint(equalTo: content.view.centerXAnchor),
+            picker.topAnchor.constraint(equalTo: content.view.safeAreaLayoutGuide.topAnchor, constant: 4),
+            picker.leadingAnchor.constraint(greaterThanOrEqualTo: content.view.leadingAnchor, constant: 8),
+            picker.trailingAnchor.constraint(lessThanOrEqualTo: content.view.trailingAnchor, constant: -8)
+        ])
+        let current = token
+        content.navigationItem.leftBarButtonItem = UIBarButtonItem(systemItem: .cancel, primaryAction: UIAction { [weak self] _ in
+            self?.finishPicker(token: current, keep: false)
+        })
+        content.navigationItem.rightBarButtonItem = UIBarButtonItem(systemItem: .done, primaryAction: UIAction { [weak self] _ in
+            self?.finishPicker(token: current, keep: true)
+        })
+        content.preferredContentSize = CGSize(width: 340, height: 260)
+        let navigation = UINavigationController(rootViewController: content)
+        place(rect)
+        if UIDevice.current.userInterfaceIdiom == .pad {
+            navigation.modalPresentationStyle = .popover
+            navigation.popoverPresentationController?.sourceView = webView
+            navigation.popoverPresentationController?.sourceRect = field.frame
+        } else if let sheet = navigation.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+        }
+        navigation.presentationController?.delegate = self
+        pickerSheet = navigation
+        top.present(navigation, animated: true)
+    }
+
+    private func finishPicker(token current: Int, keep: Bool) {
+        guard current == token else { return }
+        if keep, let picker = datePicker {
+            send("window.__deboInput.input(\(current), \(Self.js(Self.format(picker.date, type: type))))")
+        } else if !keep {
+            send("window.__deboInput.input(\(current), \(Self.js(pickerOriginal)))")
+        }
+        send("window.__deboInput.end(\(current))")
+        pickerSheet?.dismiss(animated: true)
+        pickerSheet = nil
+        datePicker = nil
+    }
+
+    // Sheet swiped down / popover tapped outside: keep the chosen time
+    func presentationControllerDidDismiss(_ presentationController: UIPresentationController) {
+        guard pickerSheet != nil else { return }
+        pickerSheet = nil
+        finishPicker(token: token, keep: true)
     }
 
     @objc private func pickerChanged() {

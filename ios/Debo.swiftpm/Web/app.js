@@ -2669,10 +2669,18 @@ function renderTimelineGraph() {
   const { start, end } = getChartWindow();
   const viewport = Math.max(260, DOM.chartScroll.clientWidth);
   const elapsed = Math.max((end - start) / 3600000, 0.01);
-  const width = Math.max(viewport, (elapsed * viewport) / chartViewHours);
-  DOM.chartCanvas.style.width = `${width}px`;
-  DOM.timelineSvg.style.width = `${width}px`;
+  const pixelWidth = Math.max(viewport, (elapsed * viewport) / chartViewHours);
+  // The plot is drawn in a 104-unit-high space; a taller chart (CSS height) scales it up evenly,
+  // so dots, labels and lines grow together instead of stretching
+  const scale = Math.max(1, (DOM.timelineSvg.getBoundingClientRect().height || 104) / 104);
+  const width = pixelWidth / scale;
+  DOM.chartCanvas.style.width = `${pixelWidth}px`;
+  DOM.timelineSvg.style.width = `${pixelWidth}px`;
   DOM.timelineSvg.setAttribute('viewBox', `0 0 ${width} 104`);
+  // Time labels keep about 11 px on screen however much the plot is scaled
+  DOM.timelineSvg.style.setProperty('--chart-text', `${(scale > 1 ? 11 : 7) / scale}px`);
+  const pixelsPerHour = pixelWidth / Math.max(elapsed, 1);
+  const labelStep = scale > 1 ? [1, 2, 3, 4, 6, 12].find(hours => hours * pixelsPerHour >= 46) || 12 : chartViewHours === 3 ? 1 : 2;
   const targetTop = glucoseToY(10);
   const targetBottom = glucoseToY(3.9);
   DOM.chartTargetZone.setAttribute('x', EDGE);
@@ -2702,7 +2710,7 @@ function renderTimelineGraph() {
   const labels = [];
   for (let ts = start; ts <= end; ts += 3600000) {
     const hour = new Date(ts).getHours();
-    if (chartViewHours === 3 || hour % 2 === 0) {
+    if (hour % labelStep === 0) {
       const x = timeToX(ts, start, end, width);
       labels.push(`
         <text
