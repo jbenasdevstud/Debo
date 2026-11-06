@@ -47,6 +47,15 @@
     if (e.target === tappedFocus) tappedFocus = null;
   }, true);
 
+  // A light tap of the Taptic Engine with every confirmation message (saved, deleted, copied …)
+  if (typeof window.toast === 'function' && window.DeboHaptic) {
+    var showToast = window.toast;
+    window.toast = function () {
+      try { window.DeboHaptic('light'); } catch (e) {}
+      return showToast.apply(this, arguments);
+    };
+  }
+
   // While a window (dialog) is open, the page behind it must not scroll
   var lockedAt = null;
   function tellApp(locked) {

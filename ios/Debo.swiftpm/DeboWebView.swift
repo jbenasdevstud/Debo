@@ -21,7 +21,7 @@ struct DeboWebView: UIViewRepresentable {
         for name in Coordinator.messageNames {
             controller.add(context.coordinator, name: name)
         }
-        controller.addUserScript(WKUserScript(source: Coordinator.bridgeScript(barcode: BarcodeScanner.isAvailable),
+        controller.addUserScript(WKUserScript(source: Coordinator.bridgeScript(barcode: BarcodeScanner.isAvailable, lock: AppLock.isAvailable, lockOn: AppLock.shared.enabled),
                                               injectionTime: .atDocumentStart,
                                               forMainFrameOnly: true))
         // iOS-only page tweaks (Web/ios-native.js)
@@ -46,6 +46,7 @@ struct DeboWebView: UIViewRepresentable {
         context.coordinator.indexURL = indexURL
         context.coordinator.watchResume()
         Reminders.shared.setUp()
+        AppLock.shared.start()
 
         let container = WebContainer(webView: webView)
         context.coordinator.container = container
@@ -67,9 +68,9 @@ struct DeboWebView: UIViewRepresentable {
         private var printTitle = "Debo"
         private var lastThemeDark: Bool?
 
-        static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode", "deboLock", "deboSteps"]
+        static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode", "deboLock", "deboSteps", "deboHaptic", "deboAppLock"]
 
-        static func bridgeScript(barcode: Bool) -> String {
+        static func bridgeScript(barcode: Bool, lock: Bool, lockOn: Bool) -> String {
             """
             (function () {
               var post = function (name, body) { window.webkit.messageHandlers[name].postMessage(body); };
@@ -95,6 +96,8 @@ struct DeboWebView: UIViewRepresentable {
                 cancel: function (id) { post('deboReminder', { action: 'cancel', id: id }); }
               };
               window.DeboSteps = { load: function () { post('deboSteps', {}); } };
+              window.DeboHaptic = function (kind) { post('deboHaptic', { kind: String(kind || 'light') }); };
+              \(lock ? "window.DeboLock = { enabled: \(lockOn), set: function (on) { post('deboAppLock', { enabled: !!on }); } };" : "")
               \(barcode ? "window.NativeFoodTools = { scanBarcode: function () { post('deboBarcode', {}); } };" : "")
             })();
             """
@@ -126,6 +129,16 @@ struct DeboWebView: UIViewRepresentable {
             case "deboSteps":
                 Steps.shared.load { [weak self] json in
                     self?.callJS("window.onDeboSteps && window.onDeboSteps(\(json))")
+                }
+            case "deboHaptic":
+                if (body["kind"] as? String) == "success" {
+                    UINotificationFeedbackGenerator().notificationOccurred(.success)
+                } else {
+                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                }
+            case "deboAppLock":
+                AppLock.shared.setEnabled((body["enabled"] as? Bool) == true) { [weak self] on in
+                    self?.callJS("window.onDeboLock && window.onDeboLock(\(on))")
                 }
             case "deboLock":
                 container?.pinScroll = (body["locked"] as? Bool) == true

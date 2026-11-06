@@ -801,6 +801,8 @@
   <div class="backup-stats" id="backup-stats"></div>
   <button class="primary full-button" id="backup-export" type="button" data-i18n="backupExport">Išsaugoti kopiją</button>
   <button class="secondary full-button" id="backup-import" type="button" data-i18n="backupImport">Atkurti iš kopijos</button>
+  <button class="secondary full-button backup-csv" id="backup-csv" type="button">Eksportuoti lentelę (CSV)</button>
+  <small class="field-note" id="backup-csv-note">Visi įrašai vienoje lentelėje – atsidaro Excel, Numbers ar Google Sheets.</small>
   <input class="photo-file-input" id="backup-file" type="file" tabindex="-1" aria-hidden="true">
   <small class="field-note" data-i18n="backupNote">Atkuriant įrašai sujungiami: esami duomenys neištrinami, pasikartojantys neįkeliami.</small>
 </section>
@@ -900,6 +902,11 @@
   <label id="reminder-time-wrap">
     <span data-i18n="reminderTime">Priminimo laikas</span>
     <input id="reminder-time" type="time" value="22:00">
+  </label>
+
+  <label class="setting-toggle hidden" id="app-lock-row">
+    <input id="app-lock" type="checkbox">
+    <span id="app-lock-text">Užrakinti Debo su Face ID</span>
   </label>
 
   <label class="setting-toggle">

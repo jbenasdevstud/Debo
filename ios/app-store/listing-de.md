@@ -23,7 +23,7 @@ SCHNELL EINGETRAGEN
 • Versehentlich gelöschte Einträge lassen sich rückgängig machen
 
 LEBENSMITTELKATALOG
-Fast 200 alltägliche Lebensmittel mit Kohlenhydraten pro 100 g und üblichen Portionen sowie dem glykämischen Index, sofern veröffentlicht. Eigene Lebensmittel fügen Sie in Sekunden hinzu oder scannen den Barcode, und die Nährwerte werden automatisch ausgefüllt.
+Über 250 Lebensmittel – Alltagsprodukte, baltische Gerichte, Suppen, Soßen, Getränke und schnelle Kohlenhydrate bei Unterzuckerung – mit Kohlenhydraten pro 100 g und üblichen Portionen sowie dem glykämischen Index, sofern veröffentlicht. Eigene Lebensmittel fügen Sie in Sekunden hinzu oder scannen den Barcode, und die Nährwerte werden automatisch ausgefüllt.
 
 VERLAUF UND BERICHTE
 • Tagesverlauf der Glukose mit Ihren Insulindosen
@@ -44,6 +44,8 @@ AUSSERDEM
 • Schritte von heute und den letzten 7 Tagen aus dem Bewegungssensor des iPhone
 • Umrechner mmol/L ↔ mg/dL
 • Datensicherung in der Dateien-App und Wiederherstellung auf einem neuen iPhone oder iPad
+• Export aller Einträge als Tabelle (CSV)
+• Optionale Sperre mit Face ID oder Code
 • Heller und dunkler Modus
 • Litauisch, Englisch, Lettisch, Polnisch und Deutsch
 

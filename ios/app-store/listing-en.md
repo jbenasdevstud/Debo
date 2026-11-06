@@ -25,7 +25,7 @@ QUICK DAILY LOGGING
 • Undo for anything you delete by mistake
 
 FOOD CATALOGUE
-Nearly 200 everyday foods with carbohydrates per 100 g and common portions, plus a glycemic index where one is published. Add your own foods in seconds, or scan a product’s barcode to fill in its nutrition values.
+Over 250 foods – everyday products, Baltic dishes like cepelinai and šaltibarščiai, soups, sauces, drinks and fast carbs for lows – with carbohydrates per 100 g and common portions, plus a glycemic index where one is published. Add your own foods in seconds, or scan a product’s barcode to fill in its nutrition values.
 
 CHARTS AND REPORTS
 • Daily glucose chart with your insulin doses
@@ -46,6 +46,8 @@ ALSO INCLUDED
 • Today’s steps and the last 7 days from your iPhone’s motion sensor
 • mmol/L ↔ mg/dL converter
 • Backup to Files and restore on a new iPhone or iPad
+• Export all entries as a spreadsheet (CSV)
+• Optional Face ID or passcode lock
 • Light and dark mode
 • Lithuanian, English, Latvian, Polish and German
 

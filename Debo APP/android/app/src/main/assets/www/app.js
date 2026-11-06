@@ -1885,6 +1885,93 @@ const usdaFoods=[
   ['fd_wine_white','Gėrimai','Drinks','Baltasis vynas','White wine',2.6,0.1,0,'ml',[[150,'1 taurė · ~150 ml','1 glass · ~150 ml']],174837]
 ].map(([id,catLt,catEn,lt,en,carbs,protein,fat,unit,portions,fdcId])=>({id,catLt,catEn,lt,en,carbs,protein,fat,gi:null,unit,portions,fdcId,source:'https://fdc.nal.usda.gov/food-details/'+fdcId+'/nutrients'}));
 foodCatalog.push(...usdaFoods);
+// Everyday foods, Baltic dishes, soups, sauces and fast carbs. Typical values per 100 g / 100 ml
+// (USDA FoodData Central for generic foods, usual recipes for home-made dishes); shown as estimates.
+const extraFoods=[
+  ['dx_glucose_tabs','Greiti angliavandeniai','Fast carbs','Gliukozės tabletės','Glucose tablets',92,0,0,'g',[[4, '1 tabletė · ~4 g', '1 tablet · ~4 g'], [12, '3 tabletės · ~12 g', '3 tablets · ~12 g'], [16, '4 tabletės · ~16 g', '4 tablets · ~16 g']],['snack']],
+  ['dx_cola','Gėrimai','Drinks','Kola su cukrumi','Cola (regular)',10.6,0,0,'ml',[[100, '½ stiklinės · 100 ml', '½ glass · 100 ml'], [200, '1 stiklinė · 200 ml', '1 glass · 200 ml'], [330, '1 skardinė · 330 ml', '1 can · 330 ml'], [500, '1 butelis · 500 ml', '1 bottle · 500 ml']],['snack']],
+  ['dx_cola_zero','Gėrimai','Drinks','Kola be cukraus','Cola zero / diet',0,0,0,'ml',[[330, '1 skardinė · 330 ml', '1 can · 330 ml'], [500, '1 butelis · 500 ml', '1 bottle · 500 ml']],['snack']],
+  ['dx_lemonade','Gėrimai','Drinks','Gazuotas limonadas su cukrumi','Fizzy lemonade (sugared)',10,0,0,'ml',[[200, '1 stiklinė · 200 ml', '1 glass · 200 ml'], [330, '1 skardinė · 330 ml', '1 can · 330 ml'], [500, '1 butelis · 500 ml', '1 bottle · 500 ml']],['snack']],
+  ['dx_sports_drink','Gėrimai','Drinks','Sporto gėrimas','Sports drink',6,0,0,'ml',[[250, '1 stiklinė · 250 ml', '1 glass · 250 ml'], [500, '1 butelis · 500 ml', '1 bottle · 500 ml']],['snack']],
+  ['dx_energy_drink','Gėrimai','Drinks','Energinis gėrimas','Energy drink',11,0,0,'ml',[[250, '1 skardinė · 250 ml', '1 can · 250 ml'], [500, '1 skardinė · 500 ml', '1 can · 500 ml']],['snack']],
+  ['dx_multifruit_juice','Gėrimai','Drinks','Multivitaminų sultys','Multifruit juice',11.5,0.3,0.1,'ml',[[200, '1 pakelis / stiklinė · 200 ml', '1 carton / glass · 200 ml'], [330, '330 ml', '330 ml']],['breakfast', 'snack']],
+  ['dx_kompot','Gėrimai','Drinks','Kompotas, saldintas','Fruit compote drink, sweetened',8,0.2,0,'ml',[[200, '1 stiklinė · 200 ml', '1 glass · 200 ml'], [300, '1 puodelis · 300 ml', '1 mug · 300 ml']],['lunch', 'snack']],
+  ['dx_kvass','Gėrimai','Drinks','Gira (duonos gira)','Kvass (bread drink)',5.5,0.2,0,'ml',[[200, '1 stiklinė · 200 ml', '1 glass · 200 ml'], [500, '0,5 l · 500 ml', '0.5 l · 500 ml']],['snack']],
+  ['dx_cappuccino','Gėrimai','Drinks','Kapučinas su pienu','Cappuccino with milk',4.6,2.9,3,'ml',[[150, '1 mažas puodelis · 150 ml', '1 small cup · 150 ml'], [250, '1 didelis puodelis · 250 ml', '1 large cup · 250 ml']],['breakfast', 'snack']],
+  ['dx_latte','Gėrimai','Drinks','Latė su pienu','Latte with milk',4.8,3.2,3.2,'ml',[[300, '1 puodelis · 300 ml', '1 cup · 300 ml'], [400, '1 didelis puodelis · 400 ml', '1 large cup · 400 ml']],['breakfast', 'snack']],
+  ['dx_hot_chocolate','Gėrimai','Drinks','Karštas šokoladas su pienu','Hot chocolate with milk',10.7,3.5,2.3,'ml',[[200, '1 puodelis · 200 ml', '1 cup · 200 ml'], [300, '1 didelis puodelis · 300 ml', '1 large cup · 300 ml']],['snack']],
+  ['dx_cepelinai','Patiekalai','Dishes','Cepelinai su mėsa','Cepelinai (potato dumplings with meat)',22,5.5,7,'g',[[180, '1 cepelinas · ~180 g', '1 dumpling · ~180 g'], [360, '2 cepelinai · ~360 g', '2 dumplings · ~360 g']],['lunch', 'dinner']],
+  ['dx_kugelis','Patiekalai','Dishes','Kugelis (bulvių plokštainis)','Kugelis (potato pudding)',18,4,9,'g',[[150, '1 gabalas · ~150 g', '1 piece · ~150 g'], [250, '1 porcija · ~250 g', '1 serving · ~250 g']],['lunch', 'dinner']],
+  ['dx_potato_pancakes','Patiekalai','Dishes','Bulviniai blynai','Potato pancakes',26,3.5,11,'g',[[75, '1 blynas · ~75 g', '1 pancake · ~75 g'], [225, '3 blynai · ~225 g', '3 pancakes · ~225 g']],['breakfast', 'lunch', 'dinner']],
+  ['dx_zemaiciu','Patiekalai','Dishes','Žemaičių blynai (su mėsa)','Potato pancakes with meat filling',20,7,10,'g',[[150, '1 blynas · ~150 g', '1 pancake · ~150 g'], [300, '2 blynai · ~300 g', '2 pancakes · ~300 g']],['lunch', 'dinner']],
+  ['dx_syrniki','Pusryčių patiekalai','Breakfast foods','Varškėčiai','Curd pancakes (syrniki)',24,13,9,'g',[[60, '1 varškėtis · ~60 g', '1 pancake · ~60 g'], [180, '3 varškėčiai · ~180 g', '3 pancakes · ~180 g']],['breakfast', 'snack']],
+  ['dx_crepes_curd','Pusryčių patiekalai','Breakfast foods','Lietiniai su varške','Crêpes with sweet curd',22,9,8,'g',[[90, '1 lietinis · ~90 g', '1 crêpe · ~90 g'], [270, '3 lietiniai · ~270 g', '3 crêpes · ~270 g']],['breakfast', 'lunch']],
+  ['dx_dumplings_meat','Patiekalai','Dishes','Koldūnai su mėsa','Meat dumplings (pelmeni)',28,10,9,'g',[[150, '~10 koldūnų · ~150 g', '~10 dumplings · ~150 g'], [250, '1 porcija · ~250 g', '1 serving · ~250 g']],['lunch', 'dinner']],
+  ['dx_dumplings_curd','Patiekalai','Dishes','Virtiniai su varške','Dumplings with curd (pierogi)',32,9,5,'g',[[150, '~6 virtiniai · ~150 g', '~6 dumplings · ~150 g'], [250, '1 porcija · ~250 g', '1 serving · ~250 g']],['lunch', 'dinner']],
+  ['dx_cabbage_rolls','Patiekalai','Dishes','Balandėliai','Cabbage rolls',8,6,6,'g',[[150, '1 balandėlis · ~150 g', '1 roll · ~150 g'], [300, '2 balandėliai · ~300 g', '2 rolls · ~300 g']],['lunch', 'dinner']],
+  ['dx_kibinas','Patiekalai','Dishes','Kibinas su mėsa','Kibinai (meat pastry)',30,10,14,'g',[[180, '1 kibinas · ~180 g', '1 pastry · ~180 g']],['lunch', 'snack']],
+  ['dx_fried_potatoes','Patiekalai','Dishes','Keptos bulvės','Pan-fried potatoes',24,3,8,'g',[[150, '1 porcija · ~150 g', '1 serving · ~150 g'], [250, '1 didelė porcija · ~250 g', '1 large serving · ~250 g']],['lunch', 'dinner']],
+  ['dx_potato_salad','Patiekalai','Dishes','Balta mišrainė (su majonezu)','Potato salad with mayonnaise',9,4,15,'g',[[100, '1 nedidelė porcija · ~100 g', '1 small serving · ~100 g'], [200, '1 porcija · ~200 g', '1 serving · ~200 g']],['lunch', 'dinner']],
+  ['dx_herring_coat','Patiekalai','Dishes','Silkė pataluose','Herring under a fur coat',6,6,15,'g',[[150, '1 porcija · ~150 g', '1 serving · ~150 g']],['lunch', 'dinner']],
+  ['dx_bolognese','Patiekalai','Dishes','Spagečiai su Bolonijos padažu','Spaghetti bolognese',15,7,5,'g',[[300, '1 porcija · ~300 g', '1 serving · ~300 g'], [450, '1 didelė porcija · ~450 g', '1 large serving · ~450 g']],['lunch', 'dinner']],
+  ['dx_lasagna','Patiekalai','Dishes','Lazanija su mėsa','Lasagne with meat',13.5,8,7,'g',[[250, '1 gabalas · ~250 g', '1 piece · ~250 g'], [350, '1 didelis gabalas · ~350 g', '1 large piece · ~350 g']],['lunch', 'dinner']],
+  ['dx_pizza_pepperoni','Patiekalai','Dishes','Pica su saliamiu','Pepperoni pizza',28,11,13,'g',[[110, '1 gabalas · ~110 g', '1 slice · ~110 g'], [330, '3 gabalai · ~330 g', '3 slices · ~330 g']],['lunch', 'dinner']],
+  ['dx_burger','Patiekalai','Dishes','Mėsainis','Hamburger',28,13,10,'g',[[110, '1 mažas · ~110 g', '1 small · ~110 g'], [220, '1 didelis · ~220 g', '1 large · ~220 g']],['lunch', 'dinner']],
+  ['dx_kebab','Patiekalai','Dishes','Kebabas lavaše / pitoje','Doner kebab in pita / wrap',21,11,10,'g',[[350, '1 kebabas · ~350 g', '1 kebab · ~350 g']],['lunch', 'dinner']],
+  ['dx_fries_fastfood','Patiekalai','Dishes','Bulvytės (greito maisto)','French fries (fast food)',41,3.4,15,'g',[[80, 'Maža porcija · ~80 g', 'Small · ~80 g'], [115, 'Vidutinė porcija · ~115 g', 'Medium · ~115 g'], [155, 'Didelė porcija · ~155 g', 'Large · ~155 g']],['lunch', 'dinner', 'snack']],
+  ['dx_nuggets','Patiekalai','Dishes','Vištienos kepsneliai (nuggets)','Chicken nuggets',15,15,18,'g',[[100, '6 vnt. · ~100 g', '6 pieces · ~100 g'], [150, '9 vnt. · ~150 g', '9 pieces · ~150 g']],['lunch', 'dinner', 'snack']],
+  ['dx_fish_fingers','Patiekalai','Dishes','Žuvies piršteliai','Fish fingers',21,12,11,'g',[[90, '3 vnt. · ~90 g', '3 pieces · ~90 g'], [150, '5 vnt. · ~150 g', '5 pieces · ~150 g']],['lunch', 'dinner']],
+  ['dx_sushi_maki','Patiekalai','Dishes','Sušiai (maki)','Sushi (maki rolls)',28,5,1.5,'g',[[25, '1 gabaliukas · ~25 g', '1 piece · ~25 g'], [200, '8 gabaliukai · ~200 g', '8 pieces · ~200 g']],['lunch', 'dinner']],
+  ['dx_fried_rice','Patiekalai','Dishes','Kepti ryžiai su daržovėmis','Fried rice with vegetables',25,5,6,'g',[[250, '1 porcija · ~250 g', '1 serving · ~250 g']],['lunch', 'dinner']],
+  ['dx_risotto','Patiekalai','Dishes','Rizotas','Risotto',20,3,5,'g',[[250, '1 porcija · ~250 g', '1 serving · ~250 g']],['lunch', 'dinner']],
+  ['dx_sandwich','Patiekalai','Dishes','Sumuštinis su kumpiu ir sūriu','Ham and cheese sandwich',25,12,10,'g',[[150, '1 sumuštinis · ~150 g', '1 sandwich · ~150 g']],['breakfast', 'lunch', 'snack']],
+  ['dx_caesar_salad','Patiekalai','Dishes','Cezario salotos su vištiena','Caesar salad with chicken',6,8,11,'g',[[250, '1 porcija · ~250 g', '1 serving · ~250 g']],['lunch', 'dinner']],
+  ['dx_greek_salad','Patiekalai','Dishes','Graikiškos salotos','Greek salad',4,3,9,'g',[[250, '1 porcija · ~250 g', '1 serving · ~250 g']],['lunch', 'dinner']],
+  ['dx_saltibarsciai','Sriubos','Soups','Šaltibarščiai (be bulvių)','Cold beet soup (without potatoes)',5,2.5,1.5,'g',[[300, '1 lėkštė · ~300 g', '1 bowl · ~300 g']],['lunch', 'dinner']],
+  ['dx_borscht','Sriubos','Soups','Barščiai (burokėlių sriuba)','Borscht (beet soup)',5,1.5,1.5,'g',[[300, '1 lėkštė · ~300 g', '1 bowl · ~300 g']],['lunch', 'dinner']],
+  ['dx_chicken_soup','Sriubos','Soups','Vištienos sriuba su makaronais','Chicken noodle soup',5,3,1.5,'g',[[300, '1 lėkštė · ~300 g', '1 bowl · ~300 g']],['lunch', 'dinner']],
+  ['dx_cabbage_soup','Sriubos','Soups','Kopūstų sriuba','Cabbage soup',4,1.5,1.5,'g',[[300, '1 lėkštė · ~300 g', '1 bowl · ~300 g']],['lunch', 'dinner']],
+  ['dx_pea_soup','Sriubos','Soups','Žirnių sriuba','Pea soup',9,5,2,'g',[[300, '1 lėkštė · ~300 g', '1 bowl · ~300 g']],['lunch', 'dinner']],
+  ['dx_mushroom_soup','Sriubos','Soups','Grybų kreminė sriuba','Cream of mushroom soup',6,1.5,4,'g',[[300, '1 lėkštė · ~300 g', '1 bowl · ~300 g']],['lunch', 'dinner']],
+  ['dx_tomato_soup','Sriubos','Soups','Pomidorų sriuba','Tomato soup',7,1,1.5,'g',[[300, '1 lėkštė · ~300 g', '1 bowl · ~300 g']],['lunch', 'dinner']],
+  ['dx_vegetable_soup','Sriubos','Soups','Daržovių sriuba','Vegetable soup',5,1,1,'g',[[300, '1 lėkštė · ~300 g', '1 bowl · ~300 g']],['lunch', 'dinner']],
+  ['dx_ketchup','Padažai','Sauces','Kečupas','Ketchup',26,1,0.2,'g',[[15, '1 valg. šaukštas · ~15 g', '1 tablespoon · ~15 g'], [30, '2 valg. šaukštai · ~30 g', '2 tablespoons · ~30 g']],['lunch', 'dinner']],
+  ['dx_mayonnaise','Padažai','Sauces','Majonezas','Mayonnaise',0.6,1,75,'g',[[15, '1 valg. šaukštas · ~15 g', '1 tablespoon · ~15 g']],['lunch', 'dinner']],
+  ['dx_bbq_sauce','Padažai','Sauces','BBQ padažas','Barbecue sauce',40,1,0.5,'g',[[15, '1 valg. šaukštas · ~15 g', '1 tablespoon · ~15 g'], [30, '2 valg. šaukštai · ~30 g', '2 tablespoons · ~30 g']],['lunch', 'dinner']],
+  ['dx_tomato_sauce','Padažai','Sauces','Pomidorų padažas makaronams','Tomato pasta sauce',8,1.5,1.5,'g',[[100, '1 porcija · ~100 g', '1 serving · ~100 g']],['lunch', 'dinner']],
+  ['dx_pesto','Padažai','Sauces','Pesto padažas','Pesto',6,5,45,'g',[[15, '1 valg. šaukštas · ~15 g', '1 tablespoon · ~15 g']],['lunch', 'dinner']],
+  ['dx_soy_sauce','Padažai','Sauces','Sojų padažas','Soy sauce',5,8,0,'ml',[[15, '1 valg. šaukštas · ~15 ml', '1 tablespoon · ~15 ml']],['lunch', 'dinner']],
+  ['dx_sakotis','Desertai','Desserts','Šakotis','Šakotis (tree cake)',52,6,25,'g',[[50, '1 gabalėlis · ~50 g', '1 piece · ~50 g']],['snack']],
+  ['dx_tinginys','Desertai','Desserts','Tinginys','Tinginys (chocolate biscuit cake)',55,6,22,'g',[[60, '1 gabalėlis · ~60 g', '1 piece · ~60 g']],['snack']],
+  ['dx_skruzdelynas','Desertai','Desserts','Skruzdėlynas','Skruzdėlynas (honey pastry cake)',60,5,20,'g',[[60, '1 gabalėlis · ~60 g', '1 piece · ~60 g']],['snack']],
+  ['dx_surelis','Pieno produktai','Dairy','Glaistytas varškės sūrelis','Glazed curd snack bar',28,8,24,'g',[[45, '1 sūrelis · ~45 g', '1 bar · ~45 g']],['snack', 'breakfast']],
+  ['dx_choc_cake','Desertai','Desserts','Šokoladinis tortas','Chocolate cake',54,4,16,'g',[[80, '1 gabalėlis · ~80 g', '1 slice · ~80 g'], [120, '1 didelis gabalas · ~120 g', '1 large slice · ~120 g']],['snack']],
+  ['dx_cheesecake','Desertai','Desserts','Sūrio pyragas (cheesecake)','Cheesecake',25,6,22,'g',[[100, '1 gabalėlis · ~100 g', '1 slice · ~100 g']],['snack']],
+  ['dx_apple_pie','Desertai','Desserts','Obuolių pyragas','Apple pie',34,2,11,'g',[[100, '1 gabalėlis · ~100 g', '1 slice · ~100 g']],['snack']],
+  ['dx_muffin','Desertai','Desserts','Keksiukas (muffin)','Muffin',47,4.5,17,'g',[[60, '1 mažas · ~60 g', '1 small · ~60 g'], [110, '1 didelis · ~110 g', '1 large · ~110 g']],['breakfast', 'snack']],
+  ['dx_wafers','Desertai','Desserts','Vafliai su įdaru','Filled wafers',62,5,27,'g',[[20, '2 vafliai · ~20 g', '2 wafers · ~20 g'], [50, '5 vafliai · ~50 g', '5 wafers · ~50 g']],['snack']],
+  ['dx_choc_cookies','Desertai','Desserts','Sausainiai su šokolado gabaliukais','Chocolate chip cookies',64,5,24,'g',[[10, '1 sausainis · ~10 g', '1 cookie · ~10 g'], [30, '3 sausainiai · ~30 g', '3 cookies · ~30 g']],['snack']],
+  ['dx_marshmallow','Desertai','Desserts','Zefyrai / zefyras','Marshmallows / zefir',80,1.5,0.2,'g',[[30, '1 vnt. · ~30 g', '1 piece · ~30 g']],['snack']],
+  ['dx_halva','Desertai','Desserts','Chalva','Halva',54,12,30,'g',[[30, '1 gabalėlis · ~30 g', '1 piece · ~30 g']],['snack']],
+  ['dx_pudding','Desertai','Desserts','Vanilinis pudingas','Vanilla pudding',18,3,3,'g',[[125, '1 indelis · ~125 g', '1 pot · ~125 g']],['snack']],
+  ['dx_cinnamon_roll','Duona','Bread','Bandelė su cinamonu','Cinnamon roll',51,6,16,'g',[[80, '1 bandelė · ~80 g', '1 roll · ~80 g']],['breakfast', 'snack']],
+  ['dx_rice_cakes','Užkandžiai','Snacks','Ryžių paplotėliai','Rice cakes',81,8,3,'g',[[9, '1 paplotėlis · ~9 g', '1 cake · ~9 g'], [27, '3 paplotėliai · ~27 g', '3 cakes · ~27 g']],['breakfast', 'snack']],
+  ['dx_muesli','Pusryčių patiekalai','Breakfast foods','Musli (be cukraus)','Muesli (no added sugar)',62,10,6,'g',[[40, '1 porcija · ~40 g', '1 serving · ~40 g'], [60, '1 didelė porcija · ~60 g', '1 large serving · ~60 g']],['breakfast']],
+  ['dx_oat_milk_porridge','Pusryčių patiekalai','Breakfast foods','Avižinė košė su pienu','Oat porridge with milk',13,4,2.5,'g',[[250, '1 dubenėlis · ~250 g', '1 bowl · ~250 g']],['breakfast']],
+  ['dx_semolina','Pusryčių patiekalai','Breakfast foods','Manų košė su pienu','Semolina porridge with milk',14,3.5,3,'g',[[250, '1 dubenėlis · ~250 g', '1 bowl · ~250 g']],['breakfast']],
+  ['dx_instant_noodles','Grūdai','Grains','Greito paruošimo makaronai, paruošti','Instant noodles, prepared',13,2,4,'g',[[300, '1 pakelis paruoštas · ~300 g', '1 pack prepared · ~300 g']],['lunch', 'dinner', 'snack']],
+  ['dx_tvarog','Pieno produktai','Dairy','Varškė, 9 %','Quark / curd cheese, 9 %',3,16.5,9,'g',[[100, '½ pakelio · ~100 g', '½ pack · ~100 g'], [200, '1 pakelis · ~200 g', '1 pack · ~200 g']],['breakfast', 'snack']],
+  ['dx_fruit_yogurt','Pieno produktai','Dairy','Vaisinis jogurtas','Fruit yoghurt',15,3.5,2.5,'g',[[125, '1 indelis · ~125 g', '1 pot · ~125 g'], [150, '1 indelis · ~150 g', '1 pot · ~150 g']],['breakfast', 'snack']],
+  ['dx_drinking_yogurt','Pieno produktai','Dairy','Geriamasis jogurtas','Drinking yoghurt',12,3,1.5,'ml',[[250, '1 butelis · 250 ml', '1 bottle · 250 ml'], [330, '330 ml', '330 ml']],['breakfast', 'snack']],
+  ['dx_soured_milk','Pieno produktai','Dairy','Rūgpienis','Soured milk',4,3,2.5,'ml',[[200, '1 stiklinė · 200 ml', '1 glass · 200 ml']],['breakfast', 'snack']],
+  ['dx_persimmon','Vaisiai','Fruit','Persimonas','Persimmon',18.6,0.6,0.2,'g',[[170, '1 vidutinis · ~170 g', '1 medium · ~170 g']],['snack', 'breakfast']],
+  ['dx_papaya','Vaisiai','Fruit','Papaja','Papaya',11,0.5,0.3,'g',[[150, '1 riekė · ~150 g', '1 slice · ~150 g']],['snack', 'breakfast']],
+  ['dx_lychee','Vaisiai','Fruit','Ličiai','Lychees',16.5,0.8,0.4,'g',[[100, '~10 vnt. · ~100 g', '~10 pieces · ~100 g']],['snack']],
+  ['dx_sugar_cubes','Greiti angliavandeniai','Fast carbs','Cukraus gabalėliai','Sugar cubes',100,0,0,'g',[[4,'1 gabalėlis · ~4 g','1 cube · ~4 g'],[12,'3 gabalėliai · ~12 g','3 cubes · ~12 g'],[16,'4 gabalėliai · ~16 g','4 cubes · ~16 g']],['snack']],
+  ['dx_hard_candy','Greiti angliavandeniai','Fast carbs','Kietieji saldainiai (karamelės)','Hard candies',98,0,0.2,'g',[[5,'1 saldainis · ~5 g','1 candy · ~5 g'],[15,'3 saldainiai · ~15 g','3 candies · ~15 g']],['snack']],
+  ['dx_pickles','Daržovės','Vegetables','Rauginti agurkai','Pickled cucumbers',2,0.5,0.2,'g',[[60, '1 agurkas · ~60 g', '1 cucumber · ~60 g']],['lunch', 'dinner']]
+].map(([id,catLt,catEn,lt,en,carbs,protein,fat,unit,portions,mealTypes])=>({id,catLt,catEn,lt,en,carbs,protein,fat,gi:null,unit,portions,mealTypes}));
+foodCatalog.push(...extraFoods);
 foodCatalog.forEach(f=>{
   if(f.mealTypes)return;
   const category=String(f.catEn||'').toLowerCase();
@@ -3414,7 +3501,9 @@ function renderExpandedFoodPage(root = $('#food-browser')) {
       ltCats: ['Užkandžiai', 'Saldumynai', 'Desertai'],
       enCats: ['Snacks', 'Sweets', 'Desserts']
     },
-    { key: 'drinks', lt: 'Gėrimai', en: 'Drinks', ltCats: ['Gėrimai'], enCats: ['Drinks'] }
+    { key: 'meals', lt: 'Patiekalai, sriubos ir padažai', en: 'Meals, soups & sauces', ltCats: ['Patiekalai', 'Sriubos', 'Padažai'], enCats: ['Dishes', 'Soups', 'Sauces'] },
+    { key: 'drinks', lt: 'Gėrimai', en: 'Drinks', ltCats: ['Gėrimai'], enCats: ['Drinks'] },
+    { key: 'fastcarbs', lt: 'Greiti angliavandeniai', en: 'Fast carbs', ltCats: ['Greiti angliavandeniai'], enCats: ['Fast carbs'] }
   ];
   const categoryGroupFor = f => categoryGroups.find(g => g.ltCats.includes(f.catLt) || g.enCats.includes(f.catEn));
   const groupItems = g => foodCatalog.filter(f => categoryGroupFor(f)?.key === g.key);
@@ -3843,9 +3932,10 @@ function updateFoodPortions() {
   if (custom) {
     DOM.foodPortion.innerHTML = `<option value="manual">${t('exactAmountOption')}</option>`;
   } else if (food) {
-    const preferred = food.portions.findIndex(option =>
-      /vidut|medium|1 stiklin|1 cup|1 delno/i.test(`${option[1]} ${option[2]}`)
-    );
+    // Medium portion first; otherwise the first natural one ("1 tablet", "1 slice"), never a gram step by default
+    let preferred = food.portions.findIndex(option => /vidut|medium|1 stiklin|1 cup|1 delno/i.test(`${option[1]} ${option[2]}`));
+    if (preferred < 0) preferred = food.portions.findIndex(option => /^1\s/.test(String(option[2] || option[1])));
+    if (preferred < 0) preferred = food.portions.findIndex(option => !/^[~≈]?\s*\d+([.,]\d+)?\s*(g|ml)$/i.test(String(option[2] || option[1]).trim()));
     DOM.foodPortion.innerHTML =
       food.portions
         .map(
@@ -6646,6 +6736,8 @@ function renderBackupStats() {
 }
 function openBackup() {
   renderBackupStats();
+  $('#backup-csv').textContent = csvUi('button');
+  $('#backup-csv-note').textContent = csvUi('note');
   const modal = $('#backup-modal');
   if (!modal.open) modal.showModal();
 }
@@ -6665,6 +6757,80 @@ function buildBackup() {
     settings
   };
 }
+/* Spreadsheet export: every entry in one CSV table (Excel, Numbers, Google Sheets) */
+const CSV_UI = {
+  lt: { button: 'Eksportuoti lentelę (CSV)', note: 'Visi įrašai vienoje lentelėje – atsidaro Excel, Numbers ar Google Sheets.', head: ['Data', 'Laikas', 'Tipas', 'Reikšmė', 'Vienetai', 'Aprašymas', 'Valgis', 'Pastaba'], glucose: 'Gliukozė', ketones: 'Ketonai', insulin: 'Insulinas', food: 'Maistas', exercise: 'Sportas', carbs: 'g angliavandenių', minutes: 'min' },
+  en: { button: 'Export spreadsheet (CSV)', note: 'All entries in one table – opens in Excel, Numbers or Google Sheets.', head: ['Date', 'Time', 'Type', 'Value', 'Unit', 'Details', 'Meal', 'Note'], glucose: 'Glucose', ketones: 'Ketones', insulin: 'Insulin', food: 'Food', exercise: 'Exercise', carbs: 'g carbs', minutes: 'min' },
+  lv: { button: 'Eksportēt tabulu (CSV)', note: 'Visi ieraksti vienā tabulā – atveras Excel, Numbers vai Google Sheets.', head: ['Datums', 'Laiks', 'Veids', 'Vērtība', 'Mērvienība', 'Apraksts', 'Ēdienreize', 'Piezīme'], glucose: 'Glikoze', ketones: 'Ketoni', insulin: 'Insulīns', food: 'Ēdiens', exercise: 'Sports', carbs: 'g ogļhidrātu', minutes: 'min' },
+  pl: { button: 'Eksportuj tabelę (CSV)', note: 'Wszystkie wpisy w jednej tabeli – otworzysz w Excel, Numbers lub Google Sheets.', head: ['Data', 'Godzina', 'Typ', 'Wartość', 'Jednostka', 'Opis', 'Posiłek', 'Notatka'], glucose: 'Glukoza', ketones: 'Ketony', insulin: 'Insulina', food: 'Posiłek', exercise: 'Sport', carbs: 'g węglowodanów', minutes: 'min' },
+  de: { button: 'Tabelle exportieren (CSV)', note: 'Alle Einträge in einer Tabelle – öffnet sich in Excel, Numbers oder Google Sheets.', head: ['Datum', 'Uhrzeit', 'Typ', 'Wert', 'Einheit', 'Details', 'Mahlzeit', 'Notiz'], glucose: 'Glukose', ketones: 'Ketone', insulin: 'Insulin', food: 'Essen', exercise: 'Sport', carbs: 'g Kohlenhydrate', minutes: 'Min.' }
+};
+const csvUi = key => (CSV_UI[language] || CSV_UI.en)[key];
+
+function buildCsv() {
+  const pad = n => String(n).padStart(2, '0');
+  const date = ts => { const d = new Date(ts); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
+  const time = ts => { const d = new Date(ts); return `${pad(d.getHours())}:${pad(d.getMinutes())}`; };
+  const num = v => {
+    const n = typeof v === 'number' ? v : parseNumber(String(v ?? ''));
+    return Number.isFinite(n) ? String(Math.round(n * 10) / 10).replace('.', ',') : '';
+  };
+  const meal = k => (k ? t({ breakfast: 'mealBreakfast', lunch: 'mealLunch', dinner: 'mealDinner', snack: 'mealSnack' }[k] || '') || k : '');
+  const rows = [];
+  glucoseHistory.forEach(g => {
+    rows.push([g.timestamp, csvUi('glucose'), num(displayGlucose(g.value)), glucoseUnitText(), '', '', g.note || '']);
+    if (Number.isFinite(g.ketones)) rows.push([g.timestamp, csvUi('ketones'), num(g.ketones), 'mmol/L', '', '', '']);
+  });
+  insulinLog.forEach(i => rows.push([i.timestamp, csvUi('insulin'), num(i.amount), t('unitU'), `${i.name || ''}${i.type ? ` (${t(i.type)})` : ''}`, '', i.note || '']));
+  foodLog.forEach(f => rows.push([f.timestamp, csvUi('food'), num(Number(f.carbs)), csvUi('carbs'), `${foodEntryName(f)} · ${num(Number(f.amount))} ${f.unit || 'g'}`, meal(f.mealType), f.note || '']));
+  exerciseLog.forEach(e => rows.push([e.timestamp, csvUi('exercise'), String(e.minutes || ''), csvUi('minutes'), exerciseName(e), '', e.note || '']));
+  rows.sort((a, b) => a[0] - b[0]);
+  // Semicolons and a BOM so Excel in Europe splits the columns and shows ą, č, ę correctly
+  const cell = v => { const s = String(v ?? ''); return /[";\n\r]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
+  const lines = [csvUi('head').map(cell).join(';'), ...rows.map(([ts, ...rest]) => [date(ts), time(ts), ...rest].map(cell).join(';'))];
+  return '\ufeff' + lines.join('\r\n');
+}
+
+function exportCsv() {
+  const d = new Date();
+  const pad = n => String(n).padStart(2, '0');
+  const name = `debo-${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}.csv`;
+  const text = buildCsv();
+  if (window.AndroidFiles?.saveText) {
+    try {
+      window.AndroidFiles.saveText(name, 'text/csv', text);
+      return;
+    } catch {}
+  }
+  const url = URL.createObjectURL(new Blob([text], { type: 'text/csv;charset=utf-8' }));
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = name;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+
+/* Face ID / passcode lock (iPhone app): the setting lives in the app, the lock itself is native */
+const LOCK_UI = {
+  lt: 'Užrakinti Debo su Face ID arba kodu', en: 'Lock Debo with Face ID or passcode', lv: 'Bloķēt Debo ar Face ID vai kodu',
+  pl: 'Blokuj Debo za pomocą Face ID lub kodu', de: 'Debo mit Face ID oder Code sperren'
+};
+function syncAppLockUi() {
+  const row = $('#app-lock-row');
+  if (!row) return;
+  const available = !!window.DeboLock?.set;
+  row.classList.toggle('hidden', !available);
+  if (!available) return;
+  $('#app-lock-text').textContent = LOCK_UI[language] || LOCK_UI.en;
+  $('#app-lock').checked = !!window.DeboLock.enabled;
+}
+window.onDeboLock = enabled => {
+  if (window.DeboLock) window.DeboLock.enabled = !!enabled;
+  syncAppLockUi();
+};
+
 function backupFileName() {
   const d = new Date();
   const pad = n => String(n).padStart(2, '0');
@@ -6778,6 +6944,8 @@ function importBackup(text) {
 function bindBackupEvents() {
   $$('[data-open-backup]').forEach(button => button.addEventListener('click', openBackup));
   $('#backup-export')?.addEventListener('click', exportBackup);
+  $('#backup-csv')?.addEventListener('click', exportCsv);
+  $('#app-lock')?.addEventListener('change', event => window.DeboLock?.set(event.target.checked));
   $('#backup-import')?.addEventListener('click', () => $('#backup-file').click());
   $('#backup-file')?.addEventListener('change', event => {
     const file = event.target.files?.[0];
@@ -8049,6 +8217,7 @@ function initializeApp() {
   bindMembershipEvents();
   bindFoodEntryEvents();
   bindSteps();
+  syncAppLockUi();
   bindHistoryModal();
   bindReportEvents();
   bindHealthEvents();
