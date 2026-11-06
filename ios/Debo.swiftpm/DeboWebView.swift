@@ -39,6 +39,9 @@ struct DeboWebView: UIViewRepresentable {
         webView.isOpaque = false
         webView.backgroundColor = UIColor(red: 0xF5 / 255, green: 0xF7 / 255, blue: 0xF4 / 255, alpha: 1)
         webView.scrollView.backgroundColor = webView.backgroundColor
+        // No rubber-band bounce when there is nothing to scroll (e.g. while a window is open)
+        webView.scrollView.alwaysBounceVertical = false
+        webView.scrollView.alwaysBounceHorizontal = false
         context.coordinator.webView = webView
         context.coordinator.nativeInput = NativeInput(webView: webView)
         Reminders.shared.setUp()

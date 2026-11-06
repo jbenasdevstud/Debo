@@ -280,6 +280,33 @@
     window.__deboInput.end(current.token);
   }, true);
 
+  // While a window (dialog) is open, the page behind it must not scroll: iOS scrolls it anyway
+  // when a swipe reaches the end of the window or starts on the dimmed background
+  var lockedAt = null;
+  function syncScrollLock() {
+    var open = !!document.querySelector('dialog[open]');
+    var body = document.body;
+    if (open && lockedAt === null) {
+      lockedAt = window.scrollY;
+      root.classList.add('debo-scroll-locked');
+      body.style.top = -lockedAt + 'px';
+    } else if (!open && lockedAt !== null) {
+      var y = lockedAt;
+      lockedAt = null;
+      root.classList.remove('debo-scroll-locked');
+      body.style.top = '';
+      window.scrollTo(0, y);
+    }
+  }
+  var lockStyle = document.createElement('style');
+  lockStyle.textContent =
+    'html.debo-scroll-locked, html.debo-scroll-locked body { overflow: hidden !important; overscroll-behavior: none; }' +
+    'html.debo-scroll-locked body { position: fixed !important; left: 0; right: 0; width: 100%; }' +
+    'dialog { overscroll-behavior: contain; }';
+  document.head.appendChild(lockStyle);
+  new MutationObserver(syncScrollLock).observe(document.body, { attributes: true, attributeFilter: ['open'], subtree: true });
+  syncScrollLock();
+
   // The field the page already focused before this script ran
   if (kind(document.activeElement)) open(document.activeElement);
 })();
