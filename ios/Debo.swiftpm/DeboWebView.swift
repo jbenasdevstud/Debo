@@ -37,8 +37,11 @@ struct DeboWebView: UIViewRepresentable {
         webView.allowsBackForwardNavigationGestures = false
         webView.allowsLinkPreview = false
         webView.isOpaque = false
-        webView.backgroundColor = UIColor(red: 0xF5 / 255, green: 0xF7 / 255, blue: 0xF4 / 255, alpha: 1)
+        // Same colour as the page (--page), light or dark from the first frame: no white flash at launch
+        webView.backgroundColor = Coordinator.pageColor
         webView.scrollView.backgroundColor = webView.backgroundColor
+        // The page handles the safe areas itself (viewport-fit=cover + env()), so iOS adds no extra insets
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
         // No rubber-band bounce when there is nothing to scroll (e.g. while a window is open)
         webView.scrollView.alwaysBounceVertical = false
         webView.scrollView.alwaysBounceHorizontal = false
@@ -66,6 +69,14 @@ struct DeboWebView: UIViewRepresentable {
         private var printView: WKWebView?
         private var printTitle = "Debo"
         private var lastThemeDark: Bool?
+
+        static let pageLight = UIColor(red: 0xF4 / 255, green: 0xF4 / 255, blue: 0xF2 / 255, alpha: 1)
+        static let pageDark = UIColor(red: 0x0F / 255, green: 0x0F / 255, blue: 0x0F / 255, alpha: 1)
+        static let pageColor = UIColor { trait in
+            trait.userInterfaceStyle == .dark
+                ? UIColor(red: 0x0F / 255, green: 0x0F / 255, blue: 0x0F / 255, alpha: 1)
+                : UIColor(red: 0xF4 / 255, green: 0xF4 / 255, blue: 0xF2 / 255, alpha: 1)
+        }
 
         static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode", "deboLock", "deboSteps", "deboHaptic"]
 
@@ -116,9 +127,7 @@ struct DeboWebView: UIViewRepresentable {
                 let dark = (body["theme"] as? String) == "dark"
                 lastThemeDark = dark
                 webView?.window?.overrideUserInterfaceStyle = dark ? .dark : .light
-                let color = dark
-                    ? UIColor(red: 0x14 / 255, green: 0x1A / 255, blue: 0x19 / 255, alpha: 1)
-                    : UIColor(red: 0xF5 / 255, green: 0xF7 / 255, blue: 0xF4 / 255, alpha: 1)
+                let color = dark ? Coordinator.pageDark : Coordinator.pageLight
                 webView?.backgroundColor = color
                 webView?.scrollView.backgroundColor = color
                 container?.backgroundColor = color

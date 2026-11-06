@@ -4,7 +4,9 @@ struct ContentView: View {
     var body: some View {
         if let index = WebFiles.indexURL {
             DeboWebView(indexURL: index)
-                .ignoresSafeArea(.container, edges: .bottom)
+                // Edge to edge, around the Dynamic Island and the home indicator: the page pads itself
+                // with env(safe-area-inset-*), so the app background reaches the top of the screen
+                .ignoresSafeArea(.container, edges: .all)
                 // The web view makes room for the keyboard itself (WebContainer), smoothly
                 .ignoresSafeArea(.keyboard)
         } else {

@@ -19,7 +19,7 @@ let package = Package(
             bundleIdentifier: "com.debo.app",
             teamIdentifier: "",
             displayVersion: "1.0",
-            bundleVersion: "12",
+            bundleVersion: "13",
             appIcon: .asset("AppIcon"),
             accentColor: .asset("AccentColor"),
             supportedDeviceFamilies: [
@@ -27,9 +27,10 @@ let package = Package(
                 .phone
             ],
             supportedInterfaceOrientations: [
+                // iPhone: portrait only (the Dynamic Island would sit at the side in landscape); iPad: any
                 .portrait,
-                .landscapeRight,
-                .landscapeLeft,
+                .landscapeRight(.when(deviceFamilies: [.pad])),
+                .landscapeLeft(.when(deviceFamilies: [.pad])),
                 .portraitUpsideDown(.when(deviceFamilies: [.pad]))
             ],
             capabilities: [

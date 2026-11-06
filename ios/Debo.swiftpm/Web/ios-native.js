@@ -20,8 +20,34 @@
     // While a window is open the page behind it stays still
     'html.debo-scroll-locked, html.debo-scroll-locked body { overflow: hidden !important; overscroll-behavior: none; }' +
     'html.debo-scroll-locked body { position: fixed !important; left: 0; right: 0; width: 100%; }' +
-    'dialog { overscroll-behavior: contain; }';
+    'dialog { overscroll-behavior: contain; }' +
+    // ---- Edge to edge around the Dynamic Island / notch and the home indicator ----
+    ':root { --ios-safe-top: env(safe-area-inset-top, 0px); }' +
+    'html.ios-app body { padding-top: var(--ios-safe-top) !important; }' +
+    'html.ios-app .auth-screen { padding-top: calc(22px + var(--ios-safe-top)) !important; padding-bottom: calc(22px + var(--safe-bottom)) !important; }' +
+    // Windows never reach under the Dynamic Island
+    'html.ios-app dialog[open] { max-height: calc(100dvh - var(--ios-safe-top) - 10px) !important; }' +
+    'html.ios-app dialog > .modal-card, html.ios-app dialog > .chart-modal-card, html.ios-app dialog > form.modal-card { max-height: calc(100dvh - var(--ios-safe-top) - 10px) !important; }' +
+    // Frosted strip behind the status bar: content scrolling up slides under it, like in native apps
+    '.debo-status-scrim { position: fixed; top: 0; left: 0; right: 0; height: var(--ios-safe-top); z-index: 1001; pointer-events: none;' +
+    '  background: color-mix(in srgb, var(--page, #F5F7F4) 72%, transparent); -webkit-backdrop-filter: saturate(1.8) blur(20px); backdrop-filter: saturate(1.8) blur(20px);' +
+    '  opacity: 0; transition: opacity .25s ease; }' +
+    'html.debo-scrolled .debo-status-scrim { opacity: 1; }' +
+    // Press-and-hold on buttons and cards must not select text or open a callout (it does in Safari)
+    'html.ios-app body { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }' +
+    'html.ios-app :is(input, textarea, [contenteditable="true"], .selectable) { -webkit-user-select: text; user-select: text; -webkit-touch-callout: default; }';
   document.head.appendChild(style);
+
+  var scrim = document.createElement('div');
+  scrim.className = 'debo-status-scrim';
+  scrim.setAttribute('aria-hidden', 'true');
+  document.body.appendChild(scrim);
+  var scrolledFrame = 0;
+  function syncScrolled() {
+    scrolledFrame = 0;
+    root.classList.toggle('debo-scrolled', window.scrollY > 4 || root.classList.contains('debo-scroll-locked'));
+  }
+  window.addEventListener('scroll', function () { if (!scrolledFrame) scrolledFrame = requestAnimationFrame(syncScrolled); }, { passive: true });
 
   document.addEventListener('pointerdown', function () { root.classList.add('debo-touch'); }, true);
   document.addEventListener('keydown', function (e) {
