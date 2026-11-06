@@ -485,7 +485,7 @@ dialog{max-width:390px;padding:0;border:0;border-radius:22px;background:transpar
 .food-carb-circle{display:grid;align-content:center;justify-items:center;width:174px;height:174px;border-radius:50%}
 .food-carb-circle strong{max-width:145px;overflow:hidden;font-weight:600;letter-spacing:-1.2px;line-height:1.05;text-overflow:ellipsis}
 .food-carb-circle small{margin-top:5px;font-weight:600}
-.food-meal-carb-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));width:100%;padding-top:11px;border-top:1px solid var(--line)}
+.food-meal-carb-row{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));width:100%;padding-top:11px;border-top:1px solid var(--line)}
 .food-meal-carb{display:grid;gap:4px;padding:0 3px}
 .food-meal-carb+.food-meal-carb{border-left:1px solid var(--line)}
 .food-meal-carb span{color:var(--muted);font-size:12px;font-weight:600}
@@ -1648,3 +1648,81 @@ svg .duo{fill:currentColor!important;fill-opacity:.22}
 .tool-card>div strong{font-size:16px;line-height:1.25}
 .tool-card>div small{font-size:13.5px;line-height:1.3}
 .tool-card>b{font-size:24px;line-height:1;font-weight:500;color:var(--muted)}
+/* Glucose chart: value bubble above the tapped dot */
+.chart-canvas>.chart-tooltip{position:absolute;z-index:3;max-width:180px;padding:7px 11px;border-radius:12px;white-space:nowrap;text-align:center;transform:translate(-50%,calc(-100% - 14px));background:var(--raised,#fff);color:var(--ink,#111);border:1px solid var(--line-strong,rgba(0,0,0,.12));box-shadow:0 6px 18px rgba(0,0,0,.14);animation:debo-pop .16s ease-out}
+.chart-canvas>.chart-tooltip.below{transform:translate(-50%,16px)}
+.chart-canvas>.chart-tooltip strong{display:block;font-size:14px;line-height:1.25}
+.chart-canvas>.chart-tooltip small{display:block;font-size:11.5px;color:var(--muted)}
+.chart-canvas>.chart-tooltip::after{content:"";position:absolute;left:50%;bottom:-6px;width:10px;height:10px;background:inherit;border-right:inherit;border-bottom:inherit;transform:translateX(-50%) rotate(45deg)}
+.chart-canvas>.chart-tooltip.below::after{top:-6px;bottom:auto;transform:translateX(-50%) rotate(225deg)}
+@keyframes debo-pop{from{opacity:0;scale:.92}to{opacity:1;scale:1}}
+/* ---------- Motion: smooth windows, pages and presses ---------- */
+@keyframes debo-sheet-up{from{transform:translateY(100%)}to{transform:none}}
+@keyframes debo-sheet-down{from{transform:none}to{transform:translateY(100%)}}
+@keyframes debo-pop-in{from{opacity:0;transform:translateY(12px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes debo-pop-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(10px) scale(.98)}}
+@keyframes debo-fade-out{from{opacity:1}to{opacity:0}}
+@keyframes debo-view-in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+/* Phones: windows are bottom sheets that slide up and back down */
+@media (max-width:760px){
+  dialog[open]{animation:debo-sheet-up .38s cubic-bezier(.22,1,.36,1)}
+  dialog.debo-closing[open]{animation:debo-sheet-down .2s cubic-bezier(.4,0,1,1) forwards}
+}
+/* Tablets / wide screens: centred windows fade and rise slightly */
+@media (min-width:761px){
+  dialog[open]{animation:debo-pop-in .28s cubic-bezier(.22,1,.36,1)}
+  dialog.debo-closing[open]{animation:debo-pop-out .18s ease-in forwards}
+}
+dialog[open]::backdrop{animation:fade-in .3s ease}
+dialog.debo-closing[open]::backdrop{animation:debo-fade-out .2s ease forwards}
+/* Switching tabs and food catalogue pages */
+.view.active{animation:debo-view-in .3s cubic-bezier(.22,1,.36,1)}
+#food-browser.debo-page-in{animation:debo-view-in .28s cubic-bezier(.22,1,.36,1)}
+/* A gentle press on everything tappable */
+:where(button,[role="button"],.tool-card,.food-nav-card,.food-category-card,.restaurant-list-card,.sport-type-row,.event-pill-main,.quick-add-option){transition:transform .16s cubic-bezier(.22,1,.36,1),background-color .2s ease,border-color .2s ease,opacity .2s ease}
+:where(button,[role="button"],.tool-card,.food-nav-card,.food-category-card,.restaurant-list-card,.sport-type-row,.event-pill-main,.quick-add-option):active:not(:disabled){transform:scale(.97)}
+@media (prefers-reduced-motion:reduce){
+  dialog[open],dialog.debo-closing[open],.view.active,#food-browser.debo-page-in{animation:none!important}
+}
+/* ---------- Guides (exercise, activity types, low / high glucose): calmer and easier to scan ---------- */
+:root[data-theme] #guide-content{font-size:16px;line-height:1.5}
+:root[data-theme] #guide-content .eyebrow{margin:0 0 4px;font-size:12px;letter-spacing:.08em;color:var(--muted)}
+:root[data-theme] #guide-content h2{margin:0 0 18px;font-size:28px;line-height:1.15}
+:root[data-theme] #guide-content .sg-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px 12px;margin-bottom:18px}
+:root[data-theme] #guide-content .sg-head h2{margin:0}
+/* Section labels: small, quiet, always above their text */
+:root[data-theme] #guide-content :is(.sg-label,.guide-note>strong,.sport-detail-response strong,.guide-emergency>strong){display:block;margin:0 0 6px;font-size:12.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+:root[data-theme] #guide-content p{margin:0}
+/* Every block gets the same card and the same space around it */
+:root[data-theme] #guide-content :is(.sg-response,.sg-phases,.sg-risk,.sg-postpone,.guide-note,.sport-detail-response,.guide-steps,.guide-emergency){margin:0 0 14px;padding:16px 18px;border:1px solid var(--line)!important;border-radius:20px;background:var(--raised)!important;box-shadow:none!important}
+/* Glucose response: the key message, a little larger with a tinted card */
+:root[data-theme] #guide-content :is(.sg-response,.sport-detail-response){background:color-mix(in srgb,var(--green2) 9%,var(--raised))!important;border-color:color-mix(in srgb,var(--green2) 26%,var(--line))!important}
+:root[data-theme] #guide-content :is(.sg-response,.sport-detail-response) p{font-size:17px;font-weight:600;line-height:1.4;color:var(--ink)}
+:root[data-theme] #guide-content .sport-detail-response{display:flex;align-items:flex-start;gap:14px}
+:root[data-theme] #guide-content .sport-detail-response>.sport-direction{flex:0 0 auto;display:grid;place-items:center;width:40px;height:40px;border-radius:14px;font-size:20px;background:var(--raised)}
+/* Included activities read like a sentence, not a table */
+:root[data-theme] #guide-content .guide-note{color:var(--ink);font-size:15.5px}
+/* Before / during / after: one card, steps joined by a line */
+:root[data-theme] #guide-content .sg-phases{display:grid;gap:0}
+:root[data-theme] #guide-content .sg-phases>div{position:relative;padding:0 0 16px 30px}
+:root[data-theme] #guide-content .sg-phases>div:last-child{padding-bottom:0}
+:root[data-theme] #guide-content .sg-phases>div::before{content:"";position:absolute;left:4px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--green2)}
+:root[data-theme] #guide-content .sg-phases>div:not(:last-child)::after{content:"";position:absolute;left:9px;top:22px;bottom:2px;width:2px;border-radius:2px;background:color-mix(in srgb,var(--green2) 30%,transparent)}
+:root[data-theme] #guide-content .sg-phases dt{margin:0 0 2px;font-size:16px;font-weight:700;color:var(--ink)}
+:root[data-theme] #guide-content .sg-phases dd{margin:0;font-size:15.5px;color:var(--ink);opacity:.86}
+:root[data-theme] #guide-content .guide-steps{display:grid;gap:0}
+:root[data-theme] #guide-content .guide-step{position:relative;display:grid;grid-template-columns:32px 1fr;gap:12px;margin:0;padding:0 0 16px;border:0!important;border-radius:0;background:none!important;box-shadow:none!important}
+:root[data-theme] #guide-content .guide-step:last-child{padding-bottom:0}
+:root[data-theme] #guide-content .guide-step:not(:last-child)::after{content:"";position:absolute;left:15px;top:36px;bottom:4px;width:2px;border-radius:2px;background:color-mix(in srgb,var(--green2) 30%,transparent)}
+:root[data-theme] #guide-content .guide-step-number{display:grid;place-items:center;width:32px;height:32px;border-radius:50%;font-size:14px;font-weight:700;background:var(--green2);color:#fff}
+:root[data-theme] #guide-content .guide-step strong{display:block;margin:4px 0 2px;font-size:16px;color:var(--ink)}
+:root[data-theme] #guide-content .guide-step p{font-size:15.5px;color:var(--ink);opacity:.86}
+/* Tips list: roomy, with soft check marks */
+:root[data-theme] #guide-content .sg-risk ul{margin:0;padding:0;list-style:none;display:grid;gap:10px}
+:root[data-theme] #guide-content .sg-risk li{position:relative;padding-left:28px;font-size:15.5px}
+:root[data-theme] #guide-content .sg-risk li::before{content:"✓";position:absolute;left:0;top:0;width:20px;height:20px;display:grid;place-items:center;border-radius:50%;font-size:12px;font-weight:700;color:var(--green2);background:color-mix(in srgb,var(--green2) 14%,transparent)}
+/* When to postpone: the only warning colour on the page */
+:root[data-theme] #guide-content :is(.sg-postpone,.guide-emergency){border-color:color-mix(in srgb,var(--red) 30%,var(--line))!important;background:color-mix(in srgb,var(--red) 7%,var(--raised))!important;color:var(--ink);font-size:15.5px}
+:root[data-theme] #guide-content :is(.sg-postpone .sg-label,.guide-emergency>strong){color:color-mix(in srgb,var(--red) 80%,var(--ink))}
+:root[data-theme] #guide-content .sg-log{margin:6px 0 12px}
+:root[data-theme] #guide-content .guide-disclaimer{margin:6px 2px 0;font-size:13px;line-height:1.45;color:var(--muted)}

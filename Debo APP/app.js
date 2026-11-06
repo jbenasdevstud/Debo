@@ -1,3 +1,67 @@
+/* Windows (dialogs) slide away instead of disappearing at once. close() keeps the dialog on screen
+   for the short exit animation; the page already sees it as closed (.open is false) right away. */
+(() => {
+  const proto = window.HTMLDialogElement?.prototype;
+  if (!proto || proto.__deboAnimated) return;
+  proto.__deboAnimated = true;
+  const reduced = () => window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const nativeClose = proto.close;
+  const nativeShowModal = proto.showModal;
+  const nativeShow = proto.show;
+  const openDesc = Object.getOwnPropertyDescriptor(proto, 'open');
+  Object.defineProperty(proto, 'open', {
+    configurable: true,
+    enumerable: openDesc.enumerable,
+    get() {
+      return openDesc.get.call(this) && !this.__deboClosing;
+    },
+    set(value) {
+      openDesc.set.call(this, value);
+    }
+  });
+  const finish = dialog => {
+    clearTimeout(dialog.__deboCloseTimer);
+    dialog.__deboClosing = false;
+    dialog.classList.remove('debo-closing');
+  };
+  proto.close = function (result) {
+    if (!openDesc.get.call(this) || this.__deboClosing) return;
+    if (reduced()) return nativeClose.call(this, result);
+    this.__deboClosing = true;
+    this.classList.add('debo-closing');
+    this.__deboCloseTimer = setTimeout(() => {
+      finish(this);
+      nativeClose.call(this, result);
+    }, 190);
+  };
+  // Opening again while it is still sliding away: keep it open
+  proto.showModal = function () {
+    if (this.__deboClosing) {
+      finish(this);
+      if (!this.matches(':modal')) {
+        nativeClose.call(this);
+        return nativeShowModal.call(this);
+      }
+      return;
+    }
+    return nativeShowModal.call(this);
+  };
+  proto.show = function () {
+    if (this.__deboClosing) return finish(this);
+    return nativeShow.call(this);
+  };
+  // <form method="dialog"> buttons (Cancel, Save) close through the same animation
+  document.addEventListener('submit', e => {
+    const form = e.target;
+    if (e.defaultPrevented || (form.getAttribute('method') || '').toLowerCase() !== 'dialog') return;
+    if ((e.submitter?.getAttribute('formmethod') || 'dialog').toLowerCase() !== 'dialog') return;
+    const dialog = form.closest('dialog');
+    if (!dialog || reduced()) return;
+    e.preventDefault();
+    dialog.close(e.submitter?.value ?? '');
+  });
+})();
+
 const $ = s => document.querySelector(s),
   $$ = s => [...document.querySelectorAll(s)];
 // Hidden until the entry logs are loaded from IndexedDB (see the end of this file), so nothing renders empty first
@@ -2528,7 +2592,8 @@ function getVisibleChartWindow() {
 }
 
 function renderVisibleEvents() {
-  const { start, end } = getVisibleChartWindow();
+  // The whole day, so the list (and the window height) stays the same while the chart is scrolled
+  const { start, end } = getChartWindow();
   const events = [
     ...glucoseHistory.filter(x => x.timestamp >= start && x.timestamp <= end).map(x => ({ eventType: 'glucose', ...x })),
     ...insulinLog.filter(x => x.timestamp >= start && x.timestamp <= end).map(x => ({ eventType: 'insulin', ...x })),
@@ -2831,15 +2896,26 @@ function hideChartTooltip() {
   DOM.chartTooltip.classList.add('hidden');
 }
 
-function showChartTooltip(target, e) {
+// The value bubble sits inside the chart, right above the tapped dot, and scrolls with it
+function showChartTooltip(target) {
   const text = target.dataset.tooltip;
   if (!text) return;
-  DOM.chartTooltip.innerHTML = `<strong>${escapeHtml(text)}</strong>`;
-  DOM.chartTooltip.classList.remove('hidden');
-  const x = clamp(e.clientX || innerWidth / 2, 75, innerWidth - 75);
-  const y = clamp(e.clientY || 200, 60, innerHeight - 30);
-  DOM.chartTooltip.style.left = `${x}px`;
-  DOM.chartTooltip.style.top = `${y}px`;
+  const tip = DOM.chartTooltip;
+  if (tip.parentElement !== DOM.chartCanvas) DOM.chartCanvas.appendChild(tip);
+  const [value, ...rest] = text.split(' · ');
+  tip.innerHTML = `<strong>${escapeHtml(value)}</strong>${rest.length ? `<small>${escapeHtml(rest.join(' · '))}</small>` : ''}`;
+  const svg = DOM.timelineSvg.getBoundingClientRect(),
+    canvas = DOM.chartCanvas.getBoundingClientRect();
+  const scale = svg.height / 104 || 1;
+  const box = target.getBBox();
+  const cx = box.x + box.width / 2,
+    top = target.tagName === 'rect' ? box.y + box.height / 2 : box.y + box.height / 2;
+  const x = svg.left - canvas.left + cx * scale,
+    y = svg.top - canvas.top + top * scale;
+  tip.classList.toggle('below', y < 64);
+  tip.style.left = `${clamp(x, 64, Math.max(64, canvas.width - 64))}px`;
+  tip.style.top = `${y}px`;
+  tip.classList.remove('hidden');
 }
 
 function updateHistoryDateUi() {
@@ -3168,7 +3244,18 @@ function renderFoodCatalog() {
   }
 }
 
+let lastFoodBrowserPage = '';
 function renderExpandedFoodPage(root = $('#food-browser')) {
+  // A short slide-in when moving to another catalogue page (not while typing in the search box)
+  if (root && root.id === 'food-browser') {
+    const page = `${foodBrowserMode}|${selectedRestaurant}|${selectedFoodCategory}`;
+    if (page !== lastFoodBrowserPage) {
+      lastFoodBrowserPage = page;
+      root.classList.remove('debo-page-in');
+      void root.offsetWidth;
+      root.classList.add('debo-page-in');
+    }
+  }
   const englishLabels = {
         back: 'Back',
         title: 'Food',
@@ -3272,7 +3359,8 @@ function renderExpandedFoodPage(root = $('#food-browser')) {
     const mealTotals = [
       ['breakfast', tx('Breakfast', 'Pusryčiai')],
       ['lunch', tx('Lunch', 'Pietūs')],
-      ['dinner', tx('Dinner', 'Vakarienė')]
+      ['dinner', tx('Dinner', 'Vakarienė')],
+      ['snack', tx('Snacks', 'Užkandžiai')]
     ]
       .map(([key, label]) => {
         const amount = todayFoods.filter(x => (x.mealType || 'snack') === key).reduce((sum, x) => sum + Number(x.carbs || 0), 0);
@@ -4673,7 +4761,9 @@ function openEntry(mode) {
   DOM.insulinTimeLabel.classList.toggle('hidden', mode !== 'insulin');
   DOM.glucoseTimeLabel.classList.toggle('hidden', mode !== 'glucose');
   DOM.foodLabel.classList.toggle('hidden', mode !== 'food');
-  $('#ketone-label').classList.toggle('hidden', mode !== 'glucose');
+  // Glucose is entered with its time only: no ketones or note
+  $('#ketone-label').classList.add('hidden');
+  $('#entry-modal .entry-note-label')?.classList.toggle('hidden', mode === 'glucose');
   $('#ketone-amount').value = '';
   $('#entry-note').value = '';
   if (mode === 'glucose') {
@@ -5542,6 +5632,8 @@ function bindSportPickerEvents() {
     if (event.target.closest('[data-start-hypo-timer]')) startHypoTimer();
     if (event.target.closest('[data-log-ketones]')) {
       openFrom(DOM.guideModal, () => openEntry('glucose'));
+      // Ketones only when asked for from the high-glucose guide
+      $('#ketone-label').classList.remove('hidden');
       setTimeout(() => $('#ketone-amount').focus(), 120);
     }
   });
@@ -5992,28 +6084,24 @@ function bindEvents() {
   DOM.chartScroll.addEventListener(
     'scroll',
     () => {
-      hideChartTooltip();
       if (chartScrollFrame) return;
       chartScrollFrame = requestAnimationFrame(() => {
         chartScrollFrame = 0;
-        renderVisibleEvents();
       });
     },
     {
       passive: true
     }
   );
+  // Hover only with a mouse; on touch screens a tap shows and hides the bubble
   DOM.timelineSvg.addEventListener('pointerover', e => {
+    if (e.pointerType !== 'mouse') return;
     const target = e.target.closest('[data-tooltip]');
-    if (target) {
-      showChartTooltip(target, e);
-    }
+    if (target) showChartTooltip(target);
   });
   DOM.timelineSvg.addEventListener('pointerout', e => {
-    const target = e.target.closest('[data-tooltip]');
-    if (target) {
-      hideChartTooltip();
-    }
+    if (e.pointerType !== 'mouse') return;
+    if (e.target.closest('[data-tooltip]')) hideChartTooltip();
   });
   DOM.timelineSvg.addEventListener('click', e => {
     const target = e.target.closest('[data-event-id]');
@@ -6022,17 +6110,14 @@ function bindEvents() {
       return;
     }
     e.stopPropagation();
-    showChartTooltip(target, e);
-    const now = Date.now();
     const id = target.dataset.eventId;
-    if (lastChartTap.id === id && now - lastChartTap.time < 1800) {
+    if (lastChartTap.id === id && !DOM.chartTooltip.classList.contains('hidden')) {
       hideChartTooltip();
-      openEditEntry(target.dataset.eventType, id);
+      lastChartTap = { id: null, time: 0 };
+      return;
     }
-    lastChartTap = {
-      id,
-      time: now
-    };
+    showChartTooltip(target, e);
+    lastChartTap = { id, time: Date.now() };
   });
   document.addEventListener('pointerdown', e => {
     if (!e.target.closest('[data-tooltip]')) {
@@ -7653,7 +7738,8 @@ function openEditEntry(type, id) {
   const specific = {
     glucose: () =>
       field(`${t('glucose')} (${glucoseUnitText()})`, `<input id="edit-value" inputmode="decimal" value="${escapeHtml(initial.value)}">`) +
-      field(t('ketonesLabel'), `<input id="edit-ketones" inputmode="decimal" value="${escapeHtml(initial.ketones)}">`),
+      // Ketones only for a reading that already has them
+      (initial.ketones ? field(t('ketonesLabel'), `<input id="edit-ketones" inputmode="decimal" value="${escapeHtml(initial.ketones)}">`) : ''),
     insulin: () =>
       field(`${t('insulin')} (${t('unitU')})`, `<input id="edit-value" inputmode="decimal" value="${escapeHtml(initial.value)}">`) +
       field(t('insulinType'), `<select id="edit-insulin-type">${options(['rapid', 'long'], item.type, v => t(v))}</select>`),
@@ -7673,6 +7759,8 @@ function openEditEntry(type, id) {
     `<div class="care-fields edit-when">${field(t('editDate'), `<input type="date" id="edit-date" value="${isoDate(item.timestamp)}" max="${isoDate(Date.now())}">`)}${field(t('editTime'), `<input type="time" id="edit-time" value="${pad2(when.getHours())}:${pad2(when.getMinutes())}">`)}</div>`;
   $('#edit-title').textContent = editTitle(type, item);
   $('#edit-note').value = item.note || '';
+  // Glucose readings have no note, unless an older one was saved with it
+  $('#edit-modal .entry-note-label')?.classList.toggle('hidden', type === 'glucose' && !item.note);
   editing = { type, id, initial };
   const modal = $('#edit-modal');
   if (!modal.open) modal.showModal();
@@ -7703,7 +7791,7 @@ function editedEntry(before) {
     next.value = mmol;
   }
   if (type === 'glucose') {
-    const ketonesText = $('#edit-ketones').value.trim();
+    const ketonesText = ($('#edit-ketones')?.value ?? initial.ketones).trim();
     if (!ketonesText) delete next.ketones;
     else if (ketonesText !== initial.ketones) {
       const ketones = parseNumber(ketonesText);
