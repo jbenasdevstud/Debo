@@ -146,8 +146,7 @@ struct DeboWebView: UIViewRepresentable {
             case "deboLock":
                 let locked = (body["locked"] as? Bool) == true
                 container?.pinScroll = locked
-                // Tell the page the hold is released, so it can restore its scroll position
-                if !locked { callJS("window.__deboUnpinned && window.__deboUnpinned()") }
+
             default:
                 break
             }

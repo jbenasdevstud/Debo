@@ -19,7 +19,7 @@ let package = Package(
             bundleIdentifier: "com.debo.app",
             teamIdentifier: "",
             displayVersion: "1.0",
-            bundleVersion: "13",
+            bundleVersion: "14",
             appIcon: .asset("AppIcon"),
             accentColor: .asset("AccentColor"),
             supportedDeviceFamilies: [

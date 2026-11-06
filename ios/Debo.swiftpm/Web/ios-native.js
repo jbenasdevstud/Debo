@@ -19,7 +19,6 @@
     'html.debo-touch :focus-visible:not(input):not(textarea):not(select) { outline: none !important; }' +
     // While a window is open the page behind it stays still
     'html.debo-scroll-locked, html.debo-scroll-locked body { overflow: hidden !important; overscroll-behavior: none; }' +
-    'html.debo-scroll-locked body { position: fixed !important; left: 0; right: 0; width: 100%; }' +
     'dialog { overscroll-behavior: contain; }' +
     // ---- Edge to edge around the Dynamic Island / notch and the home indicator ----
     ':root { --ios-safe-top: env(safe-area-inset-top, 0px); }' +
@@ -82,48 +81,22 @@
     };
   }
 
-  // While a window (dialog) is open, the page behind it must not scroll
-  var lockedAt = null;
-  function tellApp(locked) {
-    try { window.webkit.messageHandlers.deboLock.postMessage({ locked: locked }); } catch (e) {}
+  // While a window (dialog) is open, the page behind it must not scroll. The page is not moved at all
+  // (moving it with position:fixed made iOS show it at the top for one frame): scrolling is simply
+  // switched off, and the app holds the page offset where it is.
+  var locked = false;
+  function tellApp(on) {
+    try { window.webkit.messageHandlers.deboLock.postMessage({ locked: on }); } catch (e) {}
   }
   function syncScrollLock() {
     var open = !!document.querySelector('dialog[open]');
     if (open) rememberSheet();
-    if (open && unlocking) {
-      unlocking = false;
-      clearTimeout(unlockTimer);
-      tellApp(true);
-      return;
-    }
-    if (open && lockedAt === null) {
-      lockedAt = window.scrollY;
-      root.classList.add('debo-scroll-locked');
-      document.body.style.top = -lockedAt + 'px';
-      tellApp(true);
-    } else if (!open && lockedAt !== null && !unlocking) {
-      // First the app releases its hold on the page, then the page is unlocked and put back at the
-      // same place in one step, so it never shows at the top for a moment
-      unlocking = true;
-      tellApp(false);
-      clearTimeout(unlockTimer);
-      unlockTimer = setTimeout(finishUnlock, 400); // in case the app does not answer
-    }
+    if (open === locked) return;
+    locked = open;
+    root.classList.toggle('debo-scroll-locked', open);
+    tellApp(open);
   }
-  var unlocking = false, unlockTimer = 0;
-  function finishUnlock() {
-    clearTimeout(unlockTimer);
-    if (!unlocking) return;
-    unlocking = false;
-    if (document.querySelector('dialog[open]')) { tellApp(true); return; } // another window opened meanwhile
-    var y = lockedAt;
-    lockedAt = null;
-    root.classList.remove('debo-scroll-locked');
-    document.body.style.top = '';
-    // Instantly: the page has smooth scrolling, which would slide down from the top
-    window.scrollTo({ top: y, left: 0, behavior: 'instant' });
-  }
-  window.__deboUnpinned = function () { requestAnimationFrame(finishUnlock); };
+  window.__deboUnpinned = function () {};
   // When the keyboard opens or closes, the app shrinks or grows the page together with it.
   // An open window then glides to its new place instead of jumping there (FLIP animation).
   var sheet = { el: null, top: 0 };

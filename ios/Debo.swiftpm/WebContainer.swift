@@ -4,17 +4,21 @@ import WebKit
 /// Holds the web view and makes room for the keyboard the way native apps do: the page area
 /// shrinks together with the keyboard (same duration and curve), so a text field is never hidden
 /// and iOS has no reason to jump-scroll the page. While a window (dialog) is open the page itself
-/// cannot scroll at all, so any scroll iOS still attempts is undone at once.
+/// cannot scroll at all, so any scroll iOS still attempts is undone at once (back to where it was).
 @MainActor
 final class WebContainer: UIView {
     let webView: WKWebView
     private var keyboardOverlap: CGFloat = 0
     private var offsetObservation: NSKeyValueObservation?
     private var resettingOffset = false
+    private var pinnedOffset = CGPoint.zero
 
-    /// Set from the page (Web/ios-native.js) while a window is open
+    /// Set from the page (Web/ios-native.js) while a window is open: the page stays exactly where it was
     var pinScroll = false {
-        didSet { if pinScroll { resetOffsetIfPinned() } }
+        didSet {
+            guard pinScroll != oldValue else { return }
+            if pinScroll { pinnedOffset = webView.scrollView.contentOffset }
+        }
     }
 
     init(webView: WKWebView) {
@@ -64,10 +68,13 @@ final class WebContainer: UIView {
     private func resetOffsetIfPinned() {
         guard pinScroll, !resettingOffset else { return }
         let scrollView = webView.scrollView
-        let resting = CGPoint(x: -scrollView.adjustedContentInset.left, y: -scrollView.adjustedContentInset.top)
-        guard abs(scrollView.contentOffset.y - resting.y) > 0.5 || abs(scrollView.contentOffset.x - resting.x) > 0.5 else { return }
+        let inset = scrollView.adjustedContentInset
+        // Keep the offset the page had when the window opened, within what is scrollable now
+        let maxY = max(-inset.top, scrollView.contentSize.height - scrollView.bounds.height + inset.bottom)
+        let target = CGPoint(x: pinnedOffset.x, y: min(max(pinnedOffset.y, -inset.top), maxY))
+        guard abs(scrollView.contentOffset.y - target.y) > 0.5 || abs(scrollView.contentOffset.x - target.x) > 0.5 else { return }
         resettingOffset = true
-        scrollView.setContentOffset(resting, animated: false)
+        scrollView.setContentOffset(target, animated: false)
         resettingOffset = false
     }
 }
