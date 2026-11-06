@@ -422,29 +422,30 @@
 
     <div id="custom-food-fields" class="hidden food-custom-fields">
       <label><span data-i18n="productName">Produkto pavadinimas</span><input id="custom-food-name"></label>
+      <label class="food-macro-main"><span id="custom-carbs-text">Angliavandeniai / 100 g</span><span class="input-with-unit"><input id="custom-food-carbs" inputmode="decimal" placeholder="0"><b>g</b></span></label>
       <div class="food-macro-inputs">
-        <label><span data-i18n="carbs100">Angliavandeniai / 100 g</span><input id="custom-food-carbs" inputmode="decimal"></label>
-        <label><span data-i18n="protein100">Baltymai / 100 g</span><input id="custom-food-protein" inputmode="decimal"></label>
-        <label><span data-i18n="fat100">Riebalai / 100 g</span><input id="custom-food-fat" inputmode="decimal"></label>
+        <label><span id="custom-protein-text">Baltymai / 100 g</span><span class="input-with-unit"><input id="custom-food-protein" inputmode="decimal"><b>g</b></span></label>
+        <label><span id="custom-fat-text">Riebalai / 100 g</span><span class="input-with-unit"><input id="custom-food-fat" inputmode="decimal"><b>g</b></span></label>
       </div>
+      <small class="food-macro-hint" id="custom-food-hint"></small>
     </div>
 
     <div class="food-details hidden" id="food-details">
-      <label><span data-i18n="portionSize">Porcijos dydis</span><select id="food-portion"></select></label>
-      <small class="portion-note" id="food-preparation-note"></small>
+      <div class="food-amount-section">
+        <span class="food-section-label" id="food-amount-title">Kiekis</span>
+        <label class="visually-hidden-field" id="food-portion-label"><span data-i18n="portionSize">Porcijos dydis</span><select id="food-portion" tabindex="-1"></select></label>
+        <div class="portion-chips" id="food-portion-chips" role="radiogroup"></div>
+        <label id="food-grams-label" class="hidden food-grams-field">
+          <span id="food-grams-text">Tikslus kiekis</span>
+          <span class="input-with-unit"><input id="food-grams" inputmode="decimal" placeholder="0"><b id="food-grams-unit">g</b></span>
+        </label>
+        <small class="portion-note" id="food-preparation-note"></small>
+      </div>
 
-      <label id="food-grams-label" class="hidden">
-        <span data-i18n="exactAmount">Tikslus kiekis</span>
-        <input id="food-grams" inputmode="decimal">
-      </label>
-
-      <label id="food-time-label">
-        <span data-i18n="mealTime">Valgymo laikas</span>
-        <input id="food-time" type="time">
-      </label>
+      <div class="carb-preview" id="carb-preview" aria-live="polite"></div>
 
       <div class="meal-chips-wrap">
-        <span class="meal-chips-label" data-i18n="mealType">Valgio tipas</span>
+        <span class="meal-chips-label food-section-label" data-i18n="mealType">Valgio tipas</span>
         <div class="meal-chips" role="radiogroup">
           <button type="button" class="meal-chip" data-meal-chip="breakfast" role="radio" data-i18n="mealBreakfast">Pusryčiai</button>
           <button type="button" class="meal-chip" data-meal-chip="lunch" role="radio" data-i18n="mealLunch">Pietūs</button>
@@ -454,7 +455,11 @@
         <select id="food-meal-type" class="visually-hidden-field" tabindex="-1" aria-hidden="true"><option value="snack" data-i18n="mealSnack">Užkandis</option><option value="breakfast" data-i18n="mealBreakfast">Pusryčiai</option><option value="lunch" data-i18n="mealLunch">Pietūs</option><option value="dinner" data-i18n="mealDinner">Vakarienė</option></select>
       </div>
 
-      <div class="carb-preview" id="carb-preview" aria-live="polite"></div>
+      <label id="food-time-label">
+        <span data-i18n="mealTime">Valgymo laikas</span>
+        <input id="food-time" type="time">
+      </label>
+
       <small class="gi-note" data-i18n="giNote">GI yra orientacinis ir gali skirtis pagal produkto rūšį, gamintoją ir paruošimą.</small>
     </div>
   </div>

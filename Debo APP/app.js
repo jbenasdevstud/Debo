@@ -3705,6 +3705,55 @@ function selectedFood() {
   return foodCatalog.find(x => x.id === id);
 }
 
+// Texts of the food entry layout (amount chips, units, own product)
+const FOOD_UI = {
+  lt: { amount: 'Kiekis', other: 'Kitas kiekis', howMuch: 'Kiek suvalgėte', custom: 'Savo produktas', newProduct: 'Naujas produktas', carbs: 'Angliavandeniai 100 g produkto', protein: 'Baltymai 100 g', fat: 'Riebalai 100 g', optional: 'nebūtina', hint: 'Vertes rasite produkto etiketėje, „100 g“ stulpelyje.', per100: '{n} g angl. / 100 {u}' },
+  en: { amount: 'Amount', other: 'Other amount', howMuch: 'How much you ate', custom: 'Your own product', newProduct: 'New product', carbs: 'Carbohydrates per 100 g', protein: 'Protein per 100 g', fat: 'Fat per 100 g', optional: 'optional', hint: 'Find the values on the label, in the “per 100 g” column.', per100: '{n} g carbs / 100 {u}' },
+  lv: { amount: 'Daudzums', other: 'Cits daudzums', howMuch: 'Cik apēdāt', custom: 'Savs produkts', newProduct: 'Jauns produkts', carbs: 'Ogļhidrāti uz 100 g', protein: 'Olbaltumvielas uz 100 g', fat: 'Tauki uz 100 g', optional: 'pēc izvēles', hint: 'Vērtības atradīsiet etiķetē, ailē “100 g”.', per100: '{n} g ogļh. / 100 {u}' },
+  pl: { amount: 'Ilość', other: 'Inna ilość', howMuch: 'Ile zjedzono', custom: 'Własny produkt', newProduct: 'Nowy produkt', carbs: 'Węglowodany w 100 g', protein: 'Białko w 100 g', fat: 'Tłuszcz w 100 g', optional: 'opcjonalnie', hint: 'Wartości znajdziesz na etykiecie, w kolumnie „100 g”.', per100: '{n} g węgl. / 100 {u}' },
+  de: { amount: 'Menge', other: 'Andere Menge', howMuch: 'Gegessene Menge', custom: 'Eigenes Produkt', newProduct: 'Neues Produkt', carbs: 'Kohlenhydrate pro 100 g', protein: 'Eiweiß pro 100 g', fat: 'Fett pro 100 g', optional: 'optional', hint: 'Die Werte stehen auf dem Etikett in der Spalte „pro 100 g“.', per100: '{n} g KH / 100 {u}' }
+};
+const foodUi = key => (FOOD_UI[language] || FOOD_UI.en)[key];
+
+// Portion choices as tappable chips; the hidden select keeps the chosen value for saving
+function renderPortionChips(food, custom) {
+  const box = $('#food-portion-chips');
+  if (!box) return;
+  const unit = food?.unit || 'g';
+  $('#food-amount-title').textContent = foodUi('amount');
+  $('#food-grams-text').textContent = custom ? `${foodUi('howMuch')} (${unit})` : `${foodUi('amount')} (${unit})`;
+  $('#food-grams-unit').textContent = unit;
+  let options = [...DOM.foodPortion.options].filter(o => o.value);
+  // Natural portions (½ apple, 1 cup) are easier than gram steps; plain grams only when there is nothing else
+  const plain = o => o.value !== 'manual' && /^[~≈]?\s*\d+([.,]\d+)?\s*(g|ml)$/i.test(o.textContent.trim());
+  const natural = options.filter(o => o.value !== 'manual' && !plain(o));
+  if (natural.length) options = options.filter(o => !plain(o) || o.value === DOM.foodPortion.value);
+  else options = options.filter(o => o.value === 'manual' || plain(o)).filter((o, i, all) => o.value === 'manual' || i < 4 || o.value === DOM.foodPortion.value);
+  const onlyManual = options.length <= 1;
+  box.classList.toggle('hidden', onlyManual);
+  $('#food-amount-title').classList.toggle('hidden', onlyManual);
+  box.innerHTML = onlyManual
+    ? ''
+    : options
+        .map(o => {
+          const active = o.value === DOM.foodPortion.value;
+          const label = o.value === 'manual' ? foodUi('other') : o.textContent;
+          return `<button type="button" class="portion-chip${active ? ' active' : ''}" role="radio" aria-checked="${active}" data-portion="${escapeHtml(o.value)}">${escapeHtml(label)}</button>`;
+        })
+        .join('');
+  if (onlyManual && options[0]) DOM.foodPortion.value = options[0].value;
+}
+
+function syncPortionUi() {
+  const manual = DOM.foodPortion.value === 'manual';
+  DOM.foodGramsLabel.classList.toggle('hidden', !manual);
+  $$('#food-portion-chips .portion-chip').forEach(chip => {
+    const active = chip.dataset.portion === DOM.foodPortion.value;
+    chip.classList.toggle('active', active);
+    chip.setAttribute('aria-checked', String(active));
+  });
+}
+
 function updateFoodPortions() {
   const food = selectedFood();
   const custom = DOM.foodProduct.value === 'custom';
@@ -3726,20 +3775,30 @@ function updateFoodPortions() {
     DOM.foodPortion.innerHTML = `<option value="">${t('chooseProduct')}</option>`;
   }
   DOM.foodPreparationNote.textContent = food ? (language === 'lt' ? food.prepLt || '' : food.prepEn || '') : '';
-  DOM.foodGramsLabel.classList.toggle('hidden', DOM.foodPortion.value !== 'manual');
+  renderPortionChips(food || (custom ? { unit: 'g' } : null), custom);
+  syncPortionUi();
+  if (custom) {
+    $('#custom-carbs-text').textContent = foodUi('carbs');
+    $('#custom-protein-text').innerHTML = `${escapeHtml(foodUi('protein'))} <i>· ${escapeHtml(foodUi('optional'))}</i>`;
+    $('#custom-fat-text').innerHTML = `${escapeHtml(foodUi('fat'))} <i>· ${escapeHtml(foodUi('optional'))}</i>`;
+    $('#custom-food-hint').textContent = foodUi('hint');
+  }
   syncFoodEntryUi();
   updateCarbPreview();
 }
 
 function updateCarbPreview() {
+  syncPortionUi();
   const food = selectedFood();
   if (!food) {
-    DOM.carbPreview.textContent = t('chooseProduct');
+    DOM.carbPreview.innerHTML = '';
+    DOM.carbPreview.classList.add('hidden');
     return;
   }
+  DOM.carbPreview.classList.remove('hidden');
   const amount = DOM.foodPortion.value === 'manual' ? parseNumber(DOM.foodGrams.value) : parseNumber(DOM.foodPortion.value);
   if (!Number.isFinite(amount) || amount <= 0) {
-    DOM.carbPreview.innerHTML = renderGi(food);
+    DOM.carbPreview.innerHTML = `<small>${escapeHtml(foodName(food))}</small><strong class="muted-result">— g ${t('carbs')}</strong>${renderGi(food)}`;
     return;
   }
   const carbs = (amount * food.carbs) / 100;
@@ -3811,15 +3870,24 @@ function syncFoodEntryUi() {
   const value = DOM.foodProduct.value;
   const food = selectedFood();
   const hasSelection = !!value;
+  const custom = value === 'custom';
   $('#food-details')?.classList.toggle('hidden', !hasSelection);
-  $('#food-selected')?.classList.toggle('hidden', !hasSelection || value === 'custom');
-  $('#food-search')?.classList.toggle('hidden', hasSelection && value !== 'custom');
+  $('#food-selected')?.classList.toggle('hidden', !hasSelection);
+  $('#food-search')?.classList.toggle('hidden', hasSelection);
   $('#food-mode-manual')?.classList.toggle('hidden', hasSelection);
   $('.food-smart')?.classList.toggle('hidden', hasSelection);
-  if (hasSelection && value !== 'custom') {
+  $('#food-label')?.classList.toggle('food-has-selection', hasSelection);
+  if (hasSelection) {
     $('#food-search-results')?.classList.add('hidden');
     const name = $('#food-selected-name');
-    if (name) name.textContent = food ? foodName(food) : '';
+    const small = $('#food-selected small');
+    if (custom) {
+      if (small) small.textContent = foodUi('custom');
+      if (name) name.textContent = DOM.customFoodName.value.trim() || foodUi('newProduct');
+    } else {
+      if (small) small.textContent = food ? foodUi('per100').replace('{n}', decimal(Number(food.carbs), 1)).replace('{u}', food.unit || 'g') : t('foodSelected');
+      if (name) name.textContent = food ? foodName(food) : '';
+    }
   }
 }
 
@@ -3927,6 +3995,15 @@ function bindFoodEntryEvents() {
     }
   });
   $('#food-change')?.addEventListener('click', resetFoodSelection);
+  $('#food-portion-chips')?.addEventListener('click', event => {
+    const chip = event.target.closest('[data-portion]');
+    if (!chip) return;
+    DOM.foodPortion.value = chip.dataset.portion;
+    syncPortionUi();
+    updateCarbPreview();
+    if (chip.dataset.portion === 'manual') DOM.foodGrams.focus();
+  });
+  DOM.customFoodName?.addEventListener('input', syncFoodEntryUi);
   $$('[data-meal-chip]').forEach(chip =>
     chip.addEventListener('click', () => {
       mealTypeChosen = true;
@@ -6065,7 +6142,7 @@ function bindEvents() {
   DOM.photoAnalyzeButton.addEventListener('click', analyzeMealPhoto);
   DOM.photoSaveButton.addEventListener('click', saveMealPhotoEstimate);
   DOM.foodPortion.addEventListener('change', () => {
-    DOM.foodGramsLabel.classList.toggle('hidden', DOM.foodPortion.value !== 'manual');
+    syncPortionUi();
     updateCarbPreview();
   });
   [DOM.foodGrams, DOM.customFoodName, DOM.customFoodCarbs, DOM.customFoodProtein, DOM.customFoodFat].forEach(x =>
