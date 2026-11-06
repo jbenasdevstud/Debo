@@ -43,6 +43,8 @@ struct DeboWebView: UIViewRepresentable {
         webView.scrollView.alwaysBounceVertical = false
         webView.scrollView.alwaysBounceHorizontal = false
         context.coordinator.webView = webView
+        context.coordinator.indexURL = indexURL
+        context.coordinator.watchResume()
         Reminders.shared.setUp()
 
         webView.loadFileURL(indexURL, allowingReadAccessTo: indexURL.deletingLastPathComponent())
@@ -54,6 +56,10 @@ struct DeboWebView: UIViewRepresentable {
     @MainActor
     final class Coordinator: NSObject, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate {
         weak var webView: WKWebView?
+        var indexURL: URL?
+        private var resumeObserver: NSObjectProtocol?
+        private var pingCount = 0
+        private var awaitingPing = 0
         private var printView: WKWebView?
         private var printTitle = "Debo"
         private var lastThemeDark: Bool?
@@ -212,7 +218,45 @@ struct DeboWebView: UIViewRepresentable {
         }
 
         func webViewWebContentProcessDidTerminate(_ webView: WKWebView) {
-            webView.reload()
+            if webView === printView { printView = nil } else { reloadPage() }
+        }
+
+        // MARK: Coming back to the app
+
+        /// iOS may stop the page while Debo is in the background. Coming back, check that it still
+        /// answers, and load it again if not, so the app never stays frozen.
+        func watchResume() {
+            guard resumeObserver == nil else { return }
+            resumeObserver = NotificationCenter.default.addObserver(forName: UIApplication.didBecomeActiveNotification,
+                                                                    object: nil, queue: .main) { [weak self] _ in
+                MainActor.assumeIsolated { self?.checkPageAlive() }
+            }
+        }
+
+        private func checkPageAlive() {
+            guard let webView else { return }
+            pingCount += 1
+            let ping = pingCount
+            awaitingPing = ping
+            webView.evaluateJavaScript("1") { [weak self] _, error in
+                guard let self else { return }
+                if self.awaitingPing == ping { self.awaitingPing = 0 }
+                if error != nil { self.reloadPage() }
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) { [weak self] in
+                guard let self, self.awaitingPing == ping else { return }
+                self.awaitingPing = 0
+                self.reloadPage()
+            }
+        }
+
+        private func reloadPage() {
+            guard let webView else { return }
+            if webView.url == nil, let indexURL {
+                webView.loadFileURL(indexURL, allowingReadAccessTo: indexURL.deletingLastPathComponent())
+            } else {
+                webView.reload()
+            }
         }
 
         func webView(_ webView: WKWebView, runJavaScriptAlertPanelWithMessage message: String,

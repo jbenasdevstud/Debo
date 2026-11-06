@@ -22,7 +22,10 @@ struct ContentView: View {
 
 /// Finds Web/index.html in the app's resources.
 enum WebFiles {
-    static var indexURL: URL? {
+    /// Looked up once: the files never move while the app runs
+    static let indexURL: URL? = find()
+
+    private static func find() -> URL? {
         let bundles = [Bundle.main] + Bundle.allBundles + Bundle.allFrameworks
         for bundle in bundles {
             if let url = bundle.url(forResource: "index", withExtension: "html", subdirectory: "Web") {

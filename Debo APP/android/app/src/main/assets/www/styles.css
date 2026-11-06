@@ -1640,3 +1640,11 @@ svg .duo{fill:currentColor!important;fill-opacity:.22}
 
 /* Guest-only launch: no sign-in, account or sign-out controls */
 .accounts-off :is(#auth-open-login,#auth-open-signup,.auth-divider,.social-grid,#profile-create-account,#profile-logout,#profile-delete-account,#profile-account-fields){display:none!important}
+/* History / report / backup cards on the statistics page: icon, text, arrow in one row */
+.tool-card{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:14px;width:100%;padding:14px 16px;font:inherit;color:inherit;text-align:left;cursor:pointer}
+.tool-card .tool-icon{display:grid;place-items:center;width:44px;height:44px;border-radius:14px}
+.tool-card .tool-icon svg{width:22px;height:22px}
+.tool-card>div{display:flex;flex-direction:column;gap:2px;min-width:0}
+.tool-card>div strong{font-size:16px;line-height:1.25}
+.tool-card>div small{font-size:13.5px;line-height:1.3}
+.tool-card>b{font-size:24px;line-height:1;font-weight:500;color:var(--muted)}
