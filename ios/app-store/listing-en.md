@@ -47,7 +47,6 @@ ALSO INCLUDED
 • mmol/L ↔ mg/dL converter
 • Backup to Files and restore on a new iPhone or iPad
 • Export all entries as a spreadsheet (CSV)
-• Optional Face ID or passcode lock
 • Light and dark mode
 • Lithuanian, English, Latvian, Polish and German
 

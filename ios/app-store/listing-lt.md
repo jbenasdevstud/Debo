@@ -47,7 +47,6 @@ TAIP PAT
 • mmol/L ↔ mg/dL konverteris
 • Atsarginė kopija į „Failus“ ir atkūrimas naujame iPhone ar iPad
 • Visų įrašų eksportas į lentelę (CSV)
-• Užraktas su Face ID arba kodu (nebūtina)
 • Šviesi ir tamsi išvaizda
 • Lietuvių, anglų, latvių, lenkų ir vokiečių kalbos
 

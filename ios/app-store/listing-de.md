@@ -45,7 +45,6 @@ AUSSERDEM
 • Umrechner mmol/L ↔ mg/dL
 • Datensicherung in der Dateien-App und Wiederherstellung auf einem neuen iPhone oder iPad
 • Export aller Einträge als Tabelle (CSV)
-• Optionale Sperre mit Face ID oder Code
 • Heller und dunkler Modus
 • Litauisch, Englisch, Lettisch, Polnisch und Deutsch
 

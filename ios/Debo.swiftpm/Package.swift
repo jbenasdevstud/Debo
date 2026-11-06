@@ -19,7 +19,7 @@ let package = Package(
             bundleIdentifier: "com.debo.app",
             teamIdentifier: "",
             displayVersion: "1.0",
-            bundleVersion: "10",
+            bundleVersion: "11",
             appIcon: .asset("AppIcon"),
             accentColor: .asset("AccentColor"),
             supportedDeviceFamilies: [
@@ -34,8 +34,7 @@ let package = Package(
             ],
             capabilities: [
                 .camera(purposeString: "Debo uses the camera to scan food barcodes."),
-                .motion(purposeString: "Debo shows your daily step count from the iPhone's motion sensor. The data stays on your phone."),
-                .faceID(purposeString: "Debo uses Face ID to unlock the app when you turn on the app lock.")
+                .motion(purposeString: "Debo shows your daily step count from the iPhone's motion sensor. The data stays on your phone.")
             ]
         )
     ],

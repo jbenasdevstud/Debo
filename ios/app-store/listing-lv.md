@@ -45,7 +45,6 @@ TURKLĀT
 • mmol/L ↔ mg/dL konvertētājs
 • Rezerves kopija lietotnē Faili un atjaunošana jaunā iPhone vai iPad
 • Visu ierakstu eksports tabulā (CSV)
-• Bloķēšana ar Face ID vai kodu (pēc izvēles)
 • Gaišais un tumšais režīms
 • Lietuviešu, angļu, latviešu, poļu un vācu valoda
 

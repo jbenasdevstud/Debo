@@ -45,7 +45,6 @@ PONADTO
 • Przelicznik mmol/L ↔ mg/dL
 • Kopia zapasowa w aplikacji Pliki i przywracanie na nowym iPhonie lub iPadzie
 • Eksport wszystkich wpisów do tabeli (CSV)
-• Opcjonalna blokada Face ID lub kodem
 • Jasny i ciemny motyw
 • Języki: litewski, angielski, łotewski, polski i niemiecki
 

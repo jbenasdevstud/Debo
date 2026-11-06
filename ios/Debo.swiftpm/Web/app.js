@@ -6812,25 +6812,6 @@ function exportCsv() {
   setTimeout(() => URL.revokeObjectURL(url), 2000);
 }
 
-/* Face ID / passcode lock (iPhone app): the setting lives in the app, the lock itself is native */
-const LOCK_UI = {
-  lt: 'Užrakinti Debo su Face ID arba kodu', en: 'Lock Debo with Face ID or passcode', lv: 'Bloķēt Debo ar Face ID vai kodu',
-  pl: 'Blokuj Debo za pomocą Face ID lub kodu', de: 'Debo mit Face ID oder Code sperren'
-};
-function syncAppLockUi() {
-  const row = $('#app-lock-row');
-  if (!row) return;
-  const available = !!window.DeboLock?.set;
-  row.classList.toggle('hidden', !available);
-  if (!available) return;
-  $('#app-lock-text').textContent = LOCK_UI[language] || LOCK_UI.en;
-  $('#app-lock').checked = !!window.DeboLock.enabled;
-}
-window.onDeboLock = enabled => {
-  if (window.DeboLock) window.DeboLock.enabled = !!enabled;
-  syncAppLockUi();
-};
-
 function backupFileName() {
   const d = new Date();
   const pad = n => String(n).padStart(2, '0');
@@ -6945,7 +6926,6 @@ function bindBackupEvents() {
   $$('[data-open-backup]').forEach(button => button.addEventListener('click', openBackup));
   $('#backup-export')?.addEventListener('click', exportBackup);
   $('#backup-csv')?.addEventListener('click', exportCsv);
-  $('#app-lock')?.addEventListener('change', event => window.DeboLock?.set(event.target.checked));
   $('#backup-import')?.addEventListener('click', () => $('#backup-file').click());
   $('#backup-file')?.addEventListener('change', event => {
     const file = event.target.files?.[0];
@@ -8217,7 +8197,6 @@ function initializeApp() {
   bindMembershipEvents();
   bindFoodEntryEvents();
   bindSteps();
-  syncAppLockUi();
   bindHistoryModal();
   bindReportEvents();
   bindHealthEvents();
