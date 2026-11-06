@@ -5,6 +5,8 @@ struct ContentView: View {
         if let index = WebFiles.indexURL {
             DeboWebView(indexURL: index)
                 .ignoresSafeArea(.container, edges: .bottom)
+                // The web view makes room for the keyboard itself (WebContainer), smoothly
+                .ignoresSafeArea(.keyboard)
         } else {
             VStack(spacing: 12) {
                 Image(systemName: "exclamationmark.triangle")

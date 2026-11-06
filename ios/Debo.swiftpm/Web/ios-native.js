@@ -49,19 +49,68 @@
 
   // While a window (dialog) is open, the page behind it must not scroll
   var lockedAt = null;
+  function tellApp(locked) {
+    try { window.webkit.messageHandlers.deboLock.postMessage({ locked: locked }); } catch (e) {}
+  }
   function syncScrollLock() {
     var open = !!document.querySelector('dialog[open]');
+    if (open) rememberSheet();
     if (open && lockedAt === null) {
       lockedAt = window.scrollY;
       root.classList.add('debo-scroll-locked');
       document.body.style.top = -lockedAt + 'px';
+      tellApp(true);
     } else if (!open && lockedAt !== null) {
+      tellApp(false);
       var y = lockedAt;
       lockedAt = null;
       root.classList.remove('debo-scroll-locked');
       document.body.style.top = '';
       window.scrollTo(0, y);
     }
+  }
+  // When the keyboard opens or closes, the app shrinks or grows the page together with it.
+  // An open window then glides to its new place instead of jumping there (FLIP animation).
+  var sheet = { el: null, top: 0 };
+  function openSheet() {
+    return document.querySelector('dialog[open]:not(.debo-closing)');
+  }
+  function layoutTop(d) {
+    // Where the window sits without any running animation
+    var h = d.offsetHeight, vh = window.innerHeight;
+    return window.matchMedia('(max-width:760px)').matches ? vh - h : Math.max(0, (vh - h) / 2);
+  }
+  function rememberSheet() {
+    var d = openSheet();
+    sheet.el = d;
+    if (d) sheet.top = layoutTop(d);
+  }
+  window.addEventListener('resize', function () {
+    var d = openSheet();
+    if (!d) { sheet.el = null; return; }
+    var before = sheet.el === d ? sheet.top : null;
+    var after = layoutTop(d);
+    sheet.el = d;
+    sheet.top = after;
+    if (before === null || Math.abs(before - after) < 2 || !d.animate) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    d.animate([{ transform: 'translateY(' + (before - after) + 'px)' }, { transform: 'none' }],
+      { duration: 320, easing: 'cubic-bezier(.22,1,.36,1)', composite: 'add' });
+  });
+  // The window's own height changes (content shown or hidden) also glide
+  if (window.ResizeObserver) {
+    var sheetObserver = new ResizeObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var d = entry.target;
+        if (d !== openSheet() || sheet.el !== d) return;
+        var before = sheet.top, after = layoutTop(d);
+        sheet.top = after;
+        if (Math.abs(before - after) < 2 || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        d.animate([{ transform: 'translateY(' + (before - after) + 'px)' }, { transform: 'none' }],
+          { duration: 260, easing: 'cubic-bezier(.22,1,.36,1)', composite: 'add' });
+      });
+    });
+    document.querySelectorAll('dialog').forEach(function (d) { sheetObserver.observe(d); });
   }
   new MutationObserver(syncScrollLock).observe(document.body, { attributes: true, attributeFilter: ['open'], subtree: true });
   syncScrollLock();

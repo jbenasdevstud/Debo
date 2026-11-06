@@ -11,7 +11,7 @@ struct DeboWebView: UIViewRepresentable {
 
     func makeCoordinator() -> Coordinator { Coordinator() }
 
-    func makeUIView(context: Context) -> WKWebView {
+    func makeUIView(context: Context) -> WebContainer {
         let config = WKWebViewConfiguration()
         config.websiteDataStore = .default() // keeps localStorage (all Debo data) between launches
         config.allowsInlineMediaPlayback = true
@@ -47,15 +47,18 @@ struct DeboWebView: UIViewRepresentable {
         context.coordinator.watchResume()
         Reminders.shared.setUp()
 
+        let container = WebContainer(webView: webView)
+        context.coordinator.container = container
         webView.loadFileURL(indexURL, allowingReadAccessTo: indexURL.deletingLastPathComponent())
-        return webView
+        return container
     }
 
-    func updateUIView(_ uiView: WKWebView, context: Context) {}
+    func updateUIView(_ uiView: WebContainer, context: Context) {}
 
     @MainActor
     final class Coordinator: NSObject, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate {
         weak var webView: WKWebView?
+        weak var container: WebContainer?
         var indexURL: URL?
         private var resumeObserver: NSObjectProtocol?
         private var pingCount = 0
@@ -64,7 +67,7 @@ struct DeboWebView: UIViewRepresentable {
         private var printTitle = "Debo"
         private var lastThemeDark: Bool?
 
-        static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode"]
+        static let messageNames = ["deboPrint", "deboSaveFile", "deboReminder", "deboTheme", "deboBarcode", "deboLock"]
 
         static func bridgeScript(barcode: Bool) -> String {
             """
@@ -116,8 +119,11 @@ struct DeboWebView: UIViewRepresentable {
                     : UIColor(red: 0xF5 / 255, green: 0xF7 / 255, blue: 0xF4 / 255, alpha: 1)
                 webView?.backgroundColor = color
                 webView?.scrollView.backgroundColor = color
+                container?.backgroundColor = color
             case "deboBarcode":
                 scanBarcode()
+            case "deboLock":
+                container?.pinScroll = (body["locked"] as? Bool) == true
             default:
                 break
             }
