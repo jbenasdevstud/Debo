@@ -2853,10 +2853,42 @@ const EVENT_STORES = {
     render: () => syncCareReminders()
   }
 };
+let undoLeaveTimer = 0;
 function showUndo(message, undo) {
   const bar = $('#undo-bar');
   undoAction = undo;
   $('#undo-text').textContent = message;
+  clearTimeout(undoLeaveTimer);
+  bar.classList.remove('leaving');
+  // Inside an open window the bar lives in that window, so it is drawn above it and can be tapped
+  const host = document.querySelector('dialog[open]:not(.debo-closing)');
+  const parent = host || document.body;
+  if (bar.parentElement !== parent) {
+    try {
+      if (bar.matches(':popover-open')) bar.hidePopover();
+    } catch {}
+    parent.append(bar);
+  }
+  if (host && !host.__deboUndoWatch) {
+    host.__deboUndoWatch = true;
+    // The window closes while the bar is still up: carry on showing it over the page
+    host.addEventListener('close', () => {
+      host.__deboUndoWatch = false;
+      if (bar.parentElement !== host) return;
+      const showing = undoAction !== null;
+      try {
+        if (bar.matches(':popover-open')) bar.hidePopover();
+      } catch {}
+      document.body.append(bar);
+      if (showing) {
+        try {
+          bar.showPopover();
+        } catch {
+          bar.classList.add('open');
+        }
+      }
+    });
+  }
   // Re-showing the popover puts it above any dialog opened since
   try {
     if (bar.matches(':popover-open')) bar.hidePopover();
@@ -2864,6 +2896,10 @@ function showUndo(message, undo) {
   } catch {
     bar.classList.add('open');
   }
+  // Restart the slide-in each time
+  bar.classList.remove('entering');
+  void bar.offsetWidth;
+  bar.classList.add('entering');
   clearTimeout(undoTimer);
   undoTimer = setTimeout(hideUndo, 5000);
 }
@@ -2871,10 +2907,39 @@ function hideUndo() {
   const bar = $('#undo-bar');
   clearTimeout(undoTimer);
   undoAction = null;
-  bar.classList.remove('open');
-  try {
-    if (bar.matches(':popover-open')) bar.hidePopover();
-  } catch {}
+  const open = bar.classList.contains('open') || (() => { try { return bar.matches(':popover-open'); } catch { return false; } })();
+  if (!open) return;
+  // Slide away first, then hide
+  bar.classList.add('leaving');
+  clearTimeout(undoLeaveTimer);
+  undoLeaveTimer = setTimeout(() => {
+    bar.classList.remove('open', 'leaving', 'entering');
+    try {
+      if (bar.matches(':popover-open')) bar.hidePopover();
+    } catch {}
+  }, 200);
+}
+
+// A deleted row folds away smoothly before the list is redrawn
+function animateRemoval(elements) {
+  const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+  const nodes = [...new Set(elements.filter(Boolean))].filter(el => el.isConnected && el.getClientRects().length);
+  if (reduced || !nodes.length || !nodes[0].animate) return Promise.resolve();
+  return Promise.all(
+    nodes.map(el => {
+      const style = getComputedStyle(el);
+      const inline = style.display.startsWith('inline') || el.parentElement && getComputedStyle(el.parentElement).flexDirection === 'row' && getComputedStyle(el.parentElement).display.includes('flex');
+      el.style.overflow = 'hidden';
+      el.style.pointerEvents = 'none';
+      const frames = inline
+        ? [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scale(.9)' }]
+        : [
+            { opacity: 1, transform: 'none', height: `${el.offsetHeight}px`, marginTop: style.marginTop, marginBottom: style.marginBottom, paddingTop: style.paddingTop, paddingBottom: style.paddingBottom },
+            { opacity: 0, transform: 'scale(.97)', height: '0px', marginTop: '0px', marginBottom: '0px', paddingTop: '0px', paddingBottom: '0px' }
+          ];
+      return el.animate(frames, { duration: 240, easing: 'cubic-bezier(.4,0,.2,1)', fill: 'forwards' }).finished.catch(() => {});
+    })
+  );
 }
 function runUndo() {
   const undo = undoAction;
@@ -2890,6 +2955,23 @@ function quickDeleteEvent(type, id) {
   const store = EVENT_STORES[type];
   const item = store?.get().find(x => x.id === id);
   if (!item) return;
+  const safeId = CSS.escape(id);
+  const rows = [
+    ...$$(`[data-history-id="${safeId}"]`).map(el => el.closest('.history-item') || el.closest('li') || el),
+    ...$$(`[data-event-id="${safeId}"]`).filter(el => !el.closest('svg')).map(el => el.closest('.event-pill') || el),
+    ...$$(`[data-food-delete="${safeId}"]`).map(el => el.closest('.daily-food-entry') || el.closest('article') || el)
+  ];
+  if (rows.length && !quickDeleteEvent.busy) {
+    quickDeleteEvent.busy = true;
+    animateRemoval(rows).then(() => {
+      quickDeleteEvent.busy = false;
+      deleteEventNow(type, id, store, item);
+    });
+    return;
+  }
+  deleteEventNow(type, id, store, item);
+}
+function deleteEventNow(type, id, store, item) {
   store.set(store.get().filter(x => x.id !== id));
   writeJSON(store.key, store.get());
   refreshStore(store);
@@ -6237,6 +6319,8 @@ function bindEvents() {
     DOM.themeSelect.value = getThemePreference();
     DOM.accountProfileFields.classList.remove('hidden');
     updateNotificationNote();
+    setupRemindersSnapshot = localStorage.getItem(CUSTOM_REMINDERS_KEY);
+    DOM.setupModal.returnValue = '';
     DOM.setupModal.showModal();
   });
   $('#add-insulin').addEventListener('click', () => {
@@ -6460,6 +6544,18 @@ function bindEvents() {
   DOM.glucoseReminderEnabled.addEventListener('change', syncGlucoseQuietUi);
   $('#glucose-quiet-enabled').addEventListener('change', syncGlucoseQuietUi);
   $('#save-setup').addEventListener('click', saveSetup);
+  // Custom reminders save as they are typed; cancelling the settings window puts them back
+  DOM.setupModal.addEventListener('close', () => {
+    const snap = setupRemindersSnapshot;
+    setupRemindersSnapshot = null;
+    if (snap === null || DOM.setupModal.returnValue === 'default') return;
+    try {
+      if (localStorage.getItem(CUSTOM_REMINDERS_KEY) !== snap) {
+        localStorage.setItem(CUSTOM_REMINDERS_KEY, snap);
+        syncCustomReminders();
+      }
+    } catch {}
+  });
   DOM.converterMmol.addEventListener('input', () => updateConverter('mmol'));
   DOM.converterMg.addEventListener('input', () => updateConverter('mg'));
   DOM.converterPresets.addEventListener('click', event => {
@@ -7462,10 +7558,22 @@ function introSetupHtml() {
     `<div class="intro-choice"><span>${escapeHtml(label)}</span><div class="intro-segment">${values
       .map(([value, text]) => `<button type="button" class="${introChoices[key] === value ? 'active' : ''}" data-intro-choice="${key}" data-value="${value}" aria-pressed="${introChoices[key] === value}">${escapeHtml(text)}</button>`)
       .join('')}</div></div>`;
+  const select = (label, key) =>
+    `<label class="intro-choice intro-select${key === 'long' && introChoices.therapy === 'pump' ? ' hidden' : ''}" data-intro-select-wrap="${key}"><span>${escapeHtml(label)}</span><select data-intro-select="${key}">${(key === 'rapid' ? DOM.rapidSelect : DOM.longSelect).innerHTML}</select></label>`;
   return (
     group(t('introTherapyQ'), 'therapy', [['injections', t('penTherapy')], ['pump', t('pumpTherapy')]]) +
+    select(t('rapidInsulin'), 'rapid') +
+    select(t('longInsulin'), 'long') +
     group(t('glucoseUnit'), 'unit', [['mmol', 'mmol/L'], ['mg', 'mg/dL']])
   );
+}
+// The selects get their current value after the slide is drawn
+function syncIntroSelects() {
+  $$('#intro-art [data-intro-select]').forEach(sel => {
+    const value = introChoices?.[sel.dataset.introSelect];
+    if (value && [...sel.options].some(o => o.value === value)) sel.value = value;
+    else if (introChoices) introChoices[sel.dataset.introSelect] = sel.value;
+  });
 }
 
 function afterIntroSetup() {
@@ -7473,6 +7581,8 @@ function afterIntroSetup() {
     const radio = $(`input[name="therapy"][value="${introChoices.therapy}"]`);
     if (radio) radio.checked = true;
     DOM.glucoseUnitSelect.value = introChoices.unit;
+    if (introChoices.rapid) DOM.rapidSelect.value = introChoices.rapid;
+    if (introChoices.long) DOM.longSelect.value = introChoices.long;
     setTherapyUi();
     // Guests have nothing else required, so their settings are saved straight away
     if (getSession()?.mode !== 'account') return saveSetup();
@@ -7490,7 +7600,13 @@ function showIntroThen(next) {
   if (seen) return next();
   const settings = getSettings();
   // mg/dL is the usual unit in Poland and Germany
-  introChoices = { therapy: settings.therapy || 'injections', unit: settings.glucoseUnit || (['pl', 'de'].includes(language) ? 'mg' : 'mmol'), confirmed: false };
+  introChoices = {
+    therapy: settings.therapy || 'injections',
+    unit: settings.glucoseUnit || (['pl', 'de'].includes(language) ? 'mg' : 'mmol'),
+    rapid: settings.rapid || DOM.rapidSelect.value,
+    long: settings.long || DOM.longSelect.value,
+    confirmed: false
+  };
   introStep = 0;
   introNext = next;
   renderIntro();
@@ -7500,6 +7616,9 @@ function showIntroThen(next) {
 function renderIntro() {
   const slide = INTRO_SLIDES[introStep];
   $('#intro-art').innerHTML = slide.art();
+  syncIntroSelects();
+  // The last step is a short form: title first, then the choices
+  $('#intro-slide').classList.toggle('is-setup', introStep === INTRO_SLIDES.length - 1);
   const box = $('#intro-slide');
   box.classList.remove('enter');
   void box.offsetWidth; // restart the slide-in animation
@@ -7547,6 +7666,7 @@ function scheduleWeeklySummary() {
   } catch {}
 }
 
+let setupRemindersSnapshot = null;
 const CUSTOM_REMINDERS_KEY = 'debo-custom-reminders',
   CUSTOM_REMINDER_ID = 4140,
   CUSTOM_REMINDER_MAX = 10;
@@ -7587,8 +7707,12 @@ function bindExtraFeatures() {
     if (event.target.closest('[data-fav-save]')) return saveFavoriteMeal();
     const del = event.target.closest('[data-fav-del]');
     if (del) {
-      writeJSON(FAVORITES_KEY, favoriteMeals().filter(f => f.id !== del.dataset.favDel));
-      return renderFoodSearch();
+      const id = del.dataset.favDel;
+      const row = del.closest('.fav-row') || del.parentElement;
+      return animateRemoval([row]).then(() => {
+        writeJSON(FAVORITES_KEY, favoriteMeals().filter(f => f.id !== id));
+        renderFoodSearch();
+      });
     }
     const log = event.target.closest('[data-fav-log]');
     if (log) logFavoriteMeal(log.dataset.favLog);
@@ -7610,6 +7734,12 @@ function bindExtraFeatures() {
       button.classList.toggle('active', button === choice);
       button.setAttribute('aria-pressed', String(button === choice));
     });
+    // Pump users have no basal insulin pen
+    if (choice.dataset.introChoice === 'therapy') $('#intro-art [data-intro-select-wrap="long"]')?.classList.toggle('hidden', choice.dataset.value === 'pump');
+  });
+  $('#intro-art').addEventListener('change', event => {
+    const sel = event.target.closest('[data-intro-select]');
+    if (sel && introChoices) introChoices[sel.dataset.introSelect] = sel.value;
   });
   let introX = 0;
   const introCard = $('#intro-modal .intro-card');
@@ -7637,8 +7767,11 @@ function bindExtraFeatures() {
   $('#custom-reminder-list').addEventListener('click', event => {
     const row = event.target.closest('[data-reminder-del]')?.closest('[data-reminder]');
     if (!row) return;
-    saveCustomReminders(customReminders().filter((_, i) => i !== Number(row.dataset.reminder)));
-    renderCustomReminders();
+    const index = Number(row.dataset.reminder);
+    animateRemoval([row]).then(() => {
+      saveCustomReminders(customReminders().filter((_, i) => i !== index));
+      renderCustomReminders();
+    });
   });
   syncCustomReminders();
   scheduleWeeklySummary();
@@ -7757,8 +7890,19 @@ function renderSupplies() {
 
 // Each home row opens only its own part: one device or the supplies
 let careSection = 'supplies';
+// What the window started with, so Cancel (or closing without Save) puts it back
+let careSnapshot = null,
+  careSaved = false;
 function openCare(section) {
   careSection = section;
+  if (!$('#care-modal').open) {
+    careSnapshot = {
+      supplies: localStorage.getItem(SUPPLIES_KEY),
+      settings: localStorage.getItem(CARE_SETTINGS_KEY),
+      log: JSON.stringify(careLog)
+    };
+    careSaved = false;
+  }
   const device = section in CARE_DEVICES;
   $('#care-title').textContent = device ? t('dev_' + section) : t('suppliesTitle');
   $('#care-changes').hidden = !device;
@@ -7776,6 +7920,22 @@ function refreshCare() {
   if (!$('#care-modal').open) return;
   renderCareDevices();
   renderSupplies();
+}
+
+function restoreCareSnapshot() {
+  const snap = careSnapshot;
+  careSnapshot = null;
+  if (!snap) return;
+  const put = (key, value) => (value === null ? localStorage.removeItem(key) : localStorage.setItem(key, value));
+  try {
+    put(SUPPLIES_KEY, snap.supplies);
+    put(CARE_SETTINGS_KEY, snap.settings);
+  } catch {}
+  careLog = JSON.parse(snap.log);
+  saveCareLog();
+  syncCareReminders();
+  renderCare();
+  renderHistory();
 }
 
 function saveSupplies(list) {
@@ -7804,6 +7964,7 @@ function logCare(entry, message) {
   try {
     navigator.vibrate?.(12);
   } catch {}
+  if ($('#care-modal').open) return toast(message, true);
   showUndo(message, () => {
     careLog = careLog.filter(x => x.id !== item.id);
     saveCareLog();
@@ -7899,14 +8060,10 @@ function bindCareEvents() {
       renderSupplies();
     }
     if (event.target.closest('[data-supply-del]')) {
-      const [removed] = list.splice(index, 1);
-      saveSupplies(list);
-      renderSupplies();
-      showUndo(t('eventDeleted'), () => {
+      animateRemoval([event.target.closest('.supply')]).then(() => {
         const current = supplies();
-        current.splice(Math.min(index, current.length), 0, removed);
-        saveSupplies(current);
-        if ($('#care-modal').open) renderSupplies();
+        saveSupplies(current.filter(s => s.id !== id));
+        renderSupplies();
       });
     }
   });
@@ -7921,6 +8078,17 @@ function bindCareEvents() {
     if (input.matches('[data-supply-low]')) supply.low = clamp(Math.round(parseNumber(input.value)) || 0, 0, 999);
     saveSupplies(list);
     if (!input.matches('[data-supply-name]')) renderSupplies();
+  });
+  $('#care-save').addEventListener('click', () => {
+    careSaved = true;
+    careSnapshot = null;
+    $('#care-modal').close('saved');
+    toast(t('savedShort'), true);
+  });
+  $('#care-cancel').addEventListener('click', () => $('#care-modal').close('cancel'));
+  $('#care-modal').addEventListener('close', () => {
+    if (!careSaved) restoreCareSnapshot();
+    careSaved = false;
   });
   $('#history-search').addEventListener('input', event => {
     historyQuery = normalizeFoodQuery(event.target.value);

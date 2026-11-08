@@ -1787,3 +1787,29 @@ dialog.debo-closing[open]::backdrop{animation:debo-fade-out .2s ease forwards}
 /* Bottom navigation: every label fits on narrow iPhones too ("Konverteris" was cut when active) */
 :root[data-theme] .bottom-nav button>span:not(.nav-pro){font-size:clamp(10.5px,2.95vw,12px)!important;font-weight:600!important;letter-spacing:-.15px;white-space:nowrap;overflow:visible;text-overflow:clip;max-width:none}
 :root[data-theme] .bottom-nav button{min-width:0;padding-left:2px;padding-right:2px}
+/* ---------- "Deleted – Undo" bar: slides in and out; never on top of an open window's content ---------- */
+@keyframes debo-undo-in-bottom{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes debo-undo-in-top{from{opacity:0;transform:translateY(-14px) scale(.98)}to{opacity:1;transform:none}}
+.undo-bar{border-radius:18px;padding:8px 8px 8px 18px;min-height:52px;box-shadow:0 10px 30px rgba(0,0,0,.22);transition:opacity .2s ease,transform .2s ease}
+.undo-bar.entering{animation:debo-undo-in-bottom .32s cubic-bezier(.22,1,.36,1)}
+.undo-bar.leaving{opacity:0;transform:translateY(12px) scale(.98)}
+:root[data-theme] .undo-bar button{min-height:36px;padding:0 16px;font-weight:700}
+/* Inside an open window: a floating bar at the bottom of the screen, like an iPhone notification */
+dialog .undo-bar{position:fixed;inset:auto 16px calc(16px + var(--safe-bottom, 0px)) 16px;max-width:440px;margin:0 auto}
+@media (prefers-reduced-motion:reduce){.undo-bar,.undo-bar.entering{animation:none;transition:none}}
+/* ---------- Supplies / devices window: Cancel and Save at the bottom ---------- */
+.care-card .care-actions{position:sticky;bottom:calc(-1 * var(--safe-bottom, 0px));display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px -2px 0;padding:12px 2px calc(4px + var(--safe-bottom, 0px));background:linear-gradient(to bottom,transparent,var(--surface) 30%)}
+.care-card .care-actions button{min-height:50px}
+/* ---------- Intro: insulin choice on the last step ---------- */
+.intro-select{display:grid;gap:6px;text-align:left}
+.intro-select.hidden{display:none}
+.intro-select select{width:100%;min-height:48px;padding:0 14px;border-radius:14px;font:inherit;font-size:15px}
+/* Intro, last step: a compact form (title on top, full-width choices), scrolls on small phones */
+#intro-modal .intro-card{overflow-y:auto}
+.intro-slide.is-setup{display:flex;flex-direction:column;align-items:stretch;justify-content:flex-start;gap:0;text-align:left}
+.intro-slide.is-setup #intro-title{order:1;margin:0 0 4px;text-align:left}
+.intro-slide.is-setup #intro-text{order:2;margin:0 0 18px;text-align:left;color:var(--muted)}
+.intro-slide.is-setup .intro-art{order:3;display:grid;justify-items:stretch;gap:0;margin:0;width:100%}
+.intro-slide.is-setup .intro-choice{width:100%;margin:0 0 14px}
+.intro-slide.is-setup .intro-segment{width:100%}
+:root[data-theme] #intro-modal .intro-card:has(.intro-slide.is-setup){padding-top:52px}
