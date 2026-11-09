@@ -10,13 +10,13 @@ Glukose, Essen und Insulin
 Ein ruhiges Diabetes-Tagebuch: Glukose, Essen und Insulin in Sekunden eintragen, Verlauf und Zeit im Zielbereich sehen und einen PDF-Bericht mit der Arztpraxis teilen.
 
 ## Schlüsselwörter (max. 100)
-Diabetes,Glukose,Blutzucker,Insulin,Kohlenhydrate,Tagebuch,CGM,mmol,Sensor,Typ 1,Werte,Diabetiker
+Diabetes,Glukose,Blutzucker,Insulin,Kohlenhydrate,Tagebuch,Unterzucker,mmol,Sensor,Typ 1,Diabetiker
 
 ## Beschreibung (max. 4000)
 Debo ist ein ruhiges, einfaches Tagebuch für Menschen mit Diabetes. Tragen Sie Glukose, Essen und Insulin in Sekunden ein und behalten Sie Ihren Tag auf einen Blick im Überblick.
 
 SCHNELL EINGETRAGEN
-• Glukosewerte mit Uhrzeit, optionalen Ketonen und kurzer Notiz
+• Glukosewerte mit Messzeit
 • Insulindosen für Pen oder Pumpe, mit Ihrem kurzwirksamen Insulin und Basalinsulin
 • Mahlzeiten nach Frühstück, Mittagessen, Abendessen und Snacks – Kohlenhydrate, Eiweiß, Fett
 • Lieblingsmahlzeiten, die Sie mit einem Tipp erneut eintragen
@@ -43,16 +43,16 @@ Jederzeit verfügbare allgemeine Informationen zu niedriger und hoher Glukose, e
 AUSSERDEM
 • Schritte von heute und den letzten 7 Tagen aus dem Bewegungssensor des iPhone
 • Umrechner mmol/L ↔ mg/dL
-• Datensicherung in der Dateien-App und Wiederherstellung auf einem neuen iPhone oder iPad
+• Datensicherung in der Dateien-App und Wiederherstellung auf einem neuen iPhone
 • Export aller Einträge als Tabelle (CSV)
 • Heller und dunkler Modus
 • Litauisch, Englisch, Lettisch, Polnisch und Deutsch
 
 IHRE DATEN BLEIBEN AUF IHREM GERÄT
-Ihre Gesundheitseinträge werden nur auf Ihrem iPhone oder iPad gespeichert. Kein Konto, keine Werbung, kein Datenverkauf, kein Tracking.
+Ihre Gesundheitseinträge werden nur auf Ihrem iPhone gespeichert. Kein Konto, keine Werbung, kein Datenverkauf, kein Tracking.
 
 WICHTIG
 Debo ist eine Tagebuch- und Informations-App. Sie ist kein Medizinprodukt und dient nicht der Diagnose, Behandlung, Heilung oder Vorbeugung von Krankheiten oder Gesundheitszuständen. Sie berechnet keine Insulindosen, interpretiert Ihre Werte nicht und gibt keine Therapieempfehlungen. Treffen Sie Therapieentscheidungen immer gemeinsam mit Ihrer Ärztin, Ihrem Arzt oder Ihrem Diabetesteam.
 
 ## Neuerungen (Version 1.0)
-Die erste Version von Debo für iPhone und iPad: ein ruhiges Diabetes-Tagebuch für Glukose, Essen und Insulin – mit Verlauf, Arztbericht und Erinnerungen. Ihre Daten bleiben auf Ihrem Gerät.
+Die erste Version von Debo für iPhone: ein ruhiges Diabetes-Tagebuch für Glukose, Essen und Insulin – mit Verlauf, Arztbericht und Erinnerungen. Ihre Daten bleiben auf Ihrem Gerät.

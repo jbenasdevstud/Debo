@@ -12,13 +12,13 @@ Gliukozė, maistas, insulinas
 Ramus diabeto dienoraštis: per kelias sekundes įrašykite gliukozę, maistą ir insuliną, matykite grafikus ir laiką intervale, pasidalykite PDF ataskaita su gydytoju.
 
 ## Raktažodžiai (iki 100, atskirti kableliais, be tarpų)
-diabetas,gliukozė,cukrus,insulinas,angliavandeniai,dienoraštis,CGM,mmol,sensorius,1 tipo,matavimai
+diabetas,gliukozė,cukrus,insulinas,angliavandeniai,dienoraštis,hipoglikemija,mmol,sensorius,1 tipo
 
 ## Aprašymas (iki 4000)
 Debo – ramus ir paprastas dienoraštis žmonėms, gyvenantiems su diabetu. Per kelias sekundes įrašykite gliukozę, maistą ir insuliną ir matykite visą dieną vienu žvilgsniu.
 
 GREITI KASDIENIAI ĮRAŠAI
-• Gliukozės rodmenys su laiku, nebūtinais ketonais ir trumpa pastaba
+• Gliukozės rodmenys su matavimo laiku
 • Insulino dozės švirkštikliui ar pompai, su jūsų greito ir bazinio insulino pavadinimais
 • Valgiai pagal pusryčius, pietus, vakarienę ir užkandžius – angliavandeniai, baltymai, riebalai
 • Mėgstami valgiai, kuriuos vėl įrašysite vienu prisilietimu
@@ -45,16 +45,16 @@ Visada pasiekiama bendro pobūdžio informacija apie žemą ir aukštą gliukoz�
 TAIP PAT
 • Šiandienos ir 7 dienų žingsniai iš iPhone judesio jutiklio
 • mmol/L ↔ mg/dL konverteris
-• Atsarginė kopija į „Failus“ ir atkūrimas naujame iPhone ar iPad
+• Atsarginė kopija į „Failus“ ir atkūrimas naujame iPhone
 • Visų įrašų eksportas į lentelę (CSV)
 • Šviesi ir tamsi išvaizda
 • Lietuvių, anglų, latvių, lenkų ir vokiečių kalbos
 
 JŪSŲ DUOMENYS LIEKA ĮRENGINYJE
-Sveikatos įrašai saugomi tik jūsų iPhone ar iPad. Jokios paskyros, reklamos, duomenų pardavimo ar sekimo.
+Sveikatos įrašai saugomi tik jūsų iPhone. Jokios paskyros, reklamos, duomenų pardavimo ar sekimo.
 
 SVARBU
 Debo yra įrašų ir bendros informacijos programėlė. Ji nėra medicinos priemonė ir nediagnozuoja, negydo, neišgydo bei neapsaugo nuo jokios ligos ar būklės. Ji neskaičiuoja insulino dozių, neinterpretuoja jūsų rodmenų ir neteikia gydymo rekomendacijų. Gydymo sprendimus visada priimkite kartu su savo gydytoju ar diabeto komanda.
 
 ## Kas naujo (1.0 versija)
-Pirmoji Debo versija iPhone ir iPad: ramus diabeto dienoraštis gliukozei, maistui ir insulinui – su grafikais, ataskaita gydytojui ir priminimais. Jūsų duomenys lieka įrenginyje.
+Pirmoji Debo versija iPhone: ramus diabeto dienoraštis gliukozei, maistui ir insulinui – su grafikais, ataskaita gydytojui ir priminimais. Jūsų duomenys lieka įrenginyje.

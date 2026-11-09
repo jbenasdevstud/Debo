@@ -10,13 +10,13 @@ Glukoza, posiłki, insulina
 Spokojny dzienniczek cukrzycy: w kilka sekund zapiszesz glukozę, posiłki i insulinę, zobaczysz wykresy i czas w zakresie, a raport PDF przekażesz lekarzowi.
 
 ## Słowa kluczowe (do 100)
-cukrzyca,glukoza,cukier,insulina,węglowodany,dzienniczek,CGM,mmol,sensor,typ 1,pomiary,glikemia
+cukrzyca,glukoza,cukier,insulina,węglowodany,dzienniczek,hipoglikemia,mmol,sensor,typ 1,glikemia
 
 ## Opis (do 4000)
 Debo to spokojny i prosty dzienniczek dla osób z cukrzycą. W kilka sekund zapiszesz glukozę, jedzenie i insulinę, a cały dzień zobaczysz na jednym ekranie.
 
 SZYBKIE CODZIENNE WPISY
-• Pomiary glukozy z godziną, opcjonalnymi ketonami i krótką notatką
+• Pomiary glukozy z godziną pomiaru
 • Dawki insuliny dla pena lub pompy, z Twoją insuliną szybkodziałającą i bazową
 • Posiłki według śniadania, obiadu, kolacji i przekąsek – węglowodany, białko, tłuszcz
 • Ulubione posiłki, które zapiszesz ponownie jednym dotknięciem
@@ -43,16 +43,16 @@ Zawsze dostępne ogólne informacje o niskiej i wysokiej glukozie, 15-minutowy m
 PONADTO
 • Dzisiejsze kroki i ostatnie 7 dni z czujnika ruchu iPhone’a
 • Przelicznik mmol/L ↔ mg/dL
-• Kopia zapasowa w aplikacji Pliki i przywracanie na nowym iPhonie lub iPadzie
+• Kopia zapasowa w aplikacji Pliki i przywracanie na nowym iPhonie
 • Eksport wszystkich wpisów do tabeli (CSV)
 • Jasny i ciemny motyw
 • Języki: litewski, angielski, łotewski, polski i niemiecki
 
 TWOJE DANE ZOSTAJĄ NA URZĄDZENIU
-Wpisy zdrowotne są przechowywane wyłącznie na Twoim iPhonie lub iPadzie. Bez konta, reklam, sprzedaży danych i śledzenia.
+Wpisy zdrowotne są przechowywane wyłącznie na Twoim iPhonie. Bez konta, reklam, sprzedaży danych i śledzenia.
 
 WAŻNE
 Debo to dzienniczek i aplikacja z ogólnymi informacjami. Nie jest wyrobem medycznym i nie diagnozuje, nie leczy, nie wyleczy ani nie zapobiega żadnej chorobie ani stanowi zdrowia. Nie oblicza dawek insuliny, nie interpretuje Twoich pomiarów i nie udziela zaleceń terapeutycznych. Decyzje o leczeniu zawsze podejmuj wspólnie z lekarzem lub zespołem diabetologicznym.
 
 ## Co nowego (wersja 1.0)
-Pierwsza wersja Debo na iPhone'a i iPada: spokojny dzienniczek cukrzycy do glukozy, jedzenia i insuliny – z wykresami, raportem dla lekarza i przypomnieniami. Twoje dane zostają na urządzeniu.
+Pierwsza wersja Debo na iPhone'a: spokojny dzienniczek cukrzycy do glukozy, jedzenia i insuliny – z wykresami, raportem dla lekarza i przypomnieniami. Twoje dane zostają na urządzeniu.

@@ -12,13 +12,13 @@ Glucose, food & insulin diary
 A calm diabetes diary: log glucose, food and insulin in seconds, see charts and time in range, and share a PDF report with your doctor.
 
 ## Keywords (max 100, comma-separated, no spaces)
-diabetes,glucose,blood sugar,insulin,carbs,logbook,diary,type 1,CGM,mmol,mg/dL,tracker,diabetic,log
+diabetes,glucose,blood sugar,insulin,carbs,logbook,diary,type 1,hypo,mmol,mg/dL,tracker,diabetic,log
 
 ## Description (max 4000)
 Debo is a calm, simple diary for people living with diabetes. Log your glucose, food and insulin in seconds and see your day at a glance.
 
 QUICK DAILY LOGGING
-• Glucose readings with time, optional ketones and a short note
+• Glucose readings with the time you measured
 • Insulin doses for pens or pumps, with your own rapid-acting and basal insulin
 • Meals by breakfast, lunch, dinner and snacks, with carbohydrates, protein and fat
 • Favourite meals you can log again with one tap
@@ -45,20 +45,20 @@ Always-available step-by-step general information for low and high glucose, a 15
 ALSO INCLUDED
 • Today’s steps and the last 7 days from your iPhone’s motion sensor
 • mmol/L ↔ mg/dL converter
-• Backup to Files and restore on a new iPhone or iPad
+• Backup to Files and restore on a new iPhone
 • Export all entries as a spreadsheet (CSV)
 • Light and dark mode
 • Lithuanian, English, Latvian, Polish and German
 
 YOUR DATA STAYS ON YOUR DEVICE
-Your health entries are stored only on your iPhone or iPad. No account, no ads, no data selling, no tracking.
+Your health entries are stored only on your iPhone. No account, no ads, no data selling, no tracking.
 
 IMPORTANT
 Debo is a logbook and general information app. It is not a medical device and does not diagnose, treat, cure, or prevent any medical condition. It does not calculate insulin doses, interpret your readings or give treatment recommendations. Always make treatment decisions together with your doctor or diabetes care team.
 
 ## What's New (version 1.0)
-First iPhone and iPad release of Debo: a calm diabetes diary for glucose, food and insulin, with charts, a doctor report and reminders. Your data stays on your device.
+First iPhone release of Debo: a calm diabetes diary for glucose, food and insulin, with charts, a doctor report and reminders. Your data stays on your device.
 
 ## URLs
-- Support URL: https://debo-privacy.pages.dev (or a page with your contact e-mail)
+- Support URL: https://debo-privacy.pages.dev
 - Privacy Policy URL: https://debo-privacy.pages.dev
