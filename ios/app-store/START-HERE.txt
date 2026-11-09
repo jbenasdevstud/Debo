@@ -77,10 +77,9 @@ STEP 6 – FILL IN THE STORE PAGE  (App Store Connect → Debo)
   - Version page (iOS App 1.0), for each language (add languages with the language menu at the top):
       name, subtitle (App Information), promotional text, description, keywords, "What's New"
       → copy from listing-lt / en / lv / pl / de.
-  - Screenshots: take them in the TestFlight app (side button + volume up) with made-up demo data:
-      iPhone (6.9" size)  and  iPad (13" size), 3–10 each.
-      Order: home, glucose chart, statistics, food catalogue, low-glucose guide, exercise guide, supplies.
-      If App Store Connect says the size is wrong, send them to Claude to resize.
+  - Screenshots: ready in 5-Screenshots/ – iPhone 6.9" only (version 1.0 is iPhone only):
+      drag iPhone-6.9-01 … 06 into App Previews and Screenshots → iPhone 6.9".
+      Optional header: header-3840x1646.png → Header and Search Results → Header → Upload.
   - App Review Information: sign-in NOT required; your name, phone, e-mail;
       Notes → paste the review notes from app-store-connect.txt.
   - Build: choose the build you tested in TestFlight.

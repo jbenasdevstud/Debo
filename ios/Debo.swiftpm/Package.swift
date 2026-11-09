@@ -19,19 +19,15 @@ let package = Package(
             bundleIdentifier: "com.debo.app",
             teamIdentifier: "",
             displayVersion: "1.0",
-            bundleVersion: "15",
+            bundleVersion: "16",
             appIcon: .asset("AppIcon"),
             accentColor: .asset("AccentColor"),
+            // Version 1.0 is for iPhone; iPad gets its own layout in a later update
             supportedDeviceFamilies: [
-                .pad,
                 .phone
             ],
             supportedInterfaceOrientations: [
-                // iPhone: portrait only (the Dynamic Island would sit at the side in landscape); iPad: any
-                .portrait,
-                .landscapeRight(.when(deviceFamilies: [.pad])),
-                .landscapeLeft(.when(deviceFamilies: [.pad])),
-                .portraitUpsideDown(.when(deviceFamilies: [.pad]))
+                .portrait
             ],
             capabilities: [
                 .camera(purposeString: "Debo uses the camera to scan food barcodes."),

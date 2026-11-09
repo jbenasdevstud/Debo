@@ -45,25 +45,18 @@ Why: all entries are stored only in the app's storage on the device. A scanned b
 >
 > The app is built with Swift and WKWebView; native iOS features used: local notifications, printing (UIPrintInteractionController), share sheet for backups, file picker for restore.
 
-## Screenshots
-Required: **iPhone 6.9"** (1320 × 2868 or 1290 × 2796) and **iPad 13"** (2064 × 2752), 3–10 each per language.
-Easiest: install the TestFlight build, add demo data, take screenshots on your iPhone and iPad (side button + volume up). If your iPhone is a smaller model, send them to me and I'll resize them to the right size.
+## Screenshots and header (ready: `screenshots/`)
+Version 1.0 is **iPhone only**, so only iPhone screenshots are needed (no iPad).
 
-Suggested order (same as Google Play):
-1. Home screen with today's glucose, food and insulin
-2. Glucose chart
-3. Statistics (averages, time in range, daily profile)
-4. Food catalogue
-5. Low-glucose guide
-6. Exercise guide
-7. Supplies and device changes
+- **iPhone 6.9"** (1320 × 2868): `iPhone-6.9-01-home.png` … `iPhone-6.9-06-care.png`, in this order. In App Store Connect: version page → App Previews and Screenshots → iPhone 6.9" → drag all six in. App Store Connect makes the smaller iPhone sizes from these.
+- **Header** (3840 × 1646, optional): `header-3840x1646.png` → Header and Search Results → Header → Upload.
 
-Use made-up demo data, generic insulin names where possible and a neutral first name. No other apps' logos.
+They are made from the real app with made-up demo data (name "Alex"); captions are in English. The same images can be used for the German and Polish pages.
 
 ## Before you press "Submit for Review"
 - [ ] Privacy policy updated with the iOS section (`privacy-policy-ios.md`) and deployed
 - [ ] Build tested through TestFlight on iPhone and iPad (typing, reminders, report, backup)
-- [ ] Screenshots uploaded for iPhone and iPad
+- [ ] iPhone 6.9" screenshots uploaded (6 images from `screenshots/`)
 - [ ] Description, keywords, support and privacy URLs filled in (lt + en; lv / pl / de optional)
 - [ ] App Privacy = Data Not Collected
 - [ ] Age rating questionnaire done
